@@ -20,10 +20,12 @@
         }
 
         html {
-            min-height: 100vh;
-            overflow-y: auto;
+            height: 100%;
+            overflow: hidden;
         }
 
+        * {
+            box-sizing: border-box;
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
@@ -35,8 +37,8 @@
             background-color: #e1dfdd;
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            overflow-y: auto;
+            height: 100%;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
@@ -161,7 +163,6 @@
         /* Spreadsheet Grid Styling */
         .grid-wrapper {
             flex: 1;
-            min-height: 450px;
             overflow: auto;
             position: relative;
             background: #ffffff;
@@ -1064,44 +1065,44 @@
     <div id="lecture3Modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-3">
         <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl border-2 border-blue-600 overflow-hidden flex flex-col max-h-[90vh]">
             <div class="bg-blue-600 text-white px-4 py-2.5 flex items-center justify-between text-sm font-bold shrink-0">
-                <span><i class="fa-solid fa-book-open me-1.5"></i>المحاضرة الثالثة (قسم الاقتصاد - المرحلة الثانية)</span>
+                <span><i class="fa-solid fa-book-open me-1.5"></i>المحاضرة الثالثة (حسب المنهج)</span>
                 <button onclick="closeLecture3Modal()" class="hover:bg-white/20 px-2 rounded">✕</button>
             </div>
             <div class="p-4 space-y-4 text-xs overflow-y-auto leading-relaxed text-slate-800 flex-1">
+                
                 <div class="bg-blue-50 border border-blue-200 rounded p-3">
-                    <h4 class="font-bold text-blue-900 mb-2 text-sm"><i class="fa-solid fa-calculator me-1"></i> 1. الجمع التلقائي (AutoSum) والمعدل (Average)</h4>
-                    <p class="mb-1">من تبويب <strong>الصفحة الرئيسية (Home)</strong>، ضمن مجموعة <strong>تحرير (Editing)</strong>:</p>
+                    <h4 class="font-bold text-blue-900 mb-2 text-sm"><i class="fa-solid fa-house me-1"></i> 1. تبويب الصفحة الرئيسة (Home Tab)</h4>
                     <ul class="list-disc ms-5 space-y-1">
-                        <li><strong>Sum (الجمع):</strong> لإيجاد ناتج جمع الخلايا مثل <code>=SUM(A1:A5)</code>.</li>
-                        <li><strong>Average (المعدل):</strong> للحصول على معدل مجموعة أرقام.</li>
-                        <li><em>تذكر:</em> الإكسل لا يجمع الأرقام مباشرة (1+2)، بل يجمع محتويات الخلايا (A1+A2).</li>
+                        <li><strong>مجموعة رقم (Number):</strong> تنسيق عرض قيم الخلايا (نسبة مئوية، عملة، أرقام... إلخ).</li>
+                        <li><strong>مجموعة أنماط (Styles):</strong> التحكم في شكل الخلايا، تتضمن: التنسيق الشرطي (Conditional Formatting)، تنسيق كجدول، وأنماط الخلايا.</li>
+                        <li><strong>مجموعة خلايا (Cells):</strong> تتضمن: إدراج (Insert)، حذف (Delete)، وتنسيق (Format).</li>
+                        <li><strong>مجموعة تحرير (Editing):</strong> أهم مجموعة في العملي، تشمل:
+                            <ul class="list-disc ms-5 mt-1 space-y-1">
+                                <li><strong>الجمع التلقائي (AutoSum):</strong> حساب المجموع (Sum)، المعدل (Average)، عدد الأرقام (Count Numbers)، أعلى وأقل قيمة (Max/Min). <span class="text-rose-600 font-bold">*ملاحظة: الإكسل لا يتعامل مع الأرقام مباشرة (1+1) بل مع مراجع الخلايا (A1+A2).</span></li>
+                                <li><strong>تعبئة (Fill):</strong> لملء الخلايا بنفس التنسيق والصيغة (مثل سحب المعادلة للأسفل).</li>
+                                <li><strong>مسح (Clear):</strong> مسح المحتوى أو التنسيق.</li>
+                                <li><strong>فرز وتصفية (Sort & Filter):</strong> فرز تصاعدي (Ascending من أ-ي) وتنازلي (Descending من ي-أ).</li>
+                                <li><strong>بحث وتحديد (Find & Select).</strong></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 
                 <div class="bg-emerald-50 border border-emerald-200 rounded p-3">
-                    <h4 class="font-bold text-emerald-900 mb-2 text-sm"><i class="fa-solid fa-table-cells me-1"></i> 2. التنسيق الشرطي (Conditional Formatting)</h4>
-                    <p class="mb-1">من تبويب <strong>الصفحة الرئيسية (Home)</strong>، ضمن مجموعة <strong>أنماط (Styles)</strong>:</p>
+                    <h4 class="font-bold text-emerald-900 mb-2 text-sm"><i class="fa-solid fa-print me-1"></i> 2. تبويب تخطيط الصفحة (Page Layout Tab)</h4>
                     <ul class="list-disc ms-5 space-y-1">
-                        <li>لتمييز الخلايا بلون محدد بناءً على شرط (مثال: تلوين درجة الطالب الراسب باللون الأحمر).</li>
+                        <li><strong>تغيير الحجم لغرض الملائمة (Scale to Fit):</strong> لتحديد طول وعرض المستند لطباعته في ورقة واحدة.</li>
+                        <li><strong>خيارات الورقة (Sheet Options):</strong> للتحكم باتجاه الورقة (من اليمين لليسار Sheet Right-to-Left)، وإظهار/طباعة خطوط الشبكة (Gridlines) والرؤوس (Headings).</li>
                     </ul>
                 </div>
 
                 <div class="bg-amber-50 border border-amber-200 rounded p-3">
-                    <h4 class="font-bold text-amber-900 mb-2 text-sm"><i class="fa-solid fa-right-left me-1"></i> 3. خيارات الورقة (Sheet Right-to-Left)</h4>
-                    <p class="mb-1">من تبويب <strong>تخطيط الصفحة (Page Layout)</strong>، ضمن مجموعة <strong>خيارات الورقة (Sheet Options)</strong>:</p>
+                    <h4 class="font-bold text-amber-900 mb-2 text-sm"><i class="fa-solid fa-function me-1"></i> 3. تبويب الصيغ (Formulas Tab)</h4>
                     <ul class="list-disc ms-5 space-y-1">
-                        <li>لتغيير اتجاه الورقة من اليمين إلى اليسار أو بالعكس (مهم جداً في بداية أي امتحان).</li>
+                        <li><strong>مجموعة تعرف الأسماء (Defined Names):</strong> لإدارة وتسمية النطاقات والخلايا.</li>
                     </ul>
                 </div>
 
-                <div class="bg-purple-50 border border-purple-200 rounded p-3">
-                    <h4 class="font-bold text-purple-900 mb-2 text-sm"><i class="fa-solid fa-arrow-down-a-z me-1"></i> 4. الفرز والتصفية (Sort & Filter)</h4>
-                    <p class="mb-1">من تبويب <strong>الصفحة الرئيسية (Home)</strong>، ضمن مجموعة <strong>تحرير (Editing)</strong>:</p>
-                    <ul class="list-disc ms-5 space-y-1">
-                        <li><strong>فرز تصاعدي (Ascending):</strong> الترتيب من أصغر رقم إلى أكبر رقم، أو أبجدياً من أ إلى ي.</li>
-                        <li><strong>فرز تنازلي (Descending):</strong> الترتيب من أكبر رقم إلى أصغر رقم، أو أبجدياً من ي إلى أ.</li>
-                    </ul>
-                </div>
             </div>
             <div class="bg-gray-100 px-4 py-2 text-end border-t shrink-0">
                 <button onclick="closeLecture3Modal()" class="px-4 py-1.5 bg-blue-600 text-white rounded text-xs font-bold">إغلاق وتطبيق عملي</button>
@@ -1241,7 +1242,7 @@
             };
 
             // Title Row (Row 1 -> r=0)
-            setCell(s1Cells, 0, 0, 'جامعة واسط - كلية الادارة والاقتصاد - قسم الاقتصاد (المرحلة الثانية)', {
+            setCell(s1Cells, 0, 0, 'جامعة واسط - قسم الاقتصاد (المرحلة الثانية) - شعبة أ و ب', {
                 bold: true, fontSize: '14', bg: '#d9ead3', color: '#165331'
             });
 
@@ -1255,16 +1256,16 @@
 
             // Student Data Rows (Rows 4 to 13 -> r=3..12) 10 Students from Section A & B
             const students = [
-                ['أسيل نعيم جاسم ذرب', 78, 84, 90],
-                ['اسراء جاسم رزاق داود', 65, 70, 75],
-                ['بتول ياس خضير كصيور', 88, 92, 95],
-                ['حسن سعيد كاظم حمزه', 42, 45, 48],
-                ['حيدر جبار نعمه لهيب', 54, 60, 58],
-                ['ذو الفقار صالح تفاح عطيه', 35, 40, 44],
-                ['رسول فليح حسن صبر', 72, 68, 80],
-                ['زهراء قاسم سالم حربي', 95, 90, 100],
-                ['سجاد ياسر مجید رشید', 60, 65, 70],
-                ['شهد سعدون ظاهر عجه', 50, 52, 60]
+                ['حيدر جبار نعمه لهيب', 30, 35, 40],
+                ['رسول فليح حسن صبر', 80, 85, 90],
+                ['حسن سعيد كاظم حمزه', 50, 55, 60],
+                ['ذو الفقار صالح تفاح عطيه', 60, 65, 70],
+                ['مصطفى رحمان علي كعيد', 70, 75, 80],
+                ['بتول ياس خضير كصيور', 90, 92, 95],
+                ['شهد سعدون ظاهر عجه', 60, 62, 65],
+                ['اسراء جاسم رزاق داود', 70, 72, 75],
+                ['بنين عباس غازي جبر', 85, 88, 90],
+                ['تبارك حيدر حميد حسين', 95, 96, 98]
             ];
 
             students.forEach((st, idx) => {
@@ -1291,7 +1292,7 @@
             setCell(s1Cells, 16, 5, '=COUNTIF(G4:G13;"ناجح")', { bold: true, bg: '#e6f2ec', border: true });
 
             // SHEET 2: Economic & Financial Budget Sheet
-            });
+            const s2Cells = createEmptyGrid();
             const headers2 = ['الفرع / القسم', 'الإيرادات', 'المصروفات', 'صافي الربح (=B-C)', 'نسبة الربح %', 'تقييم الأداء'];
             headers2.forEach((h, i) => setCell(s2Cells, 2, i, h, { bold: true, bg: '#185abd', color: '#ffffff', border: true }));
 
@@ -2791,18 +2792,18 @@
             {
                 id: 0,
                 title: 'التمرين 1: دمج وتوسيط العنوان (Merge & Center)',
-                prompt: 'قم بتحديد الخلايا من A1 إلى H1 ثم اضغط زر "دمج وتوسيط (Merge & Center)" في تبويب الصفحة الرئيسية.',
+                prompt: 'قم بتحديد الخلايا من A1 إلى G1 ثم اضغط زر "دمج وتوسيط (Merge & Center)" في تبويب الصفحة الرئيسية.',
                 hint: `
                     <p class="font-bold text-[#217346]">الخطوات في حاسوب المختبر أو الهاتف:</p>
                     <ol class="list-decimal ms-4 space-y-1">
-                        <li>حدد النطاق من الخلية <strong>A1</strong> إلى <strong>H1</strong> (في الهاتف يمكنك كتابة <code>A1:H1</code> في مربع الاسم أعلى اليمين أو تفعيل زر "تحديد نطاق باللمس").</li>
+                        <li>حدد النطاق من الخلية <strong>A1</strong> إلى <strong>G1</strong> (في الهاتف يمكنك كتابة <code>A1:G1</code> في مربع الاسم أعلى اليمين أو تفعيل زر "تحديد نطاق باللمس").</li>
                         <li>من تبويب <strong>الصفحة الرئيسية (Home)</strong> وفي مجموعة محاذاة، اضغط على زر <strong>دمج وتوسيط (Merge & Center)</strong>.</li>
                     </ol>`,
-                verify: (sheet) => sheet.merges.some(m => m.r1 === 0 && m.c1 === 0 && m.c2 >= 6),
+                verify: (sheet) => sheet.merges.some(m => m.r1 === 0 && m.c1 === 0 && m.c2 >= 5),
                 demo: (sheet) => {
-                    sheet.merges = [{ r1: 0, c1: 0, r2: 0, c2: 7 }];
+                    sheet.merges = [{ r1: 0, c1: 0, r2: 0, c2: 6 }];
                     activeCell = { r: 0, c: 0 };
-                    selectionRange = { r1: 0, c1: 0, r2: 0, c2: 7 };
+                    selectionRange = { r1: 0, c1: 0, r2: 0, c2: 6 };
                 }
             },
             {
@@ -2824,18 +2825,18 @@
             {
                 id: 2,
                 title: 'التمرين 3: حساب المجموع (SUM) وسحب المعادلة',
-                prompt: 'في الخلية E4 احسب مجموع درجات الطالبة الأولى بالمعادلة =SUM(B4:D4) ثم عممها لباقي الطلاب (E4:E13) بزر "سحب التعبئة ✚".',
+                prompt: 'في الخلية E4 احسب مجموع درجات الطالب الأول بالمعادلة =SUM(B4:D4) ثم عممها لباقي الطلاب (E4:E13) بزر "سحب التعبئة ✚".',
                 hint: `
                     <p class="font-bold text-[#217346]">الخطوات:</p>
                     <ol class="list-decimal ms-4 space-y-1">
-                        <li>اضغط على الخلية <strong>E4</strong> (مجموع الطالبة أسيل).</li>
+                        <li>اضغط على الخلية <strong>E4</strong>.</li>
                         <li>اكتب المعادلة <code>=SUM(B4:D4)</code> أو اضغط زر <strong>Σ جمع تلقائي</strong>.</li>
                         <li>لتعميم المعادلة لباقي الطلاب: اضغط زر <strong>"سحب التعبئة ✚"</strong> الأخضر في الشريط المساعد.</li>
                     </ol>`,
                 verify: (sheet) => {
                     const v4 = Number(sheet.cells['3,4'].value);
-                    const v13 = Number(sheet.cells['12,4'].value);
-                    return v4 === 252 && v13 === 162;
+                    const v5 = Number(sheet.cells['4,4'].value);
+                    return v4 === 255 && v5 === 115;
                 },
                 demo: (sheet) => {
                     for (let r = 3; r <= 12; r++) {
@@ -2848,7 +2849,7 @@
             {
                 id: 3,
                 title: 'التمرين 4: حساب المعدل (AVERAGE) لجميع الطلاب',
-                prompt: 'في الخلية F4 احسب معدل الطالبة الأولى بالمعادلة =AVERAGE(B4:D4) ثم عممها لباقي الطلاب حتى F13.',
+                prompt: 'في الخلية F4 احسب معدل الطالب الأول بالمعادلة =AVERAGE(B4:D4) ثم عممها لباقي الطلاب حتى F13.',
                 hint: `
                     <p class="font-bold text-[#217346]">الخطوات:</p>
                     <ol class="list-decimal ms-4 space-y-1">
@@ -2858,8 +2859,8 @@
                     </ol>`,
                 verify: (sheet) => {
                     const avg1 = Math.round(Number(sheet.cells['3,5'].value));
-                    const avg10 = Math.round(Number(sheet.cells['12,5'].value));
-                    return avg1 === 84 && avg10 === 54;
+                    const avg2 = Math.round(Number(sheet.cells['4,5'].value));
+                    return avg1 === 85 && avg2 === 38;
                 },
                 demo: (sheet) => {
                     for (let r = 3; r <= 12; r++) {
@@ -2881,7 +2882,7 @@
                         <li>اضغط زر <strong>"سحب التعبئة ✚"</strong> لتعميمها على الخلايا G4:G13.</li>
                     </ol>`,
                 verify: (sheet) => {
-                    return sheet.cells['3,6'].value === 'ناجح' && sheet.cells['6,6'].value === 'راسب';
+                    return sheet.cells['3,6'].value === 'ناجح' && sheet.cells['4,6'].value === 'راسب';
                 },
                 demo: (sheet) => {
                     for (let r = 3; r <= 12; r++) {
@@ -2905,7 +2906,7 @@
                 verify: (sheet) => {
                     const maxV = Math.round(Number(sheet.cells['14,5'].value));
                     const minV = Math.round(Number(sheet.cells['15,5'].value));
-                    return maxV === 95 && minV === 45;
+                    return maxV === 96 && minV === 38;
                 },
                 demo: (sheet) => {
                     for (let r = 3; r <= 12; r++) {
@@ -2941,104 +2942,6 @@
                         sheet.cells[`${r},5`].condRule = { operator: 'lt', value: '50', preset: 'red' };
                     }
                     selectionRange = { r1: 3, c1: 5, r2: 12, c2: 5 };
-                }
-            },
-            {
-                id: 3,
-                title: 'التمرين 4: حساب المعدل (AVERAGE) لجميع الطلاب',
-                prompt: 'في الخلية F4 احسب معدل الطالب الأول بالمعادلة =AVERAGE(B4:D4) ثم عممها لباقي الطلاب حتى F10.',
-                hint: `
-                    <p class="font-bold text-[#217346]">الخطوات:</p>
-                    <ol class="list-decimal ms-4 space-y-1">
-                        <li>حدد الخلية <strong>F4</strong>.</li>
-                        <li>اكتب المعادلة <code>=AVERAGE(B4:D4)</code> أو اختر <strong>AVERAGE</strong> من السهم بجانب Σ جمع تلقائي.</li>
-                        <li>اضغط زر <strong>"سحب التعبئة ✚"</strong> لملء المعدل لبقية الطلاب.</li>
-                    </ol>`,
-                verify: (sheet) => {
-                    const avg1 = Math.round(Number(sheet.cells['3,5'].value));
-                    const avg7 = Math.round(Number(sheet.cells['9,5'].value));
-                    return avg1 === 84 && avg7 === 73;
-                },
-                demo: (sheet) => {
-                    for (let r = 3; r <= 9; r++) {
-                        sheet.cells[`${r},5`].raw = `=AVERAGE(B${r + 1}:D${r + 1})`;
-                    }
-                    activeCell = { r: 3, c: 5 };
-                    selectionRange = { r1: 3, c1: 5, r2: 9, c2: 5 };
-                }
-            },
-            {
-                id: 4,
-                title: 'التمرين 5: دالة الشرط (IF) لإظهار ناجح أو راسب',
-                prompt: 'في الخلية G4 اكتب دالة الشرط =IF(F4>=50;"ناجح";"راسب") ثم اسحبها لباقي الطلاب حتى G10.',
-                hint: `
-                    <p class="font-bold text-[#217346]">أهم سؤال في امتحانات الإكسل الجامعية:</p>
-                    <ol class="list-decimal ms-4 space-y-1">
-                        <li>حدد الخلية <strong>G4</strong> واضغط زر <strong>fx</strong> لفتح معالج الدوال واختر دالة <strong>IF</strong>.</li>
-                        <li>أو اكتب مباشرة: <code>=IF(F4>=50;"ناجح";"راسب")</code>.</li>
-                        <li>اضغط زر <strong>"سحب التعبئة ✚"</strong> لتعميمها على الخلايا G4:G10.</li>
-                    </ol>`,
-                verify: (sheet) => {
-                    return sheet.cells['3,6'].value === 'ناجح' && sheet.cells['5,6'].value === 'راسب';
-                },
-                demo: (sheet) => {
-                    for (let r = 3; r <= 9; r++) {
-                        if (!sheet.cells[`${r},5`].raw) sheet.cells[`${r},5`].raw = `=AVERAGE(B${r + 1}:D${r + 1})`;
-                        sheet.cells[`${r},6`].raw = `=IF(F${r + 1}>=50;"ناجح";"راسب")`;
-                    }
-                    activeCell = { r: 3, c: 6 };
-                    selectionRange = { r1: 3, c1: 6, r2: 9, c2: 6 };
-                }
-            },
-            {
-                id: 5,
-                title: 'التمرين 6: أعلى وأقل معدل (MAX & MIN)',
-                prompt: 'في الخلية F12 احسب أعلى معدل بالمعادلة =MAX(F4:F10) وفي الخلية F13 احسب أقل معدل بالمعادلة =MIN(F4:F10).',
-                hint: `
-                    <p class="font-bold text-[#217346]">الخطوات:</p>
-                    <ol class="list-decimal ms-4 space-y-1">
-                        <li>اضغط على الخلية الصفراء <strong>F12</strong> واكتب <code>=MAX(F4:F10)</code>.</li>
-                        <li>اضغط على الخلية الصفراء <strong>F13</strong> واكتب <code>=MIN(F4:F10)</code>.</li>
-                    </ol>`,
-                verify: (sheet) => {
-                    const maxV = Math.round(Number(sheet.cells['11,5'].value));
-                    const minV = Math.round(Number(sheet.cells['12,5'].value));
-                    return maxV === 92 && minV === 40;
-                },
-                demo: (sheet) => {
-                    for (let r = 3; r <= 9; r++) {
-                        if (!sheet.cells[`${r},5`].raw) sheet.cells[`${r},5`].raw = `=AVERAGE(B${r + 1}:D${r + 1})`;
-                    }
-                    sheet.cells['11,5'].raw = '=MAX(F4:F10)';
-                    sheet.cells['12,5'].raw = '=MIN(F4:F10)';
-                    activeCell = { r: 11, c: 5 };
-                    selectionRange = { r1: 11, c1: 5, r2: 12, c2: 5 };
-                }
-            },
-            {
-                id: 6,
-                title: 'التمرين 7: التنسيق الشرطي (Conditional Formatting)',
-                prompt: 'حدد درجات أو معدلات الطلاب ثم اضغط "تنسيق شرطي" وقم بتمييز الدرجات الأصغر من 50 باللون الأحمر.',
-                hint: `
-                    <p class="font-bold text-[#217346]">الخطوات:</p>
-                    <ol class="list-decimal ms-4 space-y-1">
-                        <li>حدد نطاق المعدلات <strong>F4:F10</strong> أو الدرجات <strong>B4:D10</strong>.</li>
-                        <li>من تبويب الصفحة الرئيسية اضغط على <strong>تنسيق شرطي (Conditional Formatting)</strong>.</li>
-                        <li>اختر <strong>أصغر من (Less Than)</strong> واكتب <code>50</code> ثم اختر اللون الأحمر واضغط تطبيق.</li>
-                    </ol>`,
-                verify: (sheet) => {
-                    for (let r = 3; r <= 9; r++) {
-                        for (let c = 1; c <= 6; c++) {
-                            if (sheet.cells[`${r},${c}`].condRule) return true;
-                        }
-                    }
-                    return false;
-                },
-                demo: (sheet) => {
-                    for (let r = 3; r <= 9; r++) {
-                        sheet.cells[`${r},5`].condRule = { operator: 'lt', value: '50', preset: 'red' };
-                    }
-                    selectionRange = { r1: 3, c1: 5, r2: 9, c2: 5 };
                 }
             },
             {
