@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>محاكي Excel 2013 الجامعي - قسم الاقتصاد (المرحلة الثانية)</title>
+<title>محاكي Excel 2013 الشامل - المحاضرة الثالثة (قسم الاقتصاد - المرحلة الثانية)</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
 
@@ -18,7 +18,7 @@
   html, body {
     width: 100%;
     height: 100%;
-    font-family: 'Cairo', Tahoma, Arial, sans-serif;
+    font-family: 'Cairo', Calibri, Tahoma, sans-serif;
     background: #e1dfdd;
     color: #252423;
     overflow-x: hidden;
@@ -33,7 +33,7 @@
     width: 100%;
   }
 
-  /* شريط العنوان الأحمر (نفس الصورة الأصلية) */
+  /* الشريط الأحمر العلوي المطابق للمحاضرة 3 (Book1 - Excel Product Activation Failed) */
   .activation-bar {
     background: #c42b1c;
     color: #ffffff;
@@ -41,34 +41,32 @@
     align-items: center;
     justify-content: space-between;
     padding: 2px 8px;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
     border-bottom: 1px solid #8e1f14;
   }
 
-  .activation-bar .qat-icons {
+  .qat-icons {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 12px;
+    gap: 4px;
   }
 
-  .activation-bar .qat-btn {
+  .qat-btn {
     cursor: pointer;
-    padding: 1px 4px;
+    padding: 1px 5px;
     border-radius: 2px;
-    background: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.14);
     color: #fff;
     border: none;
     font-family: inherit;
     font-size: 10px;
+    font-weight: 600;
   }
 
-  .activation-bar .qat-btn:hover {
-    background: rgba(255,255,255,0.25);
-  }
+  .qat-btn:hover { background: rgba(255,255,255,0.28); }
 
-  /* الشريط العلوي المساعد للجامعة */
+  /* شريط الجامعة والأدوات المساعدة */
   .uni-bar {
     background: #217346;
     color: #fff;
@@ -84,7 +82,7 @@
   .uni-bar-actions {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
     flex-wrap: wrap;
   }
 
@@ -93,7 +91,7 @@
     border-radius: 3px;
     padding: 2px 6px;
     font-family: inherit;
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 700;
     cursor: pointer;
     display: inline-flex;
@@ -119,15 +117,14 @@
   }
 
   .ribbon-tab {
-    padding: 3px 10px;
-    font-size: 11px;
+    padding: 3px 9px;
+    font-size: 10.5px;
     font-weight: 600;
     color: #323130;
     cursor: pointer;
     border: 1px solid transparent;
     border-bottom: none;
     border-radius: 2px 2px 0 0;
-    transition: 0.12s;
   }
 
   .ribbon-tab.file-tab {
@@ -153,7 +150,7 @@
     padding: 3px 4px;
     overflow-x: auto;
     white-space: nowrap;
-    min-height: 74px;
+    min-height: 76px;
     display: flex;
     align-items: stretch;
   }
@@ -177,9 +174,7 @@
     align-items: center;
   }
 
-  .r-group:last-child {
-    border-left: none;
-  }
+  .r-group:last-child { border-left: none; }
 
   .r-group-content {
     display: flex;
@@ -189,13 +184,14 @@
   }
 
   .r-group-title {
-    font-size: 9px;
+    font-size: 8.8px;
     color: #605e5c;
     text-align: center;
     width: 100%;
     padding-top: 1px;
     border-top: 1px solid #f3f2f1;
     margin-top: 2px;
+    font-weight: 600;
   }
 
   /* أزرار الإكسل الكبيرة والصغيرة داخل الـ Ribbon */
@@ -204,16 +200,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 2px 5px;
+    padding: 2px 4px;
     min-width: 42px;
-    height: 52px;
+    height: 54px;
     border: 1px solid transparent;
     border-radius: 2px;
     background: transparent;
     cursor: pointer;
     font-family: inherit;
     color: #252423;
-    transition: 0.1s;
+    position: relative;
   }
 
   .xl-btn-lg:hover, .xl-btn-lg:active, .xl-btn-lg.active-tool {
@@ -222,18 +218,18 @@
   }
 
   .xl-btn-lg svg {
-    width: 24px;
-    height: 24px;
+    width: 23px;
+    height: 23px;
     margin-bottom: 2px;
     flex-shrink: 0;
   }
 
   .xl-btn-lg span {
-    font-size: 9.5px;
-    line-height: 1.1;
+    font-size: 9px;
+    line-height: 1.08;
     text-align: center;
     white-space: normal;
-    max-width: 54px;
+    max-width: 58px;
   }
 
   .xl-col-stack {
@@ -255,7 +251,7 @@
     gap: 3px;
     padding: 1px 5px;
     height: 18px;
-    font-size: 9.5px;
+    font-size: 9.2px;
     font-family: inherit;
     border: 1px solid transparent;
     border-radius: 2px;
@@ -270,15 +266,16 @@
   }
 
   .xl-icon-btn {
-    width: 20px;
-    height: 20px;
+    min-width: 20px;
+    height: 19px;
+    padding: 0 3px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #e1dfdd;
     background: #faf9f8;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: 9.5px;
     cursor: pointer;
     font-family: inherit;
   }
@@ -289,66 +286,119 @@
   }
 
   .xl-select {
-    height: 20px;
-    font-size: 10px;
+    height: 19px;
+    font-size: 9.5px;
     font-family: inherit;
     border: 1px solid #c8c6c4;
-    padding: 0 3px;
+    padding: 0 2px;
     background: #fff;
   }
 
-  /* شريط مدرب الامتحان العملي المصغر */
+  /* أنماط الخلايا الجاهزة (Normal, Bad, Good, Neutral) كما في المحاضرة 3 ص2 */
+  .cell-styles-box {
+    display: grid;
+    grid-template-columns: repeat(2, 54px);
+    grid-template-rows: repeat(2, 23px);
+    gap: 2px;
+    border: 1px solid #cbd5e1;
+    padding: 2px;
+    background: #f8fafc;
+  }
+
+  .style-tile {
+    font-size: 9px;
+    font-family: inherit;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-align: center;
+    line-height: 19px;
+    font-weight: 600;
+  }
+
+  .style-tile.normal { background: #ffffff; color: #000; border-color: #217346; }
+  .style-tile.bad { background: #ffc7ce; color: #9c0006; }
+  .style-tile.good { background: #c6efce; color: #006100; }
+  .style-tile.neutral { background: #ffeb9c; color: #9c6500; }
+
+  /* القوائم المنسدلة التفاعلية (Dropdown Menus) */
+  .xl-dropdown-menu {
+    position: fixed;
+    background: #ffffff;
+    border: 1px solid #94a3b8;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+    z-index: 500;
+    display: none;
+    min-width: 195px;
+    padding: 4px 0;
+    border-radius: 2px;
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+
+  .xl-dropdown-header {
+    padding: 3px 10px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #217346;
+    background: #f1f5f9;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .xl-dropdown-item {
+    padding: 5px 10px;
+    font-size: 10.5px;
+    color: #1e293b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .xl-dropdown-item:hover {
+    background: #c7e0f4;
+  }
+
+  .xl-dropdown-sep {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 3px 0;
+  }
+
+  /* شريط مدرب الامتحان العملي */
   .exam-bar {
     background: #14532d;
     color: #fff;
     padding: 4px 8px;
-    font-size: 10.5px;
+    font-size: 10px;
     border-bottom: 1px solid #166534;
   }
 
-  .exam-bar.hidden {
-    display: none;
-  }
+  .exam-bar.hidden { display: none; }
 
   .exam-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 6px;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
   }
 
-  .exam-title {
-    font-weight: 700;
-    color: #fde047;
-    font-size: 11px;
-  }
-
-  .exam-desc {
-    color: #e2e8f0;
-    font-size: 10px;
-    margin-bottom: 4px;
-    line-height: 1.35;
-  }
-
-  .exam-actions {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-wrap: wrap;
-  }
+  .exam-title { font-weight: 700; color: #fde047; font-size: 10.5px; }
+  .exam-desc { color: #e2e8f0; font-size: 9.8px; margin-bottom: 3px; line-height: 1.3; }
+  .exam-actions { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 
   .ex-btn {
     border: none;
     border-radius: 3px;
     padding: 2px 7px;
-    font-size: 10px;
+    font-size: 9.5px;
     font-family: inherit;
     font-weight: 700;
     cursor: pointer;
   }
 
-  /* شريط الصيغة (Formula Bar) */
+  /* شريط الصيغة (Formula Bar) مع علامة الصح والخطأ كما في المحاضرة 3 ص5-8 */
   .formula-bar {
     background: #f3f2f1;
     display: flex;
@@ -359,15 +409,16 @@
   }
 
   .name-box {
-    width: 48px;
+    width: 52px;
     height: 22px;
     border: 1px solid #c8c6c4;
     background: #fff;
     text-align: center;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
     line-height: 20px;
     direction: ltr;
+    cursor: pointer;
   }
 
   .fx-btns {
@@ -377,15 +428,33 @@
     border: 1px solid #c8c6c4;
     height: 22px;
     padding: 0 2px;
+    gap: 2px;
   }
 
   .fx-btn {
-    border: none;
+    border: 1px solid transparent;
     background: transparent;
-    padding: 0 4px;
+    padding: 0 5px;
+    height: 18px;
     font-size: 11px;
     cursor: pointer;
     font-weight: 700;
+    border-radius: 2px;
+  }
+
+  .fx-btn:hover { background: #e2e8f0; }
+
+  /* نبض علامة الصح والخطأ عند انتظار تأكيد المعادلة (خطوة 4 و 5 في الملزمة) */
+  .pending-confirm .fx-btn-check {
+    background: #dcfce7 !important;
+    border-color: #16a34a !important;
+    box-shadow: 0 0 6px #22c55e;
+    transform: scale(1.08);
+  }
+
+  .pending-confirm .fx-btn-cancel {
+    background: #fee2e2 !important;
+    border-color: #dc2626 !important;
   }
 
   .formula-input {
@@ -399,7 +468,7 @@
     text-align: left;
   }
 
-  /* شريط أزرار الهاتف السريعة */
+  /* شريط أزرار المساعدة السريعة للهاتف */
   .mobile-helper {
     background: #eef2ff;
     border-bottom: 1px solid #c7d2fe;
@@ -416,30 +485,16 @@
     background: #fff;
     border-radius: 3px;
     padding: 1px 6px;
-    font-size: 10px;
+    font-size: 9.5px;
     font-family: inherit;
     font-weight: 700;
     cursor: pointer;
     color: #1e293b;
   }
 
-  .m-chip.fill-handle-btn {
-    background: #166534;
-    color: #fff;
-    border-color: #14532d;
-  }
-
-  .m-chip.pass-chip {
-    background: #dcfce7;
-    color: #166534;
-    border-color: #86efac;
-  }
-
-  .m-chip.fail-chip {
-    background: #fee2e2;
-    color: #991b1b;
-    border-color: #fca5a5;
-  }
+  .m-chip.fill-handle-btn { background: #166534; color: #fff; border-color: #14532d; }
+  .m-chip.pass-chip { background: #dcfce7; color: #166534; border-color: #86efac; }
+  .m-chip.fail-chip { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
 
   /* منطقة شبكة الخلايا (Grid Container) */
   .grid-wrapper {
@@ -465,6 +520,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative;
   }
 
   table.excel-grid thead th {
@@ -480,7 +536,7 @@
 
   table.excel-grid thead th.selected-header,
   table.excel-grid tbody th.selected-header {
-    background: #d2d0ce;
+    background: #c7e0f4;
     color: #217346;
     font-weight: 700;
   }
@@ -512,7 +568,7 @@
   }
 
   table.excel-grid td.col-name {
-    min-width: 145px;
+    min-width: 146px;
     text-align: right;
     font-weight: 600;
   }
@@ -520,7 +576,6 @@
   table.excel-grid td.active-cell {
     outline: 2px solid #217346;
     outline-offset: -2px;
-    position: relative;
     z-index: 3;
   }
 
@@ -536,10 +591,15 @@
   }
 
   table.excel-grid td.in-range {
-    background-color: rgba(33, 115, 70, 0.12) !important;
+    background-color: rgba(33, 115, 70, 0.13) !important;
   }
 
-  /* تنسيقات النتيجة (ناجح أخضر / راسب أحمر) */
+  table.excel-grid td.formula-range-highlight {
+    outline: 2px dashed #2563eb !important;
+    background-color: rgba(59, 130, 246, 0.12) !important;
+  }
+
+  /* تنسيقات النتيجة التلقائية (ناجح أخضر / راسب أحمر) */
   .cell-pass {
     background-color: #dcfce7 !important;
     color: #15803d !important;
@@ -552,13 +612,24 @@
     font-weight: 700 !important;
   }
 
-  .no-gridlines td {
-    border-color: transparent !important;
+  /* أشرطة البيانات (Data Bars) من التنسيق الشرطي */
+  .data-bar-fill {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    right: 2px;
+    background: rgba(59, 130, 246, 0.28);
+    pointer-events: none;
+    z-index: 0;
   }
 
-  .no-headings thead th, .no-headings tbody th {
-    display: none !important;
+  .cell-text-layer {
+    position: relative;
+    z-index: 1;
   }
+
+  .no-gridlines td { border-color: transparent !important; }
+  .no-headings thead th, .no-headings tbody th { display: none !important; }
 
   /* شريط أوراق العمل السفلي */
   .sheets-bar {
@@ -569,16 +640,14 @@
     justify-content: space-between;
     padding: 2px 6px;
     font-size: 10px;
+    flex-wrap: wrap;
+    gap: 4px;
   }
 
-  .sheet-tabs {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
+  .sheet-tabs { display: flex; align-items: center; gap: 3px; }
 
   .sheet-tab {
-    padding: 2px 10px;
+    padding: 2px 9px;
     background: #e1dfdd;
     border: 1px solid #c8c6c4;
     border-bottom: none;
@@ -604,21 +673,21 @@
     font-size: 10px;
   }
 
-  /* النوافذ العائمة (المخططات، المحاضرة 3، Slicer) */
+  /* النوافذ العائمة */
   .floating-panel {
     position: fixed;
-    top: 18%;
+    top: 14%;
     left: 50%;
     transform: translateX(-50%);
-    width: 92%;
-    max-width: 440px;
+    width: 93%;
+    max-width: 450px;
     background: #fff;
     border: 2px solid #217346;
     border-radius: 6px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    z-index: 100;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.32);
+    z-index: 400;
     display: none;
-    max-height: 76vh;
+    max-height: 78vh;
     overflow-y: auto;
   }
 
@@ -629,7 +698,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 700;
     position: sticky;
     top: 0;
@@ -650,137 +719,113 @@
     color: #fff;
     padding: 6px 14px;
     border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    z-index: 200;
-    display: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  }
-
-  /* القوائم المنسدلة داخل الشريط */
-  .dropdown-wrap {
-    position: relative;
-  }
-
-  .dropdown-menu {
-    position: fixed;
-    background: #fff;
-    border: 1px solid #c8c6c4;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-    z-index: 150;
-    display: none;
-    min-width: 150px;
-    padding: 3px 0;
-  }
-
-  .dropdown-item {
-    padding: 5px 10px;
     font-size: 10.5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .dropdown-item:hover {
-    background: #c7e0f4;
+    font-weight: 600;
+    z-index: 600;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    text-align: center;
+    max-width: 92%;
   }
 </style>
 </head>
 <body>
 
-<div class="app-wrapper" id="appWrapper">
+<div class="app-wrapper" id="appWrapper" onclick="closeAllDropdowns(event)">
 
-  <!-- الشريط الأحمر العلوي المطابق للصورة الأصلية -->
+  <!-- 1. شريط العنوان الأحمر (Book1 - Excel Product Activation Failed) كما في الصفحة 1 من المحاضرة 3 -->
   <div class="activation-bar">
     <div class="qat-icons">
       <span>📗</span>
-      <button class="qat-btn" onclick="showToast('تم حفظ المصنف بنجاح 💾')" title="حفظ">💾</button>
-      <button class="qat-btn" onclick="resetTableData()" title="إعادة ضبط الجدول">↩️</button>
-      <button class="qat-btn" onclick="solveAllTable()" title="حل الجدول تلقائياً">⚡ حل فوري</button>
+      <button class="qat-btn" onclick="showToast('تم حفظ المصنف (Save) 💾')">💾</button>
+      <button class="qat-btn" onclick="resetTableData()" title="إعادة ضبط">↩️</button>
+      <button class="qat-btn" onclick="solveAllTable()">⚡ حل الجدول</button>
     </div>
-    <div>المصنف 1 - Microsoft Excel (فشل تنشيط المنتج)</div>
+    <div id="bookTitleBar">Book1 - Excel (Product Activation Failed) | المصنف 1</div>
     <div class="qat-icons">
       <button class="qat-btn" onclick="toggleLang()" id="langBtn">EN ⇄ عربي</button>
     </div>
   </div>
 
-  <!-- شريط الجامعة والأدوات المساعدة -->
+  <!-- 2. الشريط الجامعي المساعد -->
   <div class="uni-bar">
-    <div>🏛️ <b>جامعة واسط - كلية الإدارة والاقتصاد</b> | قسم الاقتصاد - المرحلة الثانية (شعبة أ + ب)</div>
+    <div>🏛️ <b>جامعة واسط - قسم الاقتصاد</b> | المرحلة الثانية (شعبة أ + ب)</div>
     <div class="uni-bar-actions">
-      <button class="uni-btn btn-gold" onclick="openModal('lectureModal')">📖 المحاضرة 3 والواجب</button>
-      <button class="uni-btn btn-blue" onclick="openModal('mouseModal')">🖱️ دليل المختبر</button>
-      <button class="uni-btn btn-dark" onclick="toggleExamBar()">🎓 مدرب الامتحان (8)</button>
-      <button class="uni-btn btn-lang" onclick="clearFormulasForPractice()">🧹 تصفير المعادلات للتدريب</button>
+      <button class="uni-btn btn-gold" onclick="openModal('lectureModal')">📖 شرح المحاضرة 3 والواجب</button>
+      <button class="uni-btn btn-blue" onclick="switchSheet('lec3')">🔢 تمرين A1:A5 بالملزمة</button>
+      <button class="uni-btn btn-dark" onclick="toggleExamBar()">🎓 مدرب الامتحان (10)</button>
+      <button class="uni-btn btn-lang" onclick="clearFormulasForPractice()">🧹 تصفير للتدريب</button>
     </div>
   </div>
 
-  <!-- تبويبات Excel 2013 مطابقة للصورة -->
+  <!-- 3. تبويبات الشريط الرئيسي (Ribbon Tabs) -->
   <div class="ribbon-tabs">
-    <div class="ribbon-tab file-tab" onclick="showToast('قائمة ملف: جديد، فتح، حفظ، طباعة')" data-ar="ملف" data-en="FILE">ملف</div>
-    <div class="ribbon-tab" id="tabBtn-home" onclick="switchRibbon('home')" data-ar="الصفحة الرئيسية" data-en="HOME">الصفحة الرئيسية</div>
-    <div class="ribbon-tab active" id="tabBtn-insert" onclick="switchRibbon('insert')" data-ar="إدراج" data-en="INSERT">إدراج</div>
-    <div class="ribbon-tab" id="tabBtn-layout" onclick="switchRibbon('layout')" data-ar="تخطيط الصفحة" data-en="PAGE LAYOUT">تخطيط الصفحة</div>
-    <div class="ribbon-tab" id="tabBtn-formulas" onclick="switchRibbon('formulas')" data-ar="صيغ" data-en="FORMULAS">صيغ</div>
-    <div class="ribbon-tab" id="tabBtn-data" onclick="switchRibbon('data')" data-ar="بيانات" data-en="DATA">بيانات</div>
-    <div class="ribbon-tab" id="tabBtn-review" onclick="switchRibbon('review')" data-ar="مراجعة" data-en="REVIEW">مراجعة</div>
-    <div class="ribbon-tab" id="tabBtn-view" onclick="switchRibbon('view')" data-ar="عرض" data-en="VIEW">عرض</div>
+    <div class="ribbon-tab file-tab" onclick="showToast('قائمة FILE: New, Open, Save, Print')" data-ar="ملف FILE" data-en="FILE">ملف FILE</div>
+    <div class="ribbon-tab active" id="tabBtn-home" onclick="switchRibbon('home')" data-ar="الصفحة الرئيسية HOME" data-en="HOME">الصفحة الرئيسية HOME</div>
+    <div class="ribbon-tab" id="tabBtn-insert" onclick="switchRibbon('insert')" data-ar="إدراج INSERT" data-en="INSERT">إدراج INSERT</div>
+    <div class="ribbon-tab" id="tabBtn-layout" onclick="switchRibbon('layout')" data-ar="تخطيط الصفحة PAGE LAYOUT" data-en="PAGE LAYOUT">تخطيط الصفحة PAGE LAYOUT</div>
+    <div class="ribbon-tab" id="tabBtn-formulas" onclick="switchRibbon('formulas')" data-ar="صيغ FORMULAS" data-en="FORMULAS">صيغ FORMULAS</div>
+    <div class="ribbon-tab" id="tabBtn-data" onclick="switchRibbon('data')" data-ar="بيانات DATA" data-en="DATA">بيانات DATA</div>
+    <div class="ribbon-tab" id="tabBtn-review" onclick="switchRibbon('review')" data-ar="مراجعة REVIEW" data-en="REVIEW">مراجعة REVIEW</div>
+    <div class="ribbon-tab" id="tabBtn-view" onclick="switchRibbon('view')" data-ar="عرض VIEW" data-en="VIEW">عرض VIEW</div>
   </div>
 
-  <!-- جسم الشريط (Ribbon Body) -->
+  <!-- 4. محتوى التبويبات (Ribbon Body) -->
   <div class="ribbon-body">
 
-    <!-- ================= 1. تبويب الصفحة الرئيسية (HOME) ================= -->
-    <div class="ribbon-pane" id="pane-home">
-      <!-- الحافظة -->
+    <!-- ================= تبويب الصفحة الرئيسية (HOME TAB) - المحاضرة 3 ================= -->
+    <div class="ribbon-pane active" id="pane-home">
+
+      <!-- Clipboard الحافظة -->
       <div class="r-group">
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="pasteCell()">
             <svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="1" fill="#f59e0b" stroke="#b45309"/><rect x="8" y="2" width="8" height="4" rx="1" fill="#fcd34d"/><rect x="8" y="9" width="11" height="12" fill="#fff" stroke="#64748b"/></svg>
-            <span data-ar="لصق" data-en="Paste">لصق</span>
+            <span data-ar="لصق Paste" data-en="Paste">لصق Paste</span>
           </button>
           <div class="xl-col-stack">
-            <button class="xl-btn-sm" onclick="cutCell()">✂️ <span data-ar="قص" data-en="Cut">قص</span></button>
-            <button class="xl-btn-sm" onclick="copyCell()">📄 <span data-ar="نسخ" data-en="Copy">نسخ</span></button>
-            <button class="xl-btn-sm" onclick="showToast('نسخ التنسيق مفعل')">🖌️ <span data-ar="نسخ التنسيق" data-en="Format Painter">نسخ التنسيق</span></button>
+            <button class="xl-btn-sm" onclick="cutCell()">✂️ <span data-ar="قص Cut" data-en="Cut">قص Cut</span></button>
+            <button class="xl-btn-sm" onclick="copyCell()">📄 <span data-ar="نسخ Copy" data-en="Copy">نسخ Copy</span></button>
+            <button class="xl-btn-sm" id="formatPainterBtn" onclick="activateFormatPainter()">🖌️ <span data-ar="نسخ التنسيق" data-en="Format Painter">نسخ التنسيق</span></button>
           </div>
         </div>
-        <div class="r-group-title" data-ar="الحافظة" data-en="Clipboard">الحافظة</div>
+        <div class="r-group-title" data-ar="الحافظة Clipboard" data-en="Clipboard">الحافظة Clipboard</div>
       </div>
 
-      <!-- خط -->
+      <!-- Font خط -->
       <div class="r-group">
         <div class="r-group-content">
           <div class="xl-col-stack">
             <div class="xl-row-stack">
               <select class="xl-select" onchange="formatActive('fontFamily', this.value)">
-                <option value="Cairo">Cairo</option>
                 <option value="Calibri">Calibri</option>
+                <option value="Cairo" selected>Cairo</option>
                 <option value="Arial">Arial</option>
               </select>
-              <select class="xl-select" onchange="formatActive('fontSize', this.value+'px')">
+              <select class="xl-select" id="fontSizeSelect" onchange="formatActive('fontSize', this.value+'px')">
                 <option value="10">10</option>
                 <option value="11" selected>11</option>
                 <option value="12">12</option>
                 <option value="14">14</option>
                 <option value="16">16</option>
               </select>
+              <button class="xl-icon-btn" onclick="stepFontSize(1)" title="تكبير الخط A▲">A▲</button>
+              <button class="xl-icon-btn" onclick="stepFontSize(-1)" title="تصغير الخط A▼">A▼</button>
             </div>
             <div class="xl-row-stack">
               <button class="xl-icon-btn" onclick="toggleStyle('fontWeight','bold')"><b>B</b></button>
               <button class="xl-icon-btn" onclick="toggleStyle('fontStyle','italic')"><i>I</i></button>
               <button class="xl-icon-btn" onclick="toggleStyle('textDecoration','underline')"><u>U</u></button>
-              <button class="xl-icon-btn" onclick="applyAllBorders()" title="كافة الحدود">⊞</button>
-              <input type="color" value="#fef08a" style="width:20px;height:20px;border:none;padding:0;cursor:pointer;" onchange="formatActive('backgroundColor', this.value)" title="لون التعبئة">
-              <input type="color" value="#dc2626" style="width:20px;height:20px;border:none;padding:0;cursor:pointer;" onchange="formatActive('color', this.value)" title="لون الخط">
+              <button class="xl-icon-btn" onclick="applyAllBorders()" title="كافة الحدود Borders">⊞</button>
+              <input type="color" value="#fef08a" style="width:20px;height:19px;border:none;padding:0;cursor:pointer;" onchange="formatActive('backgroundColor', this.value)" title="لون التعبئة">
+              <input type="color" value="#dc2626" style="width:20px;height:19px;border:none;padding:0;cursor:pointer;" onchange="formatActive('color', this.value)" title="لون الخط">
             </div>
           </div>
         </div>
-        <div class="r-group-title" data-ar="خط" data-en="Font">خط</div>
+        <div class="r-group-title" data-ar="خط Font" data-en="Font">خط Font</div>
       </div>
 
-      <!-- محاذاة -->
+      <!-- Alignment محاذاة -->
       <div class="r-group">
         <div class="r-group-content">
           <div class="xl-col-stack">
@@ -788,335 +833,223 @@
               <button class="xl-icon-btn" onclick="formatActive('textAlign','right')" title="محاذاة لليمين">⫸</button>
               <button class="xl-icon-btn" onclick="formatActive('textAlign','center')" title="توسيط">☰</button>
               <button class="xl-icon-btn" onclick="formatActive('textAlign','left')" title="محاذاة لليسار">⫷</button>
+              <button class="xl-icon-btn" onclick="rotateTextAngle()" title="اتجاه النص Orientation">ab↗</button>
             </div>
             <div class="xl-row-stack">
-              <button class="xl-btn-sm" onclick="toggleWrapText()">↩️ <span data-ar="التفاف النص" data-en="Wrap Text">التفاف النص</span></button>
-              <button class="xl-btn-sm" id="mergeBtn" onclick="mergeAndCenter()">⊞ <span data-ar="دمج وتوسيط" data-en="Merge & Center">دمج وتوسيط</span></button>
+              <button class="xl-btn-sm" onclick="toggleWrapText()">↩️ <span data-ar="التفاف النص Wrap Text" data-en="Wrap Text">التفاف النص</span></button>
+              <button class="xl-btn-sm" onclick="mergeAndCenter()">⊞ <span data-ar="دمج وتوسيط Merge & Center" data-en="Merge & Center">دمج وتوسيط</span></button>
             </div>
           </div>
         </div>
-        <div class="r-group-title" data-ar="محاذاة" data-en="Alignment">محاذاة</div>
+        <div class="r-group-title" data-ar="محاذاة Alignment" data-en="Alignment">محاذاة Alignment</div>
       </div>
 
-      <!-- رقم (المحاضرة 3) -->
+      <!-- 1- مجموعة رقم (Number) - المحاضرة 3 ص2 -->
       <div class="r-group">
         <div class="r-group-content">
           <div class="xl-col-stack">
-            <select class="xl-select" onchange="applyNumberFormat(this.value)">
-              <option value="general">General / عام</option>
-              <option value="currency">Currency / عملة (د.ع)</option>
-              <option value="percent">Percentage / نسبة %</option>
-              <option value="date">Short Date / تاريخ</option>
+            <select class="xl-select" id="numFormatSelect" onchange="applyNumberFormat(this.value)" style="width:118px;">
+              <option value="general">General (عام)</option>
+              <option value="number">Number (أرقام 0.00)</option>
+              <option value="currency">Currency (عملة د.ع / $)</option>
+              <option value="percent">Percentage (نسبة مئوية %)</option>
+              <option value="date">Short Date (تأريخ)</option>
             </select>
             <div class="xl-row-stack">
-              <button class="xl-icon-btn" onclick="applyNumberFormat('currency')" title="عملة">$</button>
-              <button class="xl-icon-btn" onclick="applyNumberFormat('percent')" title="نسبة مئوية">%</button>
-              <button class="xl-icon-btn" onclick="applyNumberFormat('comma')" title="فاصلة">,</button>
-              <button class="xl-icon-btn" onclick="changeDecimals(1)" title="زيادة المنازل العشرية">.00</button>
-              <button class="xl-icon-btn" onclick="changeDecimals(-1)" title="إنقاص المنازل العشرية">.0</button>
+              <button class="xl-icon-btn" onclick="applyNumberFormat('currency')" title="تنسيق عملة Accounting Number Format">$</button>
+              <button class="xl-icon-btn" onclick="applyNumberFormat('percent')" title="نسبة مئوية Percent Style">%</button>
+              <button class="xl-icon-btn" onclick="applyNumberFormat('comma')" title="فاصلة الآلاف Comma Style">,</button>
+              <button class="xl-icon-btn" onclick="changeDecimals(1)" title="زيادة المنازل العشرية Increase Decimal">←.00</button>
+              <button class="xl-icon-btn" onclick="changeDecimals(-1)" title="إنقاص المنازل العشرية Decrease Decimal">.00→</button>
             </div>
           </div>
         </div>
-        <div class="r-group-title" data-ar="رقم (Number)" data-en="Number">رقم (Number)</div>
+        <div class="r-group-title" data-ar="1- مجموعة رقم Number" data-en="Number">1- مجموعة رقم Number</div>
       </div>
 
-      <!-- أنماط (المحاضرة 3) -->
+      <!-- 2- مجموعة أنماط (Styles) - المحاضرة 3 ص2 وص3 -->
       <div class="r-group">
         <div class="r-group-content">
-          <button class="xl-btn-lg" onclick="applyConditionalFormatting()">
+          <!-- Conditional Formatting مع القائمة المنسدلة الكاملة ص3 -->
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-cond')">
             <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="1" fill="#fff" stroke="#64748b"/><rect x="4" y="5" width="7" height="4" fill="#fca5a5"/><rect x="13" y="5" width="7" height="4" fill="#86efac"/><rect x="4" y="10" width="7" height="4" fill="#93c5fd"/><rect x="13" y="10" width="7" height="4" fill="#fde047"/><rect x="4" y="15" width="16" height="4" fill="#dcfce7"/></svg>
-            <span data-ar="تنسيق شرطي ▾" data-en="Conditional Formatting">تنسيق شرطي ▾</span>
+            <span data-ar="Conditional Formatting ▾" data-en="Conditional Formatting ▾">Conditional Formatting ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="formatAsTableStyle()">
+          <!-- Format as Table -->
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-table-style')">
             <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" fill="#fff" stroke="#0284c7"/><rect x="2" y="4" width="20" height="5" fill="#0284c7"/><line x1="2" y1="14" x2="22" y2="14" stroke="#bae6fd" stroke-width="3"/><line x1="9" y1="4" x2="9" y2="20" stroke="#0284c7"/><line x1="16" y1="4" x2="16" y2="20" stroke="#0284c7"/></svg>
-            <span data-ar="تنسيق كجدول ▾" data-en="Format as Table">تنسيق كجدول ▾</span>
+            <span data-ar="Format as Table ▾" data-en="Format as Table ▾">Format as Table ▾</span>
           </button>
-          <div class="xl-col-stack">
-            <div class="xl-row-stack">
-              <button class="xl-btn-sm" style="background:#dcfce7;color:#166534;border:1px solid #86efac;" onclick="applyPresetStyle('good')">Good جيد</button>
-              <button class="xl-btn-sm" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;" onclick="applyPresetStyle('bad')">Bad سيئ</button>
-            </div>
-            <div class="xl-row-stack">
-              <button class="xl-btn-sm" style="background:#fef9c3;color:#854d0e;border:1px solid #fde047;" onclick="applyPresetStyle('neutral')">Neutral محايد</button>
-              <button class="xl-btn-sm" style="background:#fff;border:1px solid #cbd5e1;" onclick="applyPresetStyle('normal')">Normal عادي</button>
-            </div>
+          <!-- المربعات الأربعة Normal / Bad / Good / Neutral كما في الصورة ص2 -->
+          <div class="cell-styles-box">
+            <button class="style-tile normal" onclick="applyPresetStyle('normal')">Normal</button>
+            <button class="style-tile bad" onclick="applyPresetStyle('bad')">Bad</button>
+            <button class="style-tile good" onclick="applyPresetStyle('good')">Good</button>
+            <button class="style-tile neutral" onclick="applyPresetStyle('neutral')">Neutral</button>
           </div>
         </div>
-        <div class="r-group-title" data-ar="أنماط (Styles)" data-en="Styles">أنماط (Styles)</div>
+        <div class="r-group-title" data-ar="2- مجموعة أنماط Styles" data-en="Styles">2- مجموعة أنماط Styles</div>
       </div>
 
-      <!-- خلايا (المحاضرة 3) -->
+      <!-- 3- مجموعة خلايا (Cells) - المحاضرة 3 ص3 -->
       <div class="r-group">
         <div class="r-group-content">
-          <button class="xl-btn-lg" onclick="insertRowAction()">
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-cells-insert')">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" fill="#fff" stroke="#64748b"/><rect x="3" y="10" width="18" height="5" fill="#bbf7d0" stroke="#16a34a"/><path d="M12 6v3m-1.5-1.5h3" stroke="#16a34a" stroke-width="2"/></svg>
-            <span data-ar="إدراج ▾" data-en="Insert">إدراج ▾</span>
+            <span data-ar="إدراج Insert ▾" data-en="Insert ▾">إدراج Insert ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="deleteRowAction()">
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-cells-delete')">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" fill="#fff" stroke="#64748b"/><rect x="3" y="10" width="18" height="5" fill="#fecaca" stroke="#dc2626"/><path d="M9 6l6 6m0-6l-6 6" stroke="#dc2626" stroke-width="2"/></svg>
-            <span data-ar="حذف ▾" data-en="Delete">حذف ▾</span>
+            <span data-ar="حذف Delete ▾" data-en="Delete ▾">حذف Delete ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="autoFitCells()">
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-cells-format')">
             <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" fill="#fff" stroke="#0284c7"/><path d="M2 12h4m12 0h4M12 2v4m0 12v4" stroke="#f59e0b" stroke-width="2"/></svg>
-            <span data-ar="تنسيق ▾" data-en="Format">تنسيق ▾</span>
+            <span data-ar="تنسيق Format ▾" data-en="Format ▾">تنسيق Format ▾</span>
           </button>
         </div>
-        <div class="r-group-title" data-ar="خلايا (Cells)" data-en="Cells">خلايا (Cells)</div>
+        <div class="r-group-title" data-ar="3- مجموعة خلايا Cells" data-en="Cells">3- مجموعة خلايا Cells</div>
       </div>
 
-      <!-- تحرير Editing (المحاضرة 3) -->
+      <!-- 4- مجموعة تحرير (Editing) - المحاضرة 3 ص4 إلى ص11 -->
       <div class="r-group">
         <div class="r-group-content">
           <div class="xl-col-stack">
+            <!-- AutoSum + سهم القائمة المنسدلة ص5 -->
             <div class="xl-row-stack">
-              <button class="xl-btn-sm" onclick="insertAutoFunction('SUM')" style="font-weight:700;color:#1d4ed8;">∑ <span data-ar="جمع تلقائي" data-en="AutoSum">جمع تلقائي</span></button>
-              <select class="xl-select" style="width:62px;" onchange="if(this.value){insertAutoFunction(this.value);this.value='';}">
-                <option value="">دوال Σ ▾</option>
-                <option value="SUM">Sum (جمع)</option>
-                <option value="AVERAGE">Average (المعدل)</option>
-                <option value="COUNT">Count Numbers (حساب)</option>
-                <option value="MAX">Max (أعلى قيمة)</option>
-                <option value="MIN">Min (أدنى قيمة)</option>
-              </select>
+              <button class="xl-btn-sm" onclick="startAutoSumStep('SUM')" style="font-weight:700;color:#1d4ed8;background:#eff6ff;border-color:#bfdbfe;">∑ AutoSum</button>
+              <button class="xl-icon-btn" onclick="openDropdown(event, 'menu-autosum')" title="قائمة دوال الجمع التلقائي">▾</button>
             </div>
-            <div class="xl-row-stack">
-              <button class="xl-btn-sm" onclick="fillDownAction()">⬇️ <span data-ar="تعبئة Fill" data-en="Fill">تعبئة Fill</span></button>
-              <button class="xl-btn-sm" onclick="clearCellAction()">🧹 <span data-ar="مسح Clear" data-en="Clear">مسح Clear</span></button>
-            </div>
+            <!-- Fill ملئ ص9 -->
+            <button class="xl-btn-sm" onclick="openDropdown(event, 'menu-fill')">⬇️ <span data-ar="ملئ Fill ▾" data-en="Fill ▾">ملئ Fill ▾</span></button>
+            <!-- Clear مسح ص9 -->
+            <button class="xl-btn-sm" onclick="openDropdown(event, 'menu-clear')">🧹 <span data-ar="مسح Clear ▾" data-en="Clear ▾">مسح Clear ▾</span></button>
           </div>
-          <button class="xl-btn-lg" onclick="toggleSortStudents()">
-            <svg viewBox="0 0 24 24"><text x="3" y="11" font-size="9" font-weight="bold" fill="#1d4ed8">A</text><text x="3" y="21" font-size="9" font-weight="bold" fill="#dc2626">Z</text><path d="M15 4v16m0 0l-3-3m3 3l3-3" stroke="#166534" stroke-width="2" fill="none"/><polygon points="18,4 23,4 20.5,8" fill="#64748b"/></svg>
-            <span data-ar="فرز وتصفية ▾" data-en="Sort & Filter">فرز وتصفية ▾</span>
+
+          <!-- Sort & Filter ترتيب وتصفية ص10 -->
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-sort')">
+            <svg viewBox="0 0 24 24"><text x="3" y="11" font-size="9" font-weight="bold" fill="#1d4ed8">A</text><text x="3" y="21" font-size="9" font-weight="bold" fill="#dc2626">Z</text><path d="M13 4v16m0 0l-2.5-2.5m2.5 2.5l2.5-2.5" stroke="#166534" stroke-width="1.8" fill="none"/><polygon points="16,4 23,4 19.5,9" fill="#64748b"/></svg>
+            <span data-ar="Sort & Filter ▾" data-en="Sort & Filter ▾">Sort & Filter ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="findStudentPrompt()">
+
+          <!-- Find & Select بحث واختيار ص11 -->
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-find')">
             <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/><line x1="14.5" y1="14.5" x2="21" y2="21" stroke="#b45309" stroke-width="3"/></svg>
-            <span data-ar="بحث وتحديد ▾" data-en="Find & Select">بحث وتحديد ▾</span>
+            <span data-ar="Find & Select ▾" data-en="Find & Select ▾">Find & Select ▾</span>
           </button>
         </div>
-        <div class="r-group-title" data-ar="تحرير (Editing)" data-en="Editing">تحرير (Editing)</div>
+        <div class="r-group-title" data-ar="4- مجموعة تحرير Editing" data-en="Editing">4- مجموعة تحرير Editing</div>
       </div>
+
     </div>
 
-    <!-- ================= 2. تبويب إدراج (INSERT) مطابق 100% للصورة المرفقة ================= -->
-    <div class="ribbon-pane active" id="pane-insert">
-      <!-- مجموعة: جداول -->
+    <!-- ================= تبويب إدراج (INSERT TAB) مطابق للصورة السابقة ================= -->
+    <div class="ribbon-pane" id="pane-insert">
       <div class="r-group">
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="openPivotModal()">
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="3" width="20" height="18" fill="#fff" stroke="#475569" stroke-width="1.3"/>
-              <rect x="2" y="3" width="20" height="5" fill="#93c5fd"/>
-              <rect x="2" y="8" width="6" height="13" fill="#dbeafe"/>
-              <path d="M11 15h6m0 0l-2-2m2 2l-2 2M11 15v-4m0 0l-2 2m2-2l2 2" stroke="#1d4ed8" stroke-width="1.6" fill="none"/>
-            </svg>
-            <span>PivotTable<br>▾</span>
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" fill="#fff" stroke="#475569" stroke-width="1.3"/><rect x="2" y="3" width="20" height="5" fill="#93c5fd"/><rect x="2" y="8" width="6" height="13" fill="#dbeafe"/><path d="M11 15h6m0 0l-2-2m2 2l-2 2M11 15v-4" stroke="#1d4ed8" stroke-width="1.6" fill="none"/></svg>
+            <span>PivotTable ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="formatAsTableStyle()">
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="3" width="20" height="18" fill="#fff" stroke="#475569" stroke-width="1.3"/>
-              <rect x="2" y="3" width="20" height="5" fill="#3b82f6"/>
-              <line x1="2" y1="12" x2="22" y2="12" stroke="#93c5fd" stroke-width="1.2"/>
-              <line x1="2" y1="16" x2="22" y2="16" stroke="#93c5fd" stroke-width="1.2"/>
-              <line x1="9" y1="8" x2="9" y2="21" stroke="#cbd5e1"/>
-              <line x1="16" y1="8" x2="16" y2="21" stroke="#cbd5e1"/>
-            </svg>
+          <button class="xl-btn-lg" onclick="formatAsTableStyle('#dbeafe')">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" fill="#fff" stroke="#475569"/><rect x="2" y="3" width="20" height="5" fill="#3b82f6"/><line x1="2" y1="12" x2="22" y2="12" stroke="#93c5fd"/><line x1="9" y1="8" x2="9" y2="21" stroke="#cbd5e1"/></svg>
             <span data-ar="جدول" data-en="Table">جدول</span>
           </button>
         </div>
         <div class="r-group-title" data-ar="جداول" data-en="Tables">جداول</div>
       </div>
 
-      <!-- مجموعة: رسومات توضيحية -->
       <div class="r-group">
         <div class="r-group-content">
-          <!-- صورة -->
-          <button class="xl-btn-lg" onclick="insertIllustration('صورة شعار كلية الإدارة والاقتصاد 🖼️')">
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="4" width="20" height="16" rx="1" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
-              <circle cx="7.5" cy="9" r="2.2" fill="#facc15"/>
-              <polygon points="3,19 9,12 14,17 17,14 21,19" fill="#22c55e"/>
-            </svg>
+          <button class="xl-btn-lg" onclick="insertIllustration('🖼️ صورة شعار جامعة واسط')">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="1" fill="#e0f2fe" stroke="#0284c7"/><circle cx="7.5" cy="9" r="2.2" fill="#facc15"/><polygon points="3,19 9,12 14,17 17,14 21,19" fill="#22c55e"/></svg>
             <span data-ar="صورة" data-en="Picture">صورة</span>
           </button>
-          <!-- قصاصة فنية -->
-          <button class="xl-btn-lg" onclick="insertIllustration('قصاصة فنية أكاديمية 🎓')">
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="3" width="9" height="8" fill="#fde047" stroke="#ca8a04"/>
-              <rect x="13" y="3" width="9" height="8" fill="#86efac" stroke="#16a34a"/>
-              <rect x="2" y="13" width="9" height="8" fill="#fca5a5" stroke="#dc2626"/>
-              <rect x="13" y="13" width="9" height="8" fill="#93c5fd" stroke="#2563eb"/>
-            </svg>
+          <button class="xl-btn-lg" onclick="insertIllustration('🎓 قصاصة فنية')">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="9" height="8" fill="#fde047" stroke="#ca8a04"/><rect x="13" y="3" width="9" height="8" fill="#86efac" stroke="#16a34a"/><rect x="2" y="13" width="9" height="8" fill="#fca5a5" stroke="#dc2626"/><rect x="13" y="13" width="9" height="8" fill="#93c5fd" stroke="#2563eb"/></svg>
             <span data-ar="قصاصة فنية" data-en="Clip Art">قصاصة فنية</span>
           </button>
-          <!-- أشكال -->
-          <button class="xl-btn-lg" onclick="insertIllustration('شكل هندسي توضيحي 🔷')">
-            <svg viewBox="0 0 24 24">
-              <circle cx="8" cy="9" r="5" fill="#93c5fd" stroke="#1d4ed8" stroke-width="1.3"/>
-              <rect x="9" y="9" width="11" height="10" rx="1" fill="#3b82f6" fill-opacity="0.85" stroke="#1e3a8a" stroke-width="1.3"/>
-              <polygon points="5,20 10,12 15,20" fill="#fde047" stroke="#b45309" stroke-width="1.2"/>
-            </svg>
+          <button class="xl-btn-lg" onclick="insertIllustration('🔷 شكل هندسي')">
+            <svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="5" fill="#93c5fd" stroke="#1d4ed8"/><rect x="9" y="9" width="11" height="10" rx="1" fill="#3b82f6" fill-opacity="0.85"/><polygon points="5,20 10,12 15,20" fill="#fde047"/></svg>
             <span data-ar="أشكال ▾" data-en="Shapes">أشكال ▾</span>
           </button>
-          <!-- SmartArt -->
-          <button class="xl-btn-lg" onclick="insertIllustration('مخطط هيكلي SmartArt 🟩')">
-            <svg viewBox="0 0 24 24">
-              <polygon points="3,6 15,6 20,12 15,18 3,18 7,12" fill="#4ade80" stroke="#15803d" stroke-width="1.4"/>
-              <rect x="4" y="3" width="8" height="4" fill="#bbf7d0" stroke="#16a34a"/>
-            </svg>
+          <button class="xl-btn-lg" onclick="insertIllustration('🟩 مخطط SmartArt')">
+            <svg viewBox="0 0 24 24"><polygon points="3,6 15,6 20,12 15,18 3,18 7,12" fill="#4ade80" stroke="#15803d"/></svg>
             <span>SmartArt</span>
           </button>
-          <!-- لقطة شاشة -->
-          <button class="xl-btn-lg" onclick="insertIllustration('لقطة شاشة للجدول 📸')">
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="4" width="16" height="13" stroke="#475569" stroke-dasharray="2,2" fill="#f8fafc" stroke-width="1.4"/>
-              <circle cx="16" cy="16" r="4.5" fill="#38bdf8" stroke="#0369a1" stroke-width="1.3"/>
-              <circle cx="16" cy="16" r="1.8" fill="#fff"/>
-            </svg>
+          <button class="xl-btn-lg" onclick="insertIllustration('📸 لقطة شاشة')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="16" height="13" stroke="#475569" stroke-dasharray="2,2" fill="#f8fafc"/><circle cx="16" cy="16" r="4.5" fill="#38bdf8" stroke="#0369a1"/></svg>
             <span data-ar="لقطة شاشة ▾" data-en="Screenshot">لقطة شاشة ▾</span>
           </button>
         </div>
         <div class="r-group-title" data-ar="رسومات توضيحية" data-en="Illustrations">رسومات توضيحية</div>
       </div>
 
-      <!-- مجموعة: مخططات (Charts) مطابقة لأيقونات الصورة -->
       <div class="r-group">
         <div class="r-group-content">
-          <!-- عمود -->
           <button class="xl-btn-lg" onclick="openChartModal('column')">
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="10" width="4" height="11" fill="#3b82f6"/>
-              <rect x="8.5" y="4" width="4" height="17" fill="#ef4444"/>
-              <rect x="14" y="7" width="4" height="14" fill="#eab308"/>
-              <rect x="19" y="12" width="3" height="9" fill="#22c55e"/>
-              <line x1="2" y1="21" x2="23" y2="21" stroke="#64748b" stroke-width="1.5"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><rect x="3" y="10" width="4" height="11" fill="#3b82f6"/><rect x="8.5" y="4" width="4" height="17" fill="#ef4444"/><rect x="14" y="7" width="4" height="14" fill="#eab308"/><rect x="19" y="12" width="3" height="9" fill="#22c55e"/></svg>
             <span data-ar="عمود ▾" data-en="Column">عمود ▾</span>
           </button>
-          <!-- خطي -->
           <button class="xl-btn-lg" onclick="openChartModal('line')">
-            <svg viewBox="0 0 24 24">
-              <polyline points="3,17 9,8 15,14 21,5" fill="none" stroke="#ef4444" stroke-width="2"/>
-              <polyline points="3,12 9,16 15,7 21,13" fill="none" stroke="#2563eb" stroke-width="2"/>
-              <circle cx="9" cy="8" r="2" fill="#ef4444"/>
-              <circle cx="15" cy="7" r="2" fill="#2563eb"/>
-              <line x1="2" y1="21" x2="22" y2="21" stroke="#64748b" stroke-width="1.5"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><polyline points="3,17 9,8 15,14 21,5" fill="none" stroke="#ef4444" stroke-width="2"/><polyline points="3,12 9,16 15,7 21,13" fill="none" stroke="#2563eb" stroke-width="2"/></svg>
             <span data-ar="خطي ▾" data-en="Line">خطي ▾</span>
           </button>
-          <!-- دائري -->
           <button class="xl-btn-lg" onclick="openChartModal('pie')">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 12 L12 3 A9 9 0 0 1 21 12 Z" fill="#ef4444"/>
-              <path d="M12 12 L21 12 A9 9 0 1 1 5.5 5.5 Z" fill="#3b82f6"/>
-              <path d="M12 12 L5.5 5.5 A9 9 0 0 1 12 3 Z" fill="#eab308"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M12 12 L12 3 A9 9 0 0 1 21 12 Z" fill="#ef4444"/><path d="M12 12 L21 12 A9 9 0 1 1 5.5 5.5 Z" fill="#3b82f6"/><path d="M12 12 L5.5 5.5 A9 9 0 0 1 12 3 Z" fill="#eab308"/></svg>
             <span data-ar="دائري ▾" data-en="Pie">دائري ▾</span>
           </button>
-          <!-- شريطي -->
           <button class="xl-btn-lg" onclick="openChartModal('bar')">
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="3" width="14" height="4" fill="#eab308"/>
-              <rect x="3" y="9.5" width="18" height="4" fill="#ef4444"/>
-              <rect x="3" y="16" width="11" height="4" fill="#3b82f6"/>
-              <line x1="3" y1="2" x2="3" y2="22" stroke="#64748b" stroke-width="1.5"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="14" height="4" fill="#eab308"/><rect x="3" y="9.5" width="18" height="4" fill="#ef4444"/><rect x="3" y="16" width="11" height="4" fill="#3b82f6"/></svg>
             <span data-ar="شريطي ▾" data-en="Bar">شريطي ▾</span>
           </button>
-          <!-- مساحي -->
           <button class="xl-btn-lg" onclick="openChartModal('area')">
-            <svg viewBox="0 0 24 24">
-              <polygon points="3,20 3,11 9,6 16,12 21,5 21,20" fill="#93c5fd" stroke="#2563eb" stroke-width="1.4"/>
-              <polygon points="3,20 3,15 10,11 16,15 21,10 21,20" fill="#fca5a5" fill-opacity="0.85" stroke="#dc2626" stroke-width="1.4"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><polygon points="3,20 3,11 9,6 16,12 21,5 21,20" fill="#93c5fd" stroke="#2563eb"/><polygon points="3,20 3,15 10,11 16,15 21,10 21,20" fill="#fca5a5" fill-opacity="0.85" stroke="#dc2626"/></svg>
             <span data-ar="مساحي ▾" data-en="Area">مساحي ▾</span>
           </button>
-          <!-- مبعثر -->
           <button class="xl-btn-lg" onclick="openChartModal('scatter')">
-            <svg viewBox="0 0 24 24">
-              <line x1="3" y1="2" x2="3" y2="21" stroke="#64748b" stroke-width="1.5"/>
-              <line x1="3" y1="21" x2="22" y2="21" stroke="#64748b" stroke-width="1.5"/>
-              <circle cx="7" cy="15" r="2.2" fill="#2563eb"/>
-              <circle cx="11" cy="8" r="2.2" fill="#ef4444"/>
-              <circle cx="15" cy="13" r="2.2" fill="#eab308"/>
-              <circle cx="19" cy="6" r="2.2" fill="#22c55e"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><line x1="3" y1="2" x2="3" y2="21" stroke="#64748b"/><line x1="3" y1="21" x2="22" y2="21" stroke="#64748b"/><circle cx="7" cy="15" r="2.2" fill="#2563eb"/><circle cx="12" cy="8" r="2.2" fill="#ef4444"/><circle cx="18" cy="6" r="2.2" fill="#22c55e"/></svg>
             <span data-ar="مبعثر ▾" data-en="Scatter">مبعثر ▾</span>
           </button>
-          <!-- مخططات أخرى -->
           <button class="xl-btn-lg" onclick="openChartModal('doughnut')">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="8" fill="none" stroke="#3b82f6" stroke-width="4"/>
-              <path d="M12 4 A8 8 0 0 1 20 12" fill="none" stroke="#ef4444" stroke-width="4"/>
-              <path d="M20 12 A8 8 0 0 1 12 20" fill="none" stroke="#eab308" stroke-width="4"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="#3b82f6" stroke-width="4"/><path d="M12 4 A8 8 0 0 1 20 12" fill="none" stroke="#ef4444" stroke-width="4"/></svg>
             <span data-ar="مخططات أخرى ▾" data-en="Other Charts">مخططات أخرى ▾</span>
           </button>
         </div>
         <div class="r-group-title" data-ar="مخططات" data-en="Charts">مخططات</div>
       </div>
 
-      <!-- مجموعة: خطوط المؤشر (Sparklines) -->
       <div class="r-group">
         <div class="r-group-content">
-          <!-- خط -->
           <button class="xl-btn-lg" onclick="drawSparklines('line')">
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="5" width="20" height="14" fill="#f8fafc" stroke="#94a3b8"/>
-              <polyline points="4,15 9,9 14,13 20,7" fill="none" stroke="#1d4ed8" stroke-width="2.2"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" fill="#f8fafc" stroke="#94a3b8"/><polyline points="4,15 9,9 14,13 20,7" fill="none" stroke="#1d4ed8" stroke-width="2.2"/></svg>
             <span data-ar="خط" data-en="Line">خط</span>
           </button>
-          <!-- عمود -->
           <button class="xl-btn-lg" onclick="drawSparklines('column')">
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="5" width="20" height="14" fill="#f8fafc" stroke="#94a3b8"/>
-              <rect x="5" y="11" width="3" height="6" fill="#2563eb"/>
-              <rect x="10.5" y="7" width="3" height="10" fill="#2563eb"/>
-              <rect x="16" y="9" width="3" height="8" fill="#2563eb"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" fill="#f8fafc" stroke="#94a3b8"/><rect x="5" y="11" width="3" height="6" fill="#2563eb"/><rect x="10.5" y="7" width="3" height="10" fill="#2563eb"/><rect x="16" y="9" width="3" height="8" fill="#2563eb"/></svg>
             <span data-ar="عمود" data-en="Column">عمود</span>
           </button>
-          <!-- ربح/خسارة -->
           <button class="xl-btn-lg" onclick="drawSparklines('winloss')">
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="5" width="20" height="14" fill="#f8fafc" stroke="#94a3b8"/>
-              <line x1="3" y1="12" x2="21" y2="12" stroke="#cbd5e1"/>
-              <rect x="5" y="7" width="3.5" height="5" fill="#2563eb"/>
-              <rect x="10.5" y="12" width="3.5" height="5" fill="#ef4444"/>
-              <rect x="16" y="7" width="3.5" height="5" fill="#2563eb"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" fill="#f8fafc" stroke="#94a3b8"/><rect x="5" y="7" width="3.5" height="5" fill="#2563eb"/><rect x="10.5" y="12" width="3.5" height="5" fill="#ef4444"/><rect x="16" y="7" width="3.5" height="5" fill="#2563eb"/></svg>
             <span data-ar="ربح/خسارة" data-en="Win/Loss">ربح/خسارة</span>
           </button>
         </div>
         <div class="r-group-title" data-ar="خطوط المؤشر" data-en="Sparklines">خطوط المؤشر</div>
       </div>
 
-      <!-- مجموعة: عامل تصفية -->
       <div class="r-group">
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="openSlicerModal()">
-            <svg viewBox="0 0 24 24">
-              <rect x="4" y="3" width="16" height="18" rx="1" fill="#f8fafc" stroke="#64748b" stroke-width="1.3"/>
-              <rect x="6" y="6" width="12" height="3" fill="#93c5fd"/>
-              <rect x="6" y="11" width="12" height="3" fill="#93c5fd"/>
-              <rect x="6" y="16" width="12" height="3" fill="#e2e8f0"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1" fill="#f8fafc" stroke="#64748b"/><rect x="6" y="6" width="12" height="3" fill="#93c5fd"/><rect x="6" y="11" width="12" height="3" fill="#93c5fd"/></svg>
             <span data-ar="مقسم طريقة العرض" data-en="Slicer">مقسم طريقة العرض</span>
           </button>
         </div>
         <div class="r-group-title" data-ar="عامل تصفية" data-en="Filters">عامل تصفية</div>
       </div>
 
-      <!-- مجموعة: ارتباطات -->
       <div class="r-group">
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="insertHyperlink()">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="10" r="6.5" fill="#38bdf8" stroke="#0284c7" stroke-width="1.2"/>
-              <ellipse cx="12" cy="10" rx="3" ry="6.5" fill="none" stroke="#bae6fd"/>
-              <line x1="5.5" y1="10" x2="18.5" y2="10" stroke="#bae6fd"/>
-              <rect x="7" y="16" width="10" height="4" rx="2" fill="#e2e8f0" stroke="#475569" stroke-width="1.3"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="6.5" fill="#38bdf8" stroke="#0284c7"/><rect x="7" y="16" width="10" height="4" rx="2" fill="#e2e8f0" stroke="#475569"/></svg>
             <span data-ar="ارتباط تشعبي" data-en="Hyperlink">ارتباط تشعبي</span>
           </button>
         </div>
@@ -1124,166 +1057,216 @@
       </div>
     </div>
 
-    <!-- ================= 3. تبويب تخطيط الصفحة (PAGE LAYOUT - المحاضرة 3) ================= -->
+    <!-- ================= تبويب تخطيط الصفحة (PAGE LAYOUT TAB) - المحاضرة 3 ص11 و ص12 ================= -->
     <div class="ribbon-pane" id="pane-layout">
-      <!-- إعداد الصفحة -->
+      <!-- Themes نسق -->
       <div class="r-group">
         <div class="r-group-content">
-          <button class="xl-btn-lg" onclick="showToast('تم ضبط الهوامش العادية للطباعة')">
+          <button class="xl-btn-lg" onclick="formatAsTableStyle('#dcfce7')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" fill="#dbeafe" stroke="#1d4ed8"/><circle cx="9" cy="10" r="3" fill="#ef4444"/><circle cx="15" cy="14" r="3" fill="#22c55e"/></svg>
+            <span data-ar="نسق Themes ▾" data-en="Themes">Themes ▾</span>
+          </button>
+          <div class="xl-col-stack">
+            <button class="xl-btn-sm" onclick="formatAsTableStyle('#e0f2fe')">🎨 Colors الألوان</button>
+            <button class="xl-btn-sm" onclick="formatActive('fontFamily','Calibri')">🔤 Fonts الخطوط</button>
+            <button class="xl-btn-sm" onclick="showToast('تم تطبيق تأثيرات النسق Effects')">✨ Effects التأثيرات</button>
+          </div>
+        </div>
+        <div class="r-group-title" data-ar="نسق Themes" data-en="Themes">نسق Themes</div>
+      </div>
+
+      <!-- Page Setup إعداد الصفحة -->
+      <div class="r-group">
+        <div class="r-group-content">
+          <button class="xl-btn-lg" onclick="showToast('الهوامش Margins: Normal عادي')">
             <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" fill="#fff" stroke="#475569"/><rect x="7" y="5" width="10" height="14" fill="none" stroke="#3b82f6" stroke-dasharray="2,2"/></svg>
-            <span data-ar="الهوامش ▾" data-en="Margins">الهوامش ▾</span>
+            <span>Margins ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="showToast('تم تبديل اتجاه الورقة عند الطباعة (أفقي / عمودي)')">
+          <button class="xl-btn-lg" onclick="showToast('اتجاه الطباعة Orientation: Landscape أفقي')">
             <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" fill="#e0f2fe" stroke="#0284c7"/></svg>
-            <span data-ar="الاتجاه ▾" data-en="Orientation">الاتجاه ▾</span>
+            <span>Orientation ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="showToast('حجم الورقة: A4 قياسي')">
-            <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" fill="#fff" stroke="#475569"/><text x="8" y="15" font-size="7" font-weight="bold">A4</text></svg>
-            <span data-ar="الحجم ▾" data-en="Size">الحجم ▾</span>
+          <button class="xl-btn-lg" onclick="showToast('حجم الورقة Size: A4')">
+            <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" fill="#fff" stroke="#475569"/><text x="7.5" y="15" font-size="7" font-weight="bold">A4</text></svg>
+            <span>Size ▾</span>
+          </button>
+          <button class="xl-btn-lg" onclick="showToast('تم تحديد ناحية الطباعة Print Area')">
+            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" fill="#fef08a" stroke="#ca8a04" stroke-dasharray="2,2"/></svg>
+            <span>Print Area ▾</span>
           </button>
         </div>
-        <div class="r-group-title" data-ar="إعداد الصفحة (Page Setup)" data-en="Page Setup">إعداد الصفحة</div>
+        <div class="r-group-title" data-ar="إعداد الصفحة Page Setup" data-en="Page Setup">Page Setup</div>
       </div>
 
-      <!-- تغيير الحجم لغرض الملائمة Scale to Fit (المحاضرة 3) -->
+      <!-- 1- مجموعة تغيير الحجم لغرض الملائمة Scale to Fit (ص11 بالملزمة) -->
       <div class="r-group">
         <div class="r-group-content">
           <div class="xl-col-stack">
             <div class="xl-row-stack">
-              <span style="font-size:9.5px;">العرض Width:</span>
-              <select class="xl-select" onchange="showToast('تم ضبط عرض الملائمة للطباعة: '+this.value)">
-                <option>Automatic تلقائي</option>
-                <option>1 page صفحة واحدة</option>
-                <option>2 pages صفحتان</option>
+              <span style="font-size:9px;width:42px;">Width:</span>
+              <select class="xl-select" onchange="showToast('تم ضبط عرض الصفحة عند الطباعة Width: ' + this.value)">
+                <option>Automatic</option>
+                <option>1 page</option>
+                <option>2 pages</option>
               </select>
             </div>
             <div class="xl-row-stack">
-              <span style="font-size:9.5px;">الارتفاع Height:</span>
-              <select class="xl-select" onchange="showToast('تم ضبط ارتفاع الملائمة للطباعة: '+this.value)">
-                <option>Automatic تلقائي</option>
-                <option>1 page صفحة واحدة</option>
+              <span style="font-size:9px;width:42px;">Height:</span>
+              <select class="xl-select" onchange="showToast('تم ضبط ارتفاع الصفحة عند الطباعة Height: ' + this.value)">
+                <option>Automatic</option>
+                <option>1 page</option>
+                <option>2 pages</option>
+              </select>
+            </div>
+            <div class="xl-row-stack">
+              <span style="font-size:9px;width:42px;">Scale:</span>
+              <select class="xl-select" onchange="setGridZoom(this.value)">
+                <option value="1">100%</option>
+                <option value="0.9">90%</option>
+                <option value="0.8">80%</option>
+                <option value="1.1">110%</option>
               </select>
             </div>
           </div>
-          <div class="xl-col-stack">
-            <span style="font-size:9.5px;">الحجم Scale:</span>
-            <select class="xl-select" onchange="setGridZoom(this.value)">
-              <option value="1">100%</option>
-              <option value="0.9">90%</option>
-              <option value="0.8">80%</option>
-              <option value="1.1">110%</option>
-            </select>
-          </div>
         </div>
-        <div class="r-group-title" data-ar="تغيير الحجم للملائمة (Scale to Fit)" data-en="Scale to Fit">Scale to Fit</div>
+        <div class="r-group-title" data-ar="1- تغيير الحجم للملائمة Scale to Fit" data-en="Scale to Fit">1- Scale to Fit</div>
       </div>
 
-      <!-- خيارات الورقة Sheet Options (المحاضرة 3) -->
+      <!-- 2- مجموعة خيارات الورقة Sheet Options (ص12 بالملزمة) -->
       <div class="r-group">
         <div class="r-group-content">
           <button class="xl-btn-lg" id="rtlSheetBtn" onclick="toggleSheetDirection()">
             <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" fill="#fff" stroke="#475569"/><polygon points="15,7 9,12 15,17" fill="#2563eb"/></svg>
-            <span data-ar="ورقة من اليمين لليسار" data-en="Sheet Right-to-Left">Sheet Right-to-Left</span>
+            <span>Sheet Right-to-Left</span>
           </button>
-          <div class="xl-col-stack" style="padding:0 4px;">
-            <b style="font-size:9.5px;color:#1e293b;">خطوط الشبكة Gridlines</b>
-            <label style="font-size:9.5px;cursor:pointer;"><input type="checkbox" checked onchange="toggleGridlines(this.checked)"> عرض View</label>
-            <label style="font-size:9.5px;cursor:pointer;"><input type="checkbox" onchange="showToast('تم تفعيل طباعة خطوط الشبكة')"> طباعة Print</label>
+          <div class="xl-col-stack" style="padding:0 4px;border-right:1px solid #e2e8f0;">
+            <b style="font-size:9px;color:#1e293b;">Gridlines</b>
+            <label style="font-size:9px;cursor:pointer;"><input type="checkbox" checked onchange="toggleGridlines(this.checked)"> View عرض</label>
+            <label style="font-size:9px;cursor:pointer;"><input type="checkbox" onchange="showToast('تم تفعيل طباعة خطوط الشبكة Gridlines Print')"> Print طباعة</label>
           </div>
           <div class="xl-col-stack" style="padding:0 4px;">
-            <b style="font-size:9.5px;color:#1e293b;">العناوين Headings</b>
-            <label style="font-size:9.5px;cursor:pointer;"><input type="checkbox" checked onchange="toggleHeadings(this.checked)"> عرض View</label>
-            <label style="font-size:9.5px;cursor:pointer;"><input type="checkbox" onchange="showToast('تم تفعيل طباعة العناوين')"> طباعة Print</label>
+            <b style="font-size:9px;color:#1e293b;">Headings</b>
+            <label style="font-size:9px;cursor:pointer;"><input type="checkbox" checked onchange="toggleHeadings(this.checked)"> View عرض</label>
+            <label style="font-size:9px;cursor:pointer;"><input type="checkbox" onchange="showToast('تم تفعيل طباعة العناوين Headings Print')"> Print طباعة</label>
           </div>
         </div>
-        <div class="r-group-title" data-ar="خيارات الورقة (Sheet Options)" data-en="Sheet Options">خيارات الورقة (Sheet Options)</div>
+        <div class="r-group-title" data-ar="2- خيارات الورقة Sheet Options" data-en="Sheet Options">2- Sheet Options</div>
+      </div>
+
+      <!-- Arrange ترتيب -->
+      <div class="r-group">
+        <div class="r-group-content">
+          <button class="xl-btn-lg" onclick="showToast('إحضار إلى الأمام Bring Forward')">
+            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="11" height="11" fill="#3b82f6"/><rect x="9" y="9" width="11" height="11" fill="#cbd5e1" stroke="#475569"/></svg>
+            <span>Bring Forward</span>
+          </button>
+          <button class="xl-btn-lg" onclick="showToast('إرسال إلى الخلف Send Backward')">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" fill="#3b82f6"/><rect x="4" y="4" width="11" height="11" fill="#cbd5e1" stroke="#475569"/></svg>
+            <span>Send Backward</span>
+          </button>
+        </div>
+        <div class="r-group-title" data-ar="ترتيب Arrange" data-en="Arrange">Arrange</div>
       </div>
     </div>
 
-    <!-- ================= 4. تبويب صيغ (FORMULAS - المحاضرة 3) ================= -->
+    <!-- ================= تبويب الصيغ (FORMULAS TAB) - المحاضرة 3 ص1 ================= -->
     <div class="ribbon-pane" id="pane-formulas">
+      <!-- 1- مكتبة الدوال Function Library -->
       <div class="r-group">
         <div class="r-group-content">
-          <button class="xl-btn-lg" onclick="insertAutoFunction('IF')">
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-autosum')">
             <svg viewBox="0 0 24 24"><text x="3" y="18" font-size="16" font-style="italic" font-weight="bold" fill="#217346">fx</text></svg>
-            <span data-ar="إدراج دالة" data-en="Insert Function">إدراج دالة</span>
+            <span>Insert Function</span>
           </button>
-          <button class="xl-btn-lg" onclick="insertAutoFunction('SUM')">
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-autosum')">
             <svg viewBox="0 0 24 24"><text x="4" y="19" font-size="18" font-weight="bold" fill="#1d4ed8">∑</text></svg>
-            <span data-ar="جمع تلقائي ▾" data-en="AutoSum">جمع تلقائي ▾</span>
+            <span>AutoSum ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="insertAutoFunction('IF')">
-            <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#a855f7"/><text x="9" y="16" font-size="12" fill="#fff" font-weight="bold">?</text></svg>
-            <span data-ar="منطقية Logical" data-en="Logical">منطقية ▾</span>
+          <button class="xl-btn-lg" onclick="startAutoSumStep('IF')">
+            <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#a855f7"/><text x="9" y="16" font-size="11" fill="#fff" font-weight="bold">?</text></svg>
+            <span>Logical ▾</span>
           </button>
-          <button class="xl-btn-lg" onclick="insertAutoFunction('AVERAGE')">
-            <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#0284c7"/><text x="6" y="16" font-size="10" fill="#fff" font-weight="bold">AVG</text></svg>
-            <span data-ar="إحصائية ومعدل" data-en="More Functions">إحصائية ▾</span>
-          </button>
-        </div>
-        <div class="r-group-title" data-ar="مكتبة الدوال (Function Library)" data-en="Function Library">مكتبة الدوال</div>
-      </div>
-
-      <!-- مجموعة تعريف الأسماء Defined Names (من الصفحة 1 بالملزمة) -->
-      <div class="r-group">
-        <div class="r-group-content">
-          <button class="xl-btn-lg" onclick="showToast('تم فتح نافذة إدارة الأسماء المعرفة (Name Manager)')">
-            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" fill="#fef08a" stroke="#ca8a04"/><text x="6" y="15" font-size="8" font-weight="bold">Name</text></svg>
-            <span data-ar="إدارة الأسماء" data-en="Name Manager">إدارة الأسماء</span>
-          </button>
-          <button class="xl-btn-lg" onclick="showToast('تعريف اسم للنطاق المحدد (Define Name)')">
-            <svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" fill="#dcfce7" stroke="#16a34a"/></svg>
-            <span data-ar="تعريف الاسم" data-en="Define Name">Define Name</span>
+          <button class="xl-btn-lg" onclick="startAutoSumStep('AVERAGE')">
+            <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#0284c7"/><text x="5" y="15" font-size="8" fill="#fff" font-weight="bold">More</text></svg>
+            <span>More Functions ▾</span>
           </button>
         </div>
-        <div class="r-group-title" data-ar="الأسماء المعرفة (Defined Names)" data-en="Defined Names">Defined Names</div>
+        <div class="r-group-title" data-ar="1- مكتبة الدوال Function Library" data-en="Function Library">1- Function Library</div>
       </div>
 
+      <!-- 2- مجموعة تعريف الأسماء Defined Names (رقم 2 في الصفحة 1 من الملزمة) -->
       <div class="r-group">
         <div class="r-group-content">
+          <button class="xl-btn-lg" onclick="openDefinedNamesModal()">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" fill="#fef08a" stroke="#ca8a04"/><text x="5" y="15" font-size="7.5" font-weight="bold">Name</text></svg>
+            <span>Name Manager</span>
+          </button>
+          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-define-name')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" fill="#dcfce7" stroke="#16a34a"/><text x="5" y="15" font-size="7" font-weight="bold">Define</text></svg>
+            <span>Define Name ▾</span>
+          </button>
+        </div>
+        <div class="r-group-title" data-ar="2- تعريف الأسماء Defined Names" data-en="Defined Names">2- Defined Names</div>
+      </div>
+
+      <!-- تدقيق الصيغ Formula Auditing -->
+      <div class="r-group">
+        <div class="r-group-content">
+          <div class="xl-col-stack">
+            <button class="xl-btn-sm" onclick="tracePrecedentsAction()">🔵↗ Trace Precedents</button>
+            <button class="xl-btn-sm" onclick="traceDependentsAction()">🔵↘ Trace Dependents</button>
+            <button class="xl-btn-sm" onclick="removeTraceArrows()">✕ Remove Arrows</button>
+          </div>
           <button class="xl-btn-lg" onclick="toggleShowFormulas()">
-            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" fill="#fff" stroke="#475569"/><text x="4" y="15" font-size="8" font-weight="bold" fill="#1d4ed8">=SUM</text></svg>
-            <span data-ar="إظهار الصيغ" data-en="Show Formulas">إظهار الصيغ</span>
-          </button>
-          <button class="xl-btn-lg" onclick="recalcAll()">
-            <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1" fill="#e2e8f0" stroke="#334155"/><rect x="7" y="5" width="10" height="4" fill="#86efac"/></svg>
-            <span data-ar="حساب الآن" data-en="Calculate Now">حساب الآن</span>
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" fill="#fff" stroke="#475569"/><text x="3" y="15" font-size="7.5" font-weight="bold" fill="#1d4ed8">=SUM</text></svg>
+            <span>Show Formulas</span>
           </button>
         </div>
-        <div class="r-group-title" data-ar="تدقيق الصيغ والحساب" data-en="Formula Auditing">تدقيق الصيغ</div>
+        <div class="r-group-title" data-ar="تدقيق الصيغ Formula Auditing" data-en="Formula Auditing">Formula Auditing</div>
+      </div>
+
+      <!-- Calculation الحساب -->
+      <div class="r-group">
+        <div class="r-group-content">
+          <button class="xl-btn-lg" onclick="recalcAll(); showToast('تم حساب المصنف بالكامل Calculate Now ✔')">
+            <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1" fill="#e2e8f0" stroke="#334155"/><rect x="7" y="5" width="10" height="4" fill="#86efac"/></svg>
+            <span>Calculate Now</span>
+          </button>
+        </div>
+        <div class="r-group-title" data-ar="حساب Calculation" data-en="Calculation">Calculation</div>
       </div>
     </div>
 
-    <!-- ================= 5. تبويبات بيانات / مراجعة / عرض ================= -->
+    <!-- ================= تبويبات بيانات / مراجعة / عرض ================= -->
     <div class="ribbon-pane" id="pane-data">
       <div class="r-group">
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="sortStudentsAsc()">
             <svg viewBox="0 0 24 24"><text x="5" y="11" font-size="9" font-weight="bold" fill="#1d4ed8">A</text><text x="5" y="20" font-size="9" font-weight="bold" fill="#dc2626">Z</text><path d="M16 4v16l-3-3m3 3l3-3" stroke="#166534" stroke-width="2" fill="none"/></svg>
-            <span data-ar="فرز تصاعدي A-Z" data-en="Sort Ascending">تصاعدي A-Z</span>
+            <span>Sort A to Z</span>
           </button>
           <button class="xl-btn-lg" onclick="sortStudentsDesc()">
             <svg viewBox="0 0 24 24"><text x="5" y="11" font-size="9" font-weight="bold" fill="#dc2626">Z</text><text x="5" y="20" font-size="9" font-weight="bold" fill="#1d4ed8">A</text><path d="M16 4v16l-3-3m3 3l3-3" stroke="#166534" stroke-width="2" fill="none"/></svg>
-            <span data-ar="فرز تنازلي Z-A" data-en="Sort Descending">تنازلي Z-A</span>
+            <span>Sort Z to A</span>
           </button>
           <button class="xl-btn-lg" onclick="openSlicerModal()">
             <svg viewBox="0 0 24 24"><polygon points="3,4 21,4 14,13 14,20 10,18 10,13" fill="#38bdf8" stroke="#0284c7"/></svg>
-            <span data-ar="تصفية Filter" data-en="Filter">تصفية Filter</span>
+            <span>Filter تصفية</span>
           </button>
         </div>
-        <div class="r-group-title" data-ar="فرز وتصفية" data-en="Sort & Filter">فرز وتصفية</div>
+        <div class="r-group-title">Sort & Filter</div>
       </div>
     </div>
 
     <div class="ribbon-pane" id="pane-review">
       <div class="r-group">
         <div class="r-group-content">
-          <button class="xl-btn-lg" onclick="showToast('التدقيق الإملائي: جميع الأسماء والبيانات صحيحة ✓')">
+          <button class="xl-btn-lg" onclick="showToast('التدقيق الإملائي Spelling: لا توجد أخطاء ✔')">
             <svg viewBox="0 0 24 24"><text x="4" y="11" font-size="8" font-weight="bold">ABC</text><path d="M5 16l4 4 10-10" stroke="#16a34a" stroke-width="2.5" fill="none"/></svg>
-            <span data-ar="تدقيق إملائي" data-en="Spelling">تدقيق إملائي</span>
+            <span>Spelling</span>
           </button>
         </div>
-        <div class="r-group-title" data-ar="تدقيق" data-en="Proofing">تدقيق</div>
+        <div class="r-group-title">Proofing</div>
       </div>
     </div>
 
@@ -1291,61 +1274,187 @@
       <div class="r-group">
         <div class="r-group-content">
           <div class="xl-col-stack">
-            <label style="font-size:10px;"><input type="checkbox" checked onchange="toggleGridlines(this.checked)"> إظهار خطوط الشبكة Gridlines</label>
-            <label style="font-size:10px;"><input type="checkbox" checked onchange="toggleHeadings(this.checked)"> إظهار العناوين Headings</label>
+            <label style="font-size:9.5px;"><input type="checkbox" checked onchange="toggleGridlines(this.checked)"> Gridlines خطوط الشبكة</label>
+            <label style="font-size:9.5px;"><input type="checkbox" checked onchange="toggleHeadings(this.checked)"> Headings العناوين</label>
           </div>
         </div>
-        <div class="r-group-title" data-ar="إظهار" data-en="Show">إظهار</div>
+        <div class="r-group-title">Show</div>
       </div>
     </div>
 
   </div>
 
-  <!-- شريط مدرب الامتحان العملي (قابل للإخفاء لتوسيع الشاشة) -->
+  <!-- ================= القوائم المنسدلة التفاعلية المطابقة لصور المحاضرة 3 ================= -->
+
+  <!-- قائمة Conditional Formatting (ص3 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-cond">
+    <div class="xl-dropdown-header">Conditional Formatting (التنسيق الشرطي - ص3)</div>
+    <div class="xl-dropdown-item" onclick="applyCondRule('highlightPassFail')"><span>🔴🟢 Highlight Cells Rules (قواعد تمييز الخلايا)</span><span>▸</span></div>
+    <div class="xl-dropdown-item" onclick="applyCondRule('topBottom')"><span>🔟 Top/Bottom Rules (أعلى/أدنى القيم)</span><span>▸</span></div>
+    <div class="xl-dropdown-item" onclick="applyCondRule('dataBars')"><span>📊 Data Bars (أشرطة البيانات داخل الخلايا)</span><span>▸</span></div>
+    <div class="xl-dropdown-item" onclick="applyCondRule('colorScales')"><span>🌈 Color Scales (مقاييس الألوان)</span><span>▸</span></div>
+    <div class="xl-dropdown-item" onclick="applyCondRule('iconSets')"><span>🚦 Icon Sets (مجموعات الأيقونات)</span><span>▸</span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="applyCondRule('highlightPassFail')"><span>➕ New Rule... (قاعدة جديدة)</span></div>
+    <div class="xl-dropdown-item" onclick="applyCondRule('clearRules')"><span>🧹 Clear Rules (مسح القواعد)</span></div>
+    <div class="xl-dropdown-item" onclick="showToast('قواعد التنسيق الفعالة: ناجح >=50 أخضر، راسب <50 أحمر')"><span>⚙️ Manage Rules... (إدارة القواعد)</span></div>
+  </div>
+
+  <!-- قائمة Format as Table (ص2 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-table-style">
+    <div class="xl-dropdown-header">Format as Table (تنسيق كجدول - ص2)</div>
+    <div class="xl-dropdown-item" onclick="formatAsTableStyle('#dcfce7')"><span>🟩 نمط جدول أخضر (Excel Green)</span></div>
+    <div class="xl-dropdown-item" onclick="formatAsTableStyle('#dbeafe')"><span>🟦 نمط جدول أزرق (Medium Blue)</span></div>
+    <div class="xl-dropdown-item" onclick="formatAsTableStyle('#fef9c3')"><span>🟨 نمط جدول ذهبي (Gold Table)</span></div>
+  </div>
+
+  <!-- قائمة Insert خلايا (ص3 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-cells-insert">
+    <div class="xl-dropdown-header">Insert (أمر إدراج - مجموعة خلايا ص3)</div>
+    <div class="xl-dropdown-item" onclick="insertCellsShiftDown()"><span>⊞ Insert Cells... (إدراج خلايا وإزاحة للأسفل)</span></div>
+    <div class="xl-dropdown-item" onclick="insertRowAtActive()"><span>➕ Insert Sheet Rows (إدراج صف في الورقة)</span></div>
+    <div class="xl-dropdown-item" onclick="showToast('تم إدراج عمود جديد في ورقة العمل (Insert Sheet Columns)')"><span>➕ Insert Sheet Columns (إدراج عمود)</span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="switchSheet('lec3')"><span>📄 Insert Sheet (إدراج/فتح ورقة عمل)</span></div>
+  </div>
+
+  <!-- قائمة Delete خلايا (ص3 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-cells-delete">
+    <div class="xl-dropdown-header">Delete (أمر حذف - مجموعة خلايا ص3)</div>
+    <div class="xl-dropdown-item" onclick="clearActionType('all')"><span>⊟ Delete Cells... (حذف الخلايا المحددة)</span></div>
+    <div class="xl-dropdown-item" onclick="deleteRowAtActive()"><span>➖ Delete Sheet Rows (حذف الصف الحالي)</span></div>
+    <div class="xl-dropdown-item" onclick="showToast('تم حذف العمود المحدد (Delete Sheet Columns)')"><span>➖ Delete Sheet Columns (حذف عمود)</span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="showToast('لا يمكن حذف الورقة الأساسية للامتحان')"><span>🗑️ Delete Sheet (حذف ورقة العمل)</span></div>
+  </div>
+
+  <!-- قائمة Format تنسيق خلايا (ص3 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-cells-format">
+    <div class="xl-dropdown-header">Format (أمر تنسيق - مجموعة خلايا ص3)</div>
+    <div class="xl-dropdown-item" onclick="promptRowHeight()"><span>↕️ Row Height... (ارتفاع الصف)</span></div>
+    <div class="xl-dropdown-item" onclick="autoFitCells()"><span>📏 AutoFit Row Height (احتواء تلقائي للارتفاع)</span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="promptColWidth()"><span>↔️ Column Width... (عرض العمود)</span></div>
+    <div class="xl-dropdown-item" onclick="autoFitCells()"><span>📐 AutoFit Column Width (احتواء تلقائي للعرض)</span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="toggleHideActiveRow()"><span>👁️ Hide & Unhide Rows (إخفاء/إظهار الصفوف)</span></div>
+    <div class="xl-dropdown-item" onclick="renameActiveSheetPrompt()"><span>✏️ Rename Sheet (إعادة تسمية الورقة)</span></div>
+  </div>
+
+  <!-- قائمة AutoSum (ص5 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-autosum">
+    <div class="xl-dropdown-header">∑ AutoSum (الجمع التلقائي - ص5)</div>
+    <div class="xl-dropdown-item" onclick="startAutoSumStep('SUM')"><span><b>∑ Sum</b> (دالة الجمع)</span></div>
+    <div class="xl-dropdown-item" onclick="startAutoSumStep('AVERAGE')"><span><b>Average</b> (دالة المعدل)</span></div>
+    <div class="xl-dropdown-item" onclick="startAutoSumStep('COUNT')"><span><b>Count Numbers</b> (دالة حساب الأرقام)</span></div>
+    <div class="xl-dropdown-item" onclick="startAutoSumStep('MAX')"><span><b>Max</b> (أعلى قيمة)</span></div>
+    <div class="xl-dropdown-item" onclick="startAutoSumStep('MIN')"><span><b>Min</b> (أدنى قيمة)</span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="startAutoSumStep('IF')"><span><b>More Functions...</b> (دوال إضافية - دالة IF)</span></div>
+  </div>
+
+  <!-- قائمة Fill ملئ (ص9 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-fill">
+    <div class="xl-dropdown-header">Fill (أمر ملئ - ص9 + سؤال الواجب)</div>
+    <div class="xl-dropdown-item" onclick="fillDirection('down')"><span>↓ <b>Down</b> (ملئ للأسفل - تعميم المعادلة)</span></div>
+    <div class="xl-dropdown-item" onclick="fillDirection('right')"><span>→ <b>Right</b> (ملئ لليمين)</span></div>
+    <div class="xl-dropdown-item" onclick="fillDirection('up')"><span>↑ <b>Up</b> (ملئ للأعلى)</span></div>
+    <div class="xl-dropdown-item" onclick="fillDirection('left')"><span>← <b>Left</b> (ملئ لليسار)</span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="showToast('تم نسخ الخلايا عبر أوراق العمل Across Worksheets')"><span>📑 Across Worksheets...</span></div>
+    <div class="xl-dropdown-item" onclick="fillNumberSeries()"><span>🔢 Series... (سلسلة أرقام تلقائية 1, 2, 3...)</span></div>
+    <div class="xl-dropdown-item" onclick="showToast('تم ضبط النص داخل النطاق Justify')"><span>☰ Justify (ضبط)</span></div>
+    <div class="xl-dropdown-item" onclick="fillDirection('down')"><span>⚡ Flash Fill (تعبئة سريعة)</span></div>
+  </div>
+
+  <!-- قائمة Clear مسح (ص9 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-clear">
+    <div class="xl-dropdown-header">Clear (أمر مسح - ص9 + سؤال الواجب)</div>
+    <div class="xl-dropdown-item" onclick="clearActionType('all')"><span>🧹 <b>Clear All</b> (مسح الكل: محتوى وتنسيق)</span></div>
+    <div class="xl-dropdown-item" onclick="clearActionType('formats')"><span>🎨 <b>Clear Formats</b> (مسح التنسيق فقط وبقاء النص)</span></div>
+    <div class="xl-dropdown-item" onclick="clearActionType('contents')"><span>📝 <b>Clear Contents</b> (مسح المحتوى فقط وبقاء اللون)</span></div>
+    <div class="xl-dropdown-item" onclick="showToast('تم مسح التعليقات Clear Comments')"><span>💬 <b>Clear Comments</b> (مسح التعليقات)</span></div>
+    <div class="xl-dropdown-item" onclick="clearActionType('formats')"><span>🔗 <b>Clear Hyperlinks</b> (مسح الارتباطات)</span></div>
+    <div class="xl-dropdown-item" onclick="clearActionType('formats')"><span>❌ <b>Remove Hyperlinks</b> (إزالة الارتباطات)</span></div>
+  </div>
+
+  <!-- قائمة Sort & Filter ترتيب وتصفية (ص10 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-sort">
+    <div class="xl-dropdown-header">Sort & Filter (ترتيب وتصفية - ص10 + الواجب)</div>
+    <div class="xl-dropdown-item" onclick="sortStudentsAsc()"><span>🔼 <b>Sort Ascending (A to Z / Smallest to Largest)</b><br><small style="color:#64748b;">ترتيب تصاعدي من أ إلى ي أو من الأصغر للأكبر</small></span></div>
+    <div class="xl-dropdown-item" onclick="sortStudentsDesc()"><span>🔽 <b>Sort Descending (Z to A / Largest to Smallest)</b><br><small style="color:#64748b;">ترتيب تنازلي من ي إلى أ أو من الأكبر للأصغر</small></span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="openSlicerModal()"><span>🌪️ <b>Filter</b> (تصفية الناجحين والراسبين)</span></div>
+  </div>
+
+  <!-- قائمة Find & Select بحث واختيار (ص11 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-find">
+    <div class="xl-dropdown-header">Find & Select (بحث واختيار - ص11)</div>
+    <div class="xl-dropdown-item" onclick="findStudentPrompt()"><span>🔍 <b>Find...</b> (بحث عن اسم طالب أو رقم)</span></div>
+    <div class="xl-dropdown-item" onclick="replacePrompt()"><span>🔄 <b>Replace...</b> (استبدال قيمة بأخرى)</span></div>
+    <div class="xl-dropdown-item" onclick="goToCellPrompt()"><span>➡️ <b>Go To...</b> (الانتقال إلى خلية مثل A6 أو G4)</span></div>
+    <div class="xl-dropdown-item" onclick="highlightSpecialCells('formulas')"><span>✨ <b>Go To Special...</b> (الانتقال إلى خاص)</span></div>
+    <div class="xl-dropdown-sep"></div>
+    <div class="xl-dropdown-item" onclick="highlightSpecialCells('formulas')"><span>ƒx <b>Formulas</b> (تحديد كل الخلايا التي بها معادلات)</span></div>
+    <div class="xl-dropdown-item" onclick="showToast('لا توجد تعليقات مضافة حالياً')"><span>💬 <b>Comments</b> (التعليقات)</span></div>
+    <div class="xl-dropdown-item" onclick="highlightSpecialCells('cond')"><span>🎨 <b>Conditional Formatting</b> (تحديد خلايا التنسيق الشرطي)</span></div>
+    <div class="xl-dropdown-item" onclick="highlightSpecialCells('constants')"><span>🔢 <b>Constants</b> (تحديد الثوابت والأرقام)</span></div>
+    <div class="xl-dropdown-item" onclick="showToast('تم فحص التحقق من صحة البيانات Data Validation')"><span>✔ <b>Data Validation</b> (التحقق من صحة البيانات)</span></div>
+  </div>
+
+  <!-- قائمة Define Name (ص1 بالملزمة) -->
+  <div class="xl-dropdown-menu" id="menu-define-name">
+    <div class="xl-dropdown-header">Defined Names (مجموعة تعريف الأسماء - ص1)</div>
+    <div class="xl-dropdown-item" onclick="openDefinedNamesModal()"><span>🏷️ <b>Define Name...</b> (تعريف اسم للنطاق)</span></div>
+    <div class="xl-dropdown-item" onclick="showToast('تم تطبيق الاسم المعرف Apply Names على المعادلة')"><span>✔ <b>Apply Names...</b> (تطبيق الأسماء)</span></div>
+  </div>
+
+  <!-- 5. شريط مدرب الامتحان العملي (10 تمارين شاملة للمحاضرة 3) -->
   <div class="exam-bar" id="examBar">
     <div class="exam-top">
-      <span class="exam-title" id="examTitle">التمرين 1 من 8: دمج وتوسيط العنوان (Merge & Center)</span>
+      <span class="exam-title" id="examTitle">التمرين 1 من 10: تمرين المحاضرة 3 (جمع الخلايا A1:A5 بالخطوات الـ 5)</span>
       <div class="exam-actions">
         <button class="ex-btn" style="background:#334155;color:#fff;" onclick="prevTask()">◀ السابق</button>
         <button class="ex-btn" style="background:#334155;color:#fff;" onclick="nextTask()">التالي ▶</button>
         <button class="ex-btn" style="background:#dc2626;color:#fff;" onclick="toggleExamBar()">✕ إخفاء</button>
       </div>
     </div>
-    <div class="exam-desc" id="examDesc">حدد الخلايا من A1 إلى G1 ثم اضغط زر "دمج وتوسيط (Merge & Center)" في تبويب الصفحة الرئيسية.</div>
+    <div class="exam-desc" id="examDesc">اضغط "🪄 طبقها لي" أو افتح ورقة (تمرين المحاضرة 3) وحدد A6 ثم اضغط AutoSum ∑ ثم اضغط علامة الصح ✔ في شريط الصيغة.</div>
     <div class="exam-actions">
       <button class="ex-btn" style="background:#eab308;color:#1e293b;" onclick="checkCurrentTask()">✔ تحقق من إجابتي</button>
       <button class="ex-btn" style="background:#0284c7;color:#fff;" onclick="applyCurrentTask()">🪄 طبقها لي</button>
-      <button class="ex-btn" style="background:#166534;color:#fff;border:1px solid #86efac;" onclick="showTaskHint()">💡 الخطوات بالحاسوب</button>
+      <button class="ex-btn" style="background:#166534;color:#fff;border:1px solid #86efac;" onclick="showTaskHint()">💡 الخطوات بالملزمة</button>
     </div>
   </div>
 
-  <!-- شريط الصيغة (Formula Bar) كما في المحاضرة 3 -->
-  <div class="formula-bar">
-    <div class="name-box" id="nameBox">A4</div>
+  <!-- 6. شريط الصيغة (Formula Bar) مع صندوق الاسم وعلامة الخطأ ✕ وعلامة الصح ✔ و fx -->
+  <div class="formula-bar" id="formulaBarContainer">
+    <div class="name-box" id="nameBox" onclick="goToCellPrompt()" title="صندوق الاسم Name Box (اضغط للانتقال إلى خلية)">G4</div>
     <div class="fx-btns">
-      <button class="fx-btn" style="color:#dc2626;" onclick="cancelFormulaEdit()" title="إلغاء (علامة الخطأ)">✕</button>
-      <button class="fx-btn" style="color:#16a34a;" onclick="commitFormulaEdit()" title="إتمام المعادلة (علامة الصح)">✔</button>
-      <button class="fx-btn" style="color:#217346;font-style:italic;" onclick="insertAutoFunction('SUM')" title="إدراج دالة">fx</button>
+      <button class="fx-btn fx-btn-cancel" style="color:#dc2626;" onclick="cancelFormulaEdit()" title="علامة الخطأ ✕: إلغاء العملية الحسابية (ص5 بالملزمة)">✕</button>
+      <button class="fx-btn fx-btn-check" style="color:#16a34a;" onclick="commitFormulaEdit()" title="علامة الصح ✔: إتمام المعادلة وإظهار الناتج (ص5 و ص8 بالملزمة)">✔</button>
+      <button class="fx-btn" style="color:#217346;font-style:italic;" onclick="openDropdown(event, 'menu-autosum')" title="إدراج دالة Insert Function">fx</button>
     </div>
-    <input type="text" class="formula-input" id="formulaInput" placeholder="اكتب القيمة أو المعادلة هنا مثل =SUM(B4:D4)" onkeydown="if(event.key==='Enter') commitFormulaEdit()">
+    <input type="text" class="formula-input" id="formulaInput" placeholder="اكتب المعادلة مثل =SUM(A1:A5) ثم اضغط علامة الصح ✔" onkeydown="if(event.key==='Enter') commitFormulaEdit()">
   </div>
 
-  <!-- شريط أزرار المساعدة السريعة للهاتف -->
+  <!-- 7. شريط أزرار الهاتف السريعة -->
   <div class="mobile-helper">
-    <button class="m-chip fill-handle-btn" onclick="fillDownAction()">✚ سحب التعبئة</button>
+    <button class="m-chip fill-handle-btn" onclick="fillDirection('down')">✚ سحب التعبئة (Fill Down)</button>
     <button class="m-chip" id="rangeModeBtn" onclick="toggleRangeMode()">🔲 تحديد نطاق: متوقف</button>
+    <button class="m-chip" onclick="commitFormulaEdit()" style="background:#dcfce7;color:#166534;border-color:#22c55e;">✔ صح (إتمام المعادلة)</button>
+    <button class="m-chip" onclick="cancelFormulaEdit()" style="background:#fee2e2;color:#991b1b;border-color:#fca5a5;">✕ خطأ (إلغاء)</button>
     <button class="m-chip" onclick="appendFormulaText('=')">=</button>
     <button class="m-chip" onclick="appendFormulaText('SUM(')">SUM</button>
     <button class="m-chip" onclick="appendFormulaText('AVERAGE(')">AVERAGE</button>
     <button class="m-chip" onclick="appendFormulaText('IF(')">IF</button>
     <button class="m-chip" onclick="appendFormulaText(':')">:</button>
     <button class="m-chip" onclick="appendFormulaText(';')">;</button>
-    <button class="m-chip" onclick="appendFormulaText('>=50;')">>=50;</button>
     <button class="m-chip pass-chip" onclick="appendFormulaText('&quot;ناجح&quot;;')">"ناجح"</button>
     <button class="m-chip fail-chip" onclick="appendFormulaText('&quot;راسب&quot;)')">"راسب"</button>
   </div>
 
-  <!-- منطقة جدول الإكسل (Grid) -->
+  <!-- 8. شبكة الإكسل (Excel Grid) -->
   <div class="grid-wrapper" id="gridWrapper">
     <table class="excel-grid" id="excelGrid">
       <thead>
@@ -1365,27 +1474,27 @@
     </table>
   </div>
 
-  <!-- شريط أوراق العمل السفلي -->
+  <!-- 9. شريط أوراق العمل السفلي -->
   <div class="sheets-bar">
     <div class="sheet-tabs">
-      <div class="sheet-tab active" onclick="switchSheet('main')">المرحلة الثانية (أ + ب)</div>
-      <div class="sheet-tab" onclick="switchSheet('lec3')">تطبيق المحاضرة 3 (A1:A5)</div>
+      <div class="sheet-tab active" id="sheetTabMain" onclick="switchSheet('main')">درجات المرحلة الثانية (أ + ب)</div>
+      <div class="sheet-tab" id="sheetTabLec3" onclick="switchSheet('lec3')">تمرين المحاضرة 3 (A1:A5)</div>
     </div>
-    <div id="selectionStats" style="font-weight:700;color:#217346;">الناجحون: 9 | الراسبون: 1 (حيدر جبار)</div>
+    <div id="selectionStats" style="font-weight:700;color:#217346;">الناجحون: 9 (أخضر) | الراسبون: 1 (حيدر جبار - أحمر)</div>
   </div>
 
-  <!-- شريط الحالة السفلي -->
+  <!-- 10. شريط الحالة السفلي -->
   <div class="status-bar">
-    <span id="statusCellInfo">جاهز (Ready) | الخلية: A4</span>
-    <span id="statusCalcInfo">المجموع: 0 | المعدل: - | العدد: 0</span>
+    <span id="statusCellInfo">جاهز (Ready) | الخلية النشطة: G4</span>
+    <span id="statusCalcInfo">المجموع: 0 | المعدل: - | العدد: 1</span>
   </div>
 
 </div>
 
-<!-- ================= نافذة المخططات البيانية التفاعلية (من تبويب إدراج) ================= -->
+<!-- ================= النوافذ المنبثقة (المخططات، Slicer، الأسماء المعرفة، ملخص المحاضرة 3) ================= -->
 <div class="floating-panel" id="chartModal">
   <div class="floating-header">
-    <span id="chartModalTitle">📊 مخطط درجات طلاب المرحلة الثانية</span>
+    <span>📊 مخطط درجات طلاب المرحلة الثانية</span>
     <button onclick="closeModal('chartModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
   </div>
   <div class="floating-body">
@@ -1401,111 +1510,138 @@
   </div>
 </div>
 
-<!-- ================= نافذة مقسم طريقة العرض (Slicer) ================= -->
-<div class="floating-panel" id="slicerModal" style="max-width:300px;">
+<div class="floating-panel" id="slicerModal" style="max-width:310px;">
   <div class="floating-header">
-    <span>🗂️ مقسم طريقة العرض (Slicer) - تصفية</span>
+    <span>🗂️ تصفية الطلاب (Filter / Slicer)</span>
     <button onclick="closeModal('slicerModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
   </div>
-  <div class="floating-body" style="display:flex;flex-direction:column;gap:5px;">
-    <p style="font-size:10px;color:#475569;">اختر الفئة لتصفية طلاب المرحلة الثانية فوراً:</p>
+  <div class="floating-body" style="display:flex;flex-direction:column;gap:6px;">
     <button class="ex-btn" style="background:#e2e8f0;color:#1e293b;" onclick="filterTableRows('ALL')">عرض جميع الطلاب (10)</button>
     <button class="ex-btn" style="background:#dcfce7;color:#166534;" onclick="filterTableRows('ناجح')">الطلاب الناجحون فقط (9) - أخضر</button>
-    <button class="ex-btn" style="background:#fee2e2;color:#991b1b;" onclick="filterTableRows('راسب')">الطلاب الراسبون فقط (حيدر جبار) - أحمر</button>
+    <button class="ex-btn" style="background:#fee2e2;color:#991b1b;" onclick="filterTableRows('راسب')">الراسبون فقط (حيدر جبار نعمه لهيب) - أحمر</button>
   </div>
 </div>
 
-<!-- ================= نافذة PivotTable ================= -->
 <div class="floating-panel" id="pivotModal" style="max-width:350px;">
   <div class="floating-header">
-    <span>📋 ملخص الجدول المحوري (PivotTable)</span>
+    <span>📋 ملخص PivotTable - المرحلة الثانية</span>
     <button onclick="closeModal('pivotModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
   </div>
   <div class="floating-body" id="pivotBody"></div>
 </div>
 
-<!-- ================= نافذة ملخص المحاضرة الثالثة والواجب البيتي ================= -->
-<div class="floating-panel" id="lectureModal">
+<div class="floating-panel" id="definedNamesModal" style="max-width:340px;">
   <div class="floating-header">
-    <span>📖 ملخص المحاضرة 3 (قسم الاقتصاد - المرحلة الثانية)</span>
-    <button onclick="closeModal('lectureModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
+    <span>🏷️ مجموعة تعريف الأسماء (Defined Names - ص1)</span>
+    <button onclick="closeModal('definedNamesModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
   </div>
   <div class="floating-body">
-    <p><b>1. تبويب الصيغ (Formulas):</b> يضم مجموعة تعريف الأسماء (<b>Defined Names</b>) ومكتبة الدوال.</p>
-    <hr style="margin:5px 0;">
-    <p><b>2. تبويب الصفحة الرئيسية (Home Tab):</b></p>
-    <ul style="padding-right:15px;">
-      <li><b>مجموعة رقم (Number):</b> لتنسيق قيم الخلايا (نسبة مئوية %، تاريخ، عملة $، أو أرقام General).</li>
-      <li><b>مجموعة أنماط (Styles):</b> تضم التنسيق الشرطي (<b>Conditional Formatting</b>)، وتنسيق كجدول (<b>Format as Table</b>)، وأنماط الخلايا (Normal, Good, Bad, Neutral).</li>
-      <li><b>مجموعة خلايا (Cells):</b> تضم أوامر إدراج (<b>Insert</b>) وحذف (<b>Delete</b>) وتنسيق (<b>Format</b> لتحديد ارتفاع وعرض الخلية وإخفاء/إظهار أو إعادة تسمية الورقة).</li>
-      <li><b>مجموعة تحرير (Editing):</b> تضم الجمع التلقائي <b>AutoSum ∑</b> (Sum, Average, Count Numbers, Max, Min)، وتعبئة <b>Fill</b>، ومسح <b>Clear</b>، وفرز <b>Sort & Filter</b>، وبحث <b>Find & Select</b>.</li>
-    </ul>
-    <hr style="margin:5px 0;">
-    <p style="background:#fef9c3;padding:4px;border-right:3px solid #eab308;"><b>⚠️ ملاحظة الملزمة المهمة جداً:</b> برنامج Excel 2013 لا يتعامل مع الأرقام مباشرة وإنما يتعامل مع <b>عناوين الخلايا</b>؛ أي لا يفهم <code>1+1</code> وإنما يفهم <code>=A1+A2</code>، ونضغط علامة الصح <b>✔</b> في شريط الصيغة لإتمام المعادلة (أو اضغط زر <b>تطبيق المحاضرة 3 (A1:A5)</b> في الأسفل لتجربتها عملياً).</p>
-    <hr style="margin:5px 0;">
-    <p><b>📝 حل الواجب البيتي (صفحة 10 بالملزمة):</b></p>
-    <p><b>س1/ ما الفرق بين ملئ Fill ومسح Clear؟</b><br>
-    • <b>ملئ (Fill):</b> أمر لملء الخلايا بنفس التنسيق والاتجاه على غرار القيم أو المعادلات السابقة (للأسفل Down أو اليمين Right أو الأعلى Up أو اليسار Left).<br>
-    • <b>مسح (Clear):</b> أمر لمسح كل شيء (Clear All) أو مسح التنسيق فقط (Clear Formats) أو مسح المحتوى فقط (Clear Contents) أو التعليقات.</p>
-    <p style="margin-top:4px;"><b>س2/ ما الفرق بين Sort Ascending و Sort Descending؟</b><br>
-    • <b>الترتيب التصاعدي (Sort Ascending A→Z):</b> يرتب الأسماء أبجدياً من (أ إلى ي / A إلى Z) والأرقام من الأصغر إلى الأكبر.<br>
-    • <b>الترتيب التنازلي (Sort Descending Z→A):</b> يرتب الأسماء عكسياً من (ي إلى أ / Z إلى A) والأرقام من الأكبر إلى الأصغر.</p>
-    <hr style="margin:5px 0;">
-    <p><b>3. تبويب تخطيط الصفحة (Page Layout):</b> يضم مجموعة <b>Scale to Fit</b> (Width, Height, Scale) ومجموعة <b>Sheet Options</b> لعكس اتجاه الورقة (<b>Sheet Right-to-Left</b>) وإظهار أو طباعة خطوط الشبكة (Gridlines) والعناوين (Headings).</p>
+    <p style="margin-bottom:6px;">تقع مجموعة <b>Defined Names</b> داخل تبويب الصيغ أو المعادلات (<b>Formulas</b>) وتسمح بتسمية نطاق خلايا لاستخدامه داخل المعادلات:</p>
+    <div style="background:#f8fafc;border:1px solid #cbd5e1;padding:6px;margin-bottom:8px;">
+      <div>الاسم المعرف: <b>درجات_الاقتصاد</b></div>
+      <div>النطاق: <code>=Sheet1!$B$4:$D$13</code></div>
+    </div>
+    <button class="ex-btn" style="background:#217346;color:#fff;width:100%;" onclick="closeModal('definedNamesModal'); showToast('تم حفظ الاسم المعرف في Name Manager ✔')">حفظ وإغلاق</button>
   </div>
 </div>
 
-<!-- ================= نافذة دليل المختبر والماوس ================= -->
-<div class="floating-panel" id="mouseModal">
+<!-- نافذة ملخص المحاضرة الثالثة الشامل مع حل الواجب -->
+<div class="floating-panel" id="lectureModal">
   <div class="floating-header">
-    <span>🖱️ دليل المختبر وأشكال الماوس بالحاسوب</span>
-    <button onclick="closeModal('mouseModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
+    <span>📖 ملخص المحاضرة الثالثة الكامل + حل الواجب البيتي</span>
+    <button onclick="closeModal('lectureModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
   </div>
   <div class="floating-body">
-    <p><b>1. الزائد الأبيض العريض (➕):</b> يظهر وسط الخلية ويستخدم لتحديد الخلايا (Selection).</p>
-    <p><b>2. الزائد الأسود الرفيع (✚ مقبض التعبئة):</b> يظهر في الزاوية السفلى للخلية النشطة، نسحبه بالماوس لتعميم المعادلة لباقي الطلاب (في الهاتف اضغط زر <b>✚ سحب التعبئة</b> الأخضر).</p>
-    <p><b>3. السهم الرباعي (✥):</b> يظهر على حافة الخلية ويستخدم لنقل الخلية ومحتواها لمكان آخر.</p>
+    <p><b>📌 أولاً: الصور في الصفحة 1 من الملزمة:</b><br>
+    1️⃣ <b>تبويب الصيغ أو المعادلات (Formulas)</b>.<br>
+    2️⃣ <b>مجموعة تعريف الأسماء (Defined Names)</b>: وتضم `Define Name` و `Name Manager`.<br>
+    3️⃣ <b>شريط العنوان</b>: `Book1 - Excel (Product Activation Failed)`.</p>
+    <hr style="margin:6px 0;">
+    <p><b>📌 ثانياً: تبويب الصفحة الرئيسة (Home Tab):</b></p>
+    <ul style="padding-right:16px;">
+      <li><b>1- مجموعة رقم (Number):</b> لتنسيق كيفية عرض قيم الخلايا (نسبة مئوية `%` أو تأريخ أو عملة `$` أو أرقام `General`).</li>
+      <li><b>2- مجموعة أنماط (Styles):</b> للتحكم في تنسيق ونمط الخلايا، وتشمل التنسيق الشرطي (<b>Conditional Formatting</b>) وتنسيق كجدول (<b>Format as Table</b>) وأنماط الخلية (`Normal`, `Bad`, `Good`, `Neutral`).</li>
+      <li><b>3- مجموعة خلايا (Cells):</b> وتشمل 3 أوامر:
+        <br>• <b>إدراج Insert:</b> لإدراج خلايا أو أعمدة أو صفوف أو ورقة عمل.
+        <br>• <b>حذف Delete:</b> لحذف خلايا أو أعمدة أو صفوف أو ورقة عمل.
+        <br>• <b>تنسيق Format:</b> لتحديد حجم الخلية (ارتفاع وعرض واحتواء) وإخفاء وإظهار الخلايا ونقل وإعادة تسمية ورقة العمل.</li>
+      <li><b>4- مجموعة تحرير (Editing):</b> وتشمل:
+        <br>• <b>الجمع التلقائي AutoSum ∑:</b> ويضم (`Sum` دالة الجمع، `Average` دالة المعدل، `Count Numbers` دالة حساب، `Max`، `Min`، `More Functions`).</li>
+    </ul>
+    <hr style="margin:6px 0;">
+    <p style="background:#eff6ff;padding:6px;border-right:3px solid #2563eb;"><b>🔢 خطوات جمع الخلايا `A1 + A2 + A3 + A4 + A5` (صفحة 5 إلى 8):</b><br>
+    1. نقوم بإدخال الأرقام (1، 2، 3، 4، 5) في الخلايا `A1:A5`.<br>
+    2. نحدد الخلية `A6` كخلية نشطة بالزر الأيسر للماوس.<br>
+    3. نضغط على علامة الجمع `∑ AutoSum` في مجموعة تحرير `Editing`.<br>
+    4. تظهر المعادلة `=SUM(A1:A5)` في شريط الصيغة وفي الخلية النشطة.<br>
+    5. نضغط على <b>علامة الصح ✔</b> في شريط الصيغة لإتمام المعادلة وإظهار الناتج (15)، أو <b>علامة الخطأ ✕</b> لإلغائها.<br>
+    <i>* وبنفس الخطوات نحصل على المعدل باختيار `Average`.</i></p>
+    <p style="background:#fef9c3;padding:5px;border-right:3px solid #eab308;margin-top:5px;"><b>⚠️ ملاحظة مهمة جداً (صفحة 8):</b> برنامج Excel 2013 لا يتعامل مع الأرقام مباشرة وإنما يتعامل مع <b>الخلايا</b>؛ فلا يفهم `1 + 1` وإنما يفهم `A1 + A2`.</p>
+    <hr style="margin:6px 0;">
+    <p><b>📝 حل الواجب البيتي (صفحة 10 بالملزمة):</b></p>
+    <p><b>س1/ ما الفرق بين ملئ Fill ومسح Clear؟</b><br>
+    • <b>ملئ (Fill):</b> هو أمر لملء الخلايا بنفس التنسيق والاتجاه على غرار القيم السابقة الموجودة إما للأسفل (`Down`) أو اليمين (`Right`) أو الأعلى (`Up`) أو اليسار (`Left`).<br>
+    • <b>مسح (Clear):</b> هو أمر لمسح التنسيق (`Clear Formats`) أو محتوى الخلية (`Clear Contents`) أو مسح الكل (`Clear All`) أو التعليقات أو الارتباطات.</p>
+    <p style="margin-top:4px;"><b>س2/ ما الفرق بين Sort Ascending و Sort Descending؟</b><br>
+    • <b>الترتيب التصاعدي (Sort Ascending / Smallest to Largest):</b> يرتب الأسماء أبجدياً من (أ إلى ي أو A إلى Z)، ويرتب الأرقام من أصغر رقم إلى أكبر رقم.<br>
+    • <b>الترتيب التنازلي (Sort Descending / Largest to Smallest):</b> يرتب الأسماء تنازلياً من (ي إلى أ أو Z إلى A)، ويرتب الأرقام من أكبر رقم إلى أصغر رقم.</p>
+    <hr style="margin:6px 0;">
+    <p><b>📌 ثالثاً: تبويب تخطيط الصفحة (Page Layout Tab - ص11 وص12):</b><br>
+    1. <b>مجموعة تغيير الحجم لغرض الملائمة (Scale to Fit):</b> لتحديد طول وعرض الخلية (`Width`, `Height`, `Scale`) ليتم طباعة المستند كاملاً في عدد محدد من الأوراق.<br>
+    2. <b>مجموعة خيارات الورقة (Sheet Options):</b> لقلب اتجاه الورقة من اليمين إلى اليسار وبالعكس (`Sheet Right-to-Left`)، والتحكم في إظهار (`View`) أو طباعة (`Print`) خطوط الشبكة (`Gridlines`) والعناوين (`Headings`).</p>
   </div>
 </div>
 
 <div class="toast-msg" id="toastMsg"></div>
 
 <script>
-  // البيانات الأساسية: 5 أولاد + 5 بنات من قوائم المرحلة الثانية (شعبة أ و ب)
-  // جميع الطلاب ناجحون (أخضر) ما عدا حيدر جبار نعمه لهيب راسب (أحمر)
   const COLS = ['A','B','C','D','E','F','G','H'];
-  const ROWS = 18;
+  let totalRows = 18;
 
   let currentSheet = 'main';
   let activeCellId = 'G4';
-  let rangeStartId = null;
+  let rangeStartId = 'G4';
   let selectedRangeIds = ['G4'];
   let rangeMode = false;
   let showFormulasMode = false;
+  let pendingFormulaBeforeEdit = null;
+  let isWaitingConfirm = false;
   let clipboardData = null;
+  let formatPainterStyle = null;
   let isArabicUI = true;
-  let sortAscState = true;
+  let hiddenRows = new Set();
 
   let cellsData = {};
 
   function createEmptyGrid() {
     const obj = {};
-    for (let r = 1; r <= ROWS; r++) {
+    for (let r = 1; r <= totalRows; r++) {
       for (let c of COLS) {
-        obj[c + r] = { raw: '', val: '', style: {}, spark: null, merged: false, hiddenByMerge: false, colspan: 1 };
+        obj[c + r] = {
+          raw: '',
+          val: '',
+          style: {},
+          spark: null,
+          dataBar: 0,
+          iconSet: '',
+          merged: false,
+          hiddenByMerge: false,
+          colspan: 1,
+          traceHighlight: false
+        };
       }
     }
     return obj;
   }
 
+  // تهيئة ورقة درجات المرحلة الثانية (5 أولاد و5 بنات من شعبة أ و ب - حيدر جبار فقط راسب)
   function initMainSheetData() {
+    hiddenRows.clear();
     cellsData = createEmptyGrid();
 
-    // الصف 1: عنوان الجدول
     cellsData['A1'].raw = 'جامعة واسط - قسم الاقتصاد / درجات المرحلة الثانية (شعبة أ + ب)';
     cellsData['A1'].style = { fontWeight: 'bold', fontSize: '12px', backgroundColor: '#dcfce7', color: '#14532d', textAlign: 'center' };
 
-    // الصف 3: رؤوس الأعمدة
     const headers = [
       ['A3', 'اسم الطالب (المرحلة الثانية)'],
       ['B3', 'اقتصاد جزئي'],
@@ -1514,23 +1650,22 @@
       ['E3', 'المجموع SUM'],
       ['F3', 'المعدل AVERAGE'],
       ['G3', 'النتيجة IF'],
-      ['H3', 'خط المؤشر']
+      ['H3', 'ملاحظات / مؤشر']
     ];
     headers.forEach(([id, title]) => {
       cellsData[id].raw = title;
       cellsData[id].style = { fontWeight: 'bold', backgroundColor: '#217346', color: '#ffffff', textAlign: 'center' };
     });
 
-    // 10 طلاب (5 ولد + 5 بنات من قوائم شعبة أ و ب) - حيدر جبار فقط راسب والبقية ناجحون
     const students = [
-      // حيدر جبار (راسب - درجات أقل من 50)
+      // حيدر جبار نعمه لهيب (الوحيد الراسب - أحمر)
       { name: 'حيدر جبار نعمه لهيب', b: 35, c: 42, d: 38 },
-      // 4 أولاد ناجحون
+      // 4 أولاد ناجحون (أخضر)
       { name: 'زين العابدين احمد عبد الامير علي', b: 84, c: 78, d: 88 },
       { name: 'سجاد ياسر مجيد رشيد', b: 76, c: 82, d: 80 },
       { name: 'مصطفى رحمان علي كعيد', b: 88, c: 85, d: 92 },
       { name: 'حسن سعيد كاظم حمزه', b: 72, c: 75, d: 79 },
-      // 5 بنات ناجحات
+      // 5 بنات ناجحات (أخضر)
       { name: 'بتول ياس خضير كصيور', b: 91, c: 89, d: 95 },
       { name: 'شهد سعدون ظاهر عجه', b: 80, c: 77, d: 84 },
       { name: 'اسراء جاسم رزاق داود', b: 86, c: 90, d: 88 },
@@ -1539,7 +1674,7 @@
     ];
 
     students.forEach((st, idx) => {
-      const r = idx + 4; // الصفوف من 4 إلى 13
+      const r = idx + 4;
       cellsData['A' + r].raw = st.name;
       cellsData['B' + r].raw = String(st.b);
       cellsData['C' + r].raw = String(st.c);
@@ -1549,53 +1684,64 @@
       cellsData['G' + r].raw = `=IF(F${r}>=50;"ناجح";"راسب")`;
     });
 
-    // صفوف أعلى وأقل درجة
     cellsData['A14'].raw = 'أعلى درجة (MAX)';
     cellsData['A14'].style = { fontWeight: 'bold', backgroundColor: '#f1f5f9' };
     cellsData['B14'].raw = '=MAX(B4:B13)';
     cellsData['C14'].raw = '=MAX(C4:C13)';
     cellsData['D14'].raw = '=MAX(D4:D13)';
 
-    cellsData['A15'].raw = 'أقل درجة (MIN)';
+    cellsData['A15'].raw = 'أدنى درجة (MIN)';
     cellsData['A15'].style = { fontWeight: 'bold', backgroundColor: '#f1f5f9' };
     cellsData['B15'].raw = '=MIN(B4:B13)';
     cellsData['C15'].raw = '=MIN(C4:C13)';
     cellsData['D15'].raw = '=MIN(D4:D13)';
 
+    cellsData['A16'].raw = 'عدد الطلاب (COUNT)';
+    cellsData['A16'].style = { fontWeight: 'bold', backgroundColor: '#f1f5f9' };
+    cellsData['B16'].raw = '=COUNT(B4:B13)';
+
     recalcAll();
   }
 
-  // ورقة تطبيق مثال المحاضرة الثالثة (الأرقام 1 إلى 5 في A1:A5 والناتج في A6)
+  // تهيئة ورقة تمرين المحاضرة الثالثة (صفحة 5 إلى 8: الأرقام 1 إلى 5 في A1:A5 وحساب المجموع في A6)
   function initLecture3SheetData() {
+    hiddenRows.clear();
     cellsData = createEmptyGrid();
     cellsData['A1'].raw = '1';
     cellsData['A2'].raw = '2';
     cellsData['A3'].raw = '3';
     cellsData['A4'].raw = '4';
     cellsData['A5'].raw = '5';
-    cellsData['A6'].raw = '=SUM(A1:A5)';
-    cellsData['A6'].style = { fontWeight: 'bold', backgroundColor: '#dcfce7', color: '#166534' };
-    cellsData['B6'].raw = '← ناتج جمع الخلايا =SUM(A1:A5) كما في الملزمة ص5';
+    cellsData['A6'].raw = ''; // جاهزة ليضغط الطالب على AutoSum ثم علامة الصح ✔
+    cellsData['A6'].style = { fontWeight: 'bold', backgroundColor: '#fef9c3' };
+
+    cellsData['C1'].raw = 'تمرين المحاضرة 3 (صفحة 5 - 8):';
+    cellsData['C1'].style = { fontWeight: 'bold', color: '#14532d' };
+    cellsData['C2'].raw = '1) الأرقام 1 إلى 5 موضوعة في A1:A5';
+    cellsData['C3'].raw = '2) الخلية النشطة المحددة الآن هي A6';
+    cellsData['C4'].raw = '3) اضغط زر (∑ AutoSum) في مجموعة تحرير';
+    cellsData['C5'].raw = '4) ستظهر =SUM(A1:A5) في الخلية وشريط الصيغة';
+    cellsData['C6'].raw = '5) اضغط علامة الصح ✔ لإظهار الناتج (15) أو ✕ للإلغاء';
+
     recalcAll();
   }
 
   function switchSheet(sheetName) {
     currentSheet = sheetName;
-    document.querySelectorAll('.sheet-tab').forEach((t, i) => {
-      t.classList.toggle('active', (sheetName === 'main' && i === 0) || (sheetName === 'lec3' && i === 1));
-    });
+    document.getElementById('sheetTabMain').classList.toggle('active', sheetName === 'main');
+    document.getElementById('sheetTabLec3').classList.toggle('active', sheetName === 'lec3');
+
     if (sheetName === 'main') {
       initMainSheetData();
       selectCell('G4');
-      showToast('تم فتح ورقة درجات المرحلة الثانية (شعبة أ + ب)');
+      showToast('تم فتح ورقة درجات طلاب المرحلة الثانية (شعبة أ + ب)');
     } else {
       initLecture3SheetData();
       selectCell('A6');
-      showToast('تم فتح ورقة تمرين المحاضرة الثالثة =SUM(A1:A5)');
+      showToast('تم فتح تمرين المحاضرة 3: الخلية A6 محددة، اضغط ∑ AutoSum ثم علامة الصح ✔');
     }
   }
 
-  // تقييم الصيغ الحسابية والمنطقية
   function getRangeValues(rangeStr) {
     const parts = rangeStr.toUpperCase().split(':');
     if (parts.length !== 2) return [];
@@ -1624,12 +1770,11 @@
     try {
       if (upper.startsWith('SUM(') && upper.endsWith(')')) {
         const inner = upper.slice(4, -1);
-        const nums = inner.includes(':') ? getRangeValues(inner) : inner.split(/[;,]/).map(x => parseFloat(cellsData[x.trim()]?.val || x));
+        const nums = inner.includes(':') ? getRangeValues(inner) : inner.split(/[;,+]/).map(x => parseFloat(cellsData[x.trim()]?.val || x));
         return nums.reduce((a, b) => a + (isNaN(b) ? 0 : b), 0);
       }
       if (upper.startsWith('AVERAGE(') && upper.endsWith(')')) {
-        const inner = upper.slice(8, -1);
-        const nums = getRangeValues(inner);
+        const nums = getRangeValues(upper.slice(8, -1));
         return nums.length ? Number((nums.reduce((a, b) => a + b, 0) / nums.length).toFixed(1)) : 0;
       }
       if ((upper.startsWith('COUNT(') || upper.startsWith('COUNTNUMBERS(')) && upper.endsWith(')')) {
@@ -1666,7 +1811,7 @@
           }
         }
       }
-      // عمليات الجمع البسيطة مثل =A1+A2
+      // معادلات الخلايا المباشرة مثل =A1+A2+A3+A4+A5 كما في شرح الملزمة ص8
       const replaced = upper.replace(/[A-Z]+[0-9]+/g, m => {
         const v = parseFloat(cellsData[m]?.val);
         return isNaN(v) ? 0 : v;
@@ -1681,12 +1826,12 @@
   }
 
   function recalcAll() {
-    // جولتان لضمان تحديث المعدل ثم دالة IF المعتمدة عليه
     for (let pass = 0; pass < 2; pass++) {
-      for (let r = 1; r <= ROWS; r++) {
+      for (let r = 1; r <= totalRows; r++) {
         for (let c of COLS) {
           const id = c + r;
           const cell = cellsData[id];
+          if (!cell) continue;
           if (cell.raw && String(cell.raw).startsWith('=')) {
             cell.val = evaluateFormula(cell.raw);
           } else {
@@ -1702,7 +1847,8 @@
     const tbody = document.getElementById('gridBody');
     tbody.innerHTML = '';
 
-    for (let r = 1; r <= ROWS; r++) {
+    for (let r = 1; r <= totalRows; r++) {
+      if (hiddenRows.has(r)) continue;
       const tr = document.createElement('tr');
       tr.dataset.row = r;
 
@@ -1716,38 +1862,43 @@
       for (let c of COLS) {
         const id = c + r;
         const cell = cellsData[id];
-        if (cell.hiddenByMerge) continue;
+        if (!cell || cell.hiddenByMerge) continue;
 
         const td = document.createElement('td');
         td.id = 'cell-' + id;
-        if (c === 'A' && r >= 4 && r <= 13 && currentSheet === 'main') {
+        if ((c === 'A' && r >= 4 && r <= 13 && currentSheet === 'main') || (c === 'C' && currentSheet === 'lec3')) {
           td.classList.add('col-name');
         }
         if (cell.colspan && cell.colspan > 1) {
           td.colSpan = cell.colspan;
         }
 
-        // عرض الصيغة أو القيمة
-        let displayVal = showFormulasMode && String(cell.raw).startsWith('=') ? cell.raw : cell.val;
+        // إذا كانت الخلية في وضع انتظار الضغط على علامة الصح ✔ (الخطوة 4 بالملزمة) نعرض الصيغة مباشرة داخل الخلية
+        let displayVal = (showFormulasMode || (isWaitingConfirm && id === activeCellId)) && String(cell.raw).startsWith('=')
+          ? cell.raw
+          : cell.val;
+
         if (cell.spark) {
           td.innerHTML = cell.spark;
+        } else if (cell.dataBar > 0) {
+          td.innerHTML = `<div class="data-bar-fill" style="width:${Math.min(96, cell.dataBar)}%;"></div><span class="cell-text-layer">${cell.iconSet ? cell.iconSet + ' ' : ''}${displayVal ?? ''}</span>`;
         } else {
-          td.textContent = displayVal !== undefined ? displayVal : '';
+          td.textContent = (cell.iconSet ? cell.iconSet + ' ' : '') + (displayVal !== undefined ? displayVal : '');
         }
 
-        // تطبيق الأنماط المخصصة
         Object.assign(td.style, cell.style);
 
-        // تلوين تلقائي فوري لخانة النتيجة: ناجح باللون الأخضر وراسب باللون الأحمر
+        // تلوين تلقائي فوري لخانة النتيجة: ناجح بالأخضر وراسب بالأحمر
         const textVal = String(cell.val).trim();
-        if (textVal === 'ناجح') {
+        if (textVal === 'ناجح' && !(isWaitingConfirm && id === activeCellId)) {
           td.classList.add('cell-pass');
-        } else if (textVal === 'راسب') {
+        } else if (textVal === 'راسب' && !(isWaitingConfirm && id === activeCellId)) {
           td.classList.add('cell-fail');
         }
 
         if (id === activeCellId) td.classList.add('active-cell');
         if (selectedRangeIds.includes(id)) td.classList.add('in-range');
+        if (cell.traceHighlight) td.classList.add('formula-range-highlight');
 
         td.onclick = () => handleCellTap(id);
         tr.appendChild(td);
@@ -1758,6 +1909,14 @@
   }
 
   function handleCellTap(id) {
+    if (formatPainterStyle) {
+      cellsData[id].style = { ...formatPainterStyle };
+      formatPainterStyle = null;
+      document.getElementById('formatPainterBtn')?.classList.remove('active-tool');
+      renderGrid();
+      showToast('تم لصق التنسيق (Format Painter) على الخلية ' + id);
+      return;
+    }
     if (rangeMode && rangeStartId) {
       selectRangeBetween(rangeStartId, id);
     } else {
@@ -1766,6 +1925,10 @@
   }
 
   function selectCell(id) {
+    isWaitingConfirm = false;
+    document.getElementById('formulaBarContainer').classList.remove('pending-confirm');
+    clearTraceHighlights();
+
     activeCellId = id;
     rangeStartId = id;
     selectedRangeIds = [id];
@@ -1795,16 +1958,66 @@
     btn.style.background = rangeMode ? '#dbeafe' : '#fff';
   }
 
+  // ================= الخطوات الـ 5 لدالة الجمع التلقائي AutoSum كما في الملزمة ص5-8 =================
+  function startAutoSumStep(fnName) {
+    const r = parseInt(activeCellId.slice(1));
+    const c = activeCellId.charAt(0);
+    let formula = '';
+    let highlightRange = [];
+
+    if (currentSheet === 'lec3' || (c === 'A' && r === 6)) {
+      formula = `=${fnName}(A1:A5)`;
+      highlightRange = ['A1','A2','A3','A4','A5'];
+    } else if (fnName === 'IF') {
+      const rowNum = (r >= 4 && r <= 13) ? r : 4;
+      formula = `=IF(F${rowNum}>=50;"ناجح";"راسب")`;
+      highlightRange = ['F' + rowNum];
+    } else if (fnName === 'MAX' || fnName === 'MIN' || fnName === 'COUNT') {
+      const colLet = (['B','C','D','E','F'].includes(c)) ? c : 'B';
+      formula = `=${fnName}(${colLet}4:${colLet}13)`;
+      for (let i = 4; i <= 13; i++) highlightRange.push(colLet + i);
+    } else {
+      const rowNum = (r >= 4 && r <= 13) ? r : 4;
+      formula = `=${fnName}(B${rowNum}:D${rowNum})`;
+      highlightRange = ['B' + rowNum, 'C' + rowNum, 'D' + rowNum];
+    }
+
+    pendingFormulaBeforeEdit = cellsData[activeCellId].raw;
+    cellsData[activeCellId].raw = formula;
+    document.getElementById('formulaInput').value = formula;
+
+    // تفعيل وضع الخطوة 4 بالملزمة: إظهار المعادلة في الخلية وشريط الصيغة وإضاءة علامة الصح ✔ والخطأ ✕
+    isWaitingConfirm = true;
+    document.getElementById('formulaBarContainer').classList.add('pending-confirm');
+    clearTraceHighlights();
+    highlightRange.forEach(id => { if (cellsData[id]) cellsData[id].traceHighlight = true; });
+
+    recalcAll();
+    showToast(`الخطوة 4: ظهرت المعادلة ${formula} في الخلية وشريط الصيغة — اضغط علامة الصح ✔ لإظهار الناتج أو ✕ للإلغاء!`);
+  }
+
+  // الخطوة 5 بالملزمة: الضغط على علامة الصح ✔ لإتمام المعادلة
   function commitFormulaEdit() {
     const val = document.getElementById('formulaInput').value;
     cellsData[activeCellId].raw = val;
+    isWaitingConfirm = false;
+    document.getElementById('formulaBarContainer').classList.remove('pending-confirm');
+    clearTraceHighlights();
     recalcAll();
-    showToast('تم إدخال القيمة / المعادلة في ' + activeCellId);
+    showToast(`✔ تم الضغط على علامة الصح! الناتج في ${activeCellId} هو: ${cellsData[activeCellId].val}`);
   }
 
+  // الضغط على علامة الخطأ ✕ لإلغاء المعادلة
   function cancelFormulaEdit() {
+    if (isWaitingConfirm && pendingFormulaBeforeEdit !== null) {
+      cellsData[activeCellId].raw = pendingFormulaBeforeEdit;
+    }
+    isWaitingConfirm = false;
+    document.getElementById('formulaBarContainer').classList.remove('pending-confirm');
+    clearTraceHighlights();
     document.getElementById('formulaInput').value = cellsData[activeCellId]?.raw || '';
-    showToast('تم إلغاء التعديل ✕');
+    recalcAll();
+    showToast('✕ تم الضغط على علامة الخطأ وإلغاء العملية الحسابية كما في المحاضرة 3');
   }
 
   function appendFormulaText(txt) {
@@ -1813,203 +2026,107 @@
       inp.value = '=' + inp.value;
     }
     inp.value += txt;
+    isWaitingConfirm = true;
+    document.getElementById('formulaBarContainer').classList.add('pending-confirm');
     inp.focus();
   }
 
-  // دالة الجمع التلقائي وبقية دوال المحاضرة 3
-  function insertAutoFunction(fnName) {
-    const r = parseInt(activeCellId.slice(1));
-    const c = activeCellId.charAt(0);
-    let formula = '';
+  // ================= أوامر مجموعة تحرير: Fill و Clear و Sort و Find (ص9 - ص11) =================
+  function fillDirection(dir) {
+    isWaitingConfirm = false;
+    document.getElementById('formulaBarContainer').classList.remove('pending-confirm');
+    clearTraceHighlights();
 
-    if (currentSheet === 'lec3' && activeCellId === 'A6') {
-      formula = `=${fnName}(A1:A5)`;
-    } else if (fnName === 'IF') {
-      const rowNum = (r >= 4 && r <= 13) ? r : 4;
-      formula = `=IF(F${rowNum}>=50;"ناجح";"راسب")`;
-    } else if (fnName === 'MAX' || fnName === 'MIN') {
-      const colLet = (['B','C','D','E','F'].includes(c)) ? c : 'B';
-      formula = `=${fnName}(${colLet}4:${colLet}13)`;
-    } else {
-      const rowNum = (r >= 4 && r <= 13) ? r : 4;
-      formula = `=${fnName}(B${rowNum}:D${rowNum})`;
-    }
-
-    cellsData[activeCellId].raw = formula;
-    document.getElementById('formulaInput').value = formula;
-    recalcAll();
-    showToast(`تم تطبيق دالة ${fnName} في الخلية ${activeCellId}`);
-  }
-
-  // أمر ملئ Fill وسحب التعبئة الذكي
-  function fillDownAction() {
     const col = activeCellId.charAt(0);
     const startRow = parseInt(activeCellId.slice(1));
     const srcRaw = cellsData[activeCellId]?.raw || '';
+    const srcStyle = { ...cellsData[activeCellId]?.style };
 
-    if (!srcRaw) {
-      showToast('الخلية النشطة فارغة، اكتب معادلة أولاً ثم اضغط سحب التعبئة');
-      return;
-    }
-
-    for (let r = 4; r <= 13; r++) {
-      if (r === startRow) continue;
-      const updatedFormula = String(srcRaw).replace(/([A-Z]+)(\d+)/g, (full, cLet, rNum) => {
-        return parseInt(rNum) === startRow ? cLet + r : full;
-      });
-      cellsData[col + r].raw = updatedFormula;
-    }
-    recalcAll();
-    showToast(`تم سحب التعبئة (Fill Down) للعمود ${col} لجميع الطلاب الـ 10 ✔`);
-  }
-
-  function clearCellAction() {
-    selectedRangeIds.forEach(id => {
-      cellsData[id].raw = '';
-      cellsData[id].val = '';
-      cellsData[id].style = {};
-      cellsData[id].spark = null;
-    });
-    document.getElementById('formulaInput').value = '';
-    recalcAll();
-    showToast('تم مسح الخلايا المحددة (Clear)');
-  }
-
-  // أوامر التنسيق في الصفحة الرئيسية
-  function formatActive(prop, val) {
-    selectedRangeIds.forEach(id => {
-      cellsData[id].style[prop] = val;
-    });
-    renderGrid();
-  }
-
-  function toggleStyle(prop, val) {
-    selectedRangeIds.forEach(id => {
-      cellsData[id].style[prop] = cellsData[id].style[prop] === val ? 'normal' : val;
-    });
-    renderGrid();
-  }
-
-  function applyAllBorders() {
-    selectedRangeIds.forEach(id => {
-      cellsData[id].style.border = '1.5px solid #1e293b';
-    });
-    renderGrid();
-    showToast('تم تطبيق كافة الحدود');
-  }
-
-  function toggleWrapText() {
-    selectedRangeIds.forEach(id => {
-      cellsData[id].style.whiteSpace = cellsData[id].style.whiteSpace === 'normal' ? 'nowrap' : 'normal';
-    });
-    renderGrid();
-    showToast('تم تبديل التفاف النص (Wrap Text)');
-  }
-
-  function mergeAndCenter() {
-    // دمج عنوان الجدول A1:G1
-    cellsData['A1'].merged = true;
-    cellsData['A1'].colspan = 7;
-    cellsData['A1'].style.textAlign = 'center';
-    ['B1','C1','D1','E1','F1','G1'].forEach(id => {
-      cellsData[id].hiddenByMerge = true;
-    });
-    renderGrid();
-    showToast('تم دمج وتوسيط العنوان (Merge & Center) من A1 إلى G1 ✔');
-  }
-
-  function applyNumberFormat(type) {
-    selectedRangeIds.forEach(id => {
-      const num = parseFloat(cellsData[id].val);
-      if (!isNaN(num)) {
-        if (type === 'currency') cellsData[id].raw = num + ' د.ع';
-        else if (type === 'percent') cellsData[id].raw = num + '%';
-        else if (type === 'comma') cellsData[id].raw = num.toLocaleString();
-      }
-    });
-    recalcAll();
-    showToast('تم تطبيق تنسيق الرقم (Number Format)');
-  }
-
-  function changeDecimals(dir) {
-    selectedRangeIds.forEach(id => {
-      const num = parseFloat(cellsData[id].val);
-      if (!isNaN(num)) {
-        cellsData[id].val = dir > 0 ? num.toFixed(2) : Math.round(num);
-      }
-    });
-    renderGrid();
-  }
-
-  function applyConditionalFormatting() {
-    for (let r = 4; r <= 13; r++) {
-      ['B','C','D','F'].forEach(c => {
-        const v = parseFloat(cellsData[c + r].val);
-        if (!isNaN(v)) {
-          if (v >= 50) {
-            cellsData[c + r].style.backgroundColor = '#dcfce7';
-            cellsData[c + r].style.color = '#166534';
-          } else {
-            cellsData[c + r].style.backgroundColor = '#fee2e2';
-            cellsData[c + r].style.color = '#991b1b';
-          }
+    if (dir === 'down') {
+      if (currentSheet === 'main' && startRow >= 4 && startRow <= 13) {
+        for (let r = 4; r <= 13; r++) {
+          if (r === startRow) continue;
+          const updatedFormula = String(srcRaw).replace(/([A-Z]+)(\d+)/g, (full, cLet, rNum) => {
+            return parseInt(rNum) === startRow ? cLet + r : full;
+          });
+          cellsData[col + r].raw = updatedFormula;
+          cellsData[col + r].style = { ...srcStyle };
         }
-      });
+        recalcAll();
+        showToast(`تم تنفيذ أمر ملئ للأسفل (Fill Down ↓) لتعميم المعادلة على جميع الطلاب ✔`);
+      } else if (startRow < totalRows) {
+        cellsData[col + (startRow + 1)].raw = srcRaw;
+        recalcAll();
+        showToast('تم ملئ الخلية للأسفل (Fill Down ↓)');
+      }
+    } else if (dir === 'up' && startRow > 1) {
+      cellsData[col + (startRow - 1)].raw = srcRaw;
+      recalcAll();
+      showToast('تم ملئ الخلية للأعلى (Fill Up ↑)');
+    } else if (dir === 'right') {
+      const cIdx = COLS.indexOf(col);
+      if (cIdx < COLS.length - 1) {
+        cellsData[COLS[cIdx + 1] + startRow].raw = srcRaw;
+        recalcAll();
+        showToast('تم ملئ الخلية لليمين (Fill Right →)');
+      }
+    } else if (dir === 'left') {
+      const cIdx = COLS.indexOf(col);
+      if (cIdx > 0) {
+        cellsData[COLS[cIdx - 1] + startRow].raw = srcRaw;
+        recalcAll();
+        showToast('تم ملئ الخلية لليسار (Fill Left ←)');
+      }
     }
-    renderGrid();
-    showToast('تم تطبيق التنسيق الشرطي (أخضر للناجح >=50 وأحمر للراسب <50)');
   }
 
-  function formatAsTableStyle() {
-    for (let r = 4; r <= 13; r++) {
-      const bg = r % 2 === 0 ? '#f0fdf4' : '#ffffff';
-      COLS.forEach(c => {
-        if (c !== 'G') cellsData[c + r].style.backgroundColor = bg;
-      });
+  function fillNumberSeries() {
+    const col = activeCellId.charAt(0);
+    for (let i = 1; i <= 5; i++) {
+      cellsData[col + i].raw = String(i);
     }
-    renderGrid();
-    showToast('تم تنسيق النطاق كجدول (Format as Table)');
+    recalcAll();
+    showToast(`تم ملئ سلسلة أرقام (1 إلى 5) في العمود ${col}`);
   }
 
-  function applyPresetStyle(styleName) {
-    const map = {
-      good: { backgroundColor: '#dcfce7', color: '#166534', fontWeight: 'bold' },
-      bad: { backgroundColor: '#fee2e2', color: '#991b1b', fontWeight: 'bold' },
-      neutral: { backgroundColor: '#fef9c3', color: '#854d0e', fontWeight: 'bold' },
-      normal: { backgroundColor: '#ffffff', color: '#000000', fontWeight: 'normal' }
-    };
+  function clearActionType(type) {
     selectedRangeIds.forEach(id => {
-      Object.assign(cellsData[id].style, map[styleName]);
+      if (type === 'all') {
+        cellsData[id].raw = '';
+        cellsData[id].val = '';
+        cellsData[id].style = {};
+        cellsData[id].spark = null;
+        cellsData[id].dataBar = 0;
+        cellsData[id].iconSet = '';
+      } else if (type === 'formats') {
+        cellsData[id].style = {};
+        cellsData[id].dataBar = 0;
+        cellsData[id].iconSet = '';
+      } else if (type === 'contents') {
+        cellsData[id].raw = '';
+        cellsData[id].val = '';
+        cellsData[id].spark = null;
+      }
     });
-    renderGrid();
+    document.getElementById('formulaInput').value = cellsData[activeCellId]?.raw || '';
+    recalcAll();
+    const msgMap = {
+      all: 'تم مسح الكل (Clear All: المحتوى والتنسيق)',
+      formats: 'تم مسح التنسيقات فقط (Clear Formats) مع بقاء الأرقام/النص',
+      contents: 'تم مسح المحتويات فقط (Clear Contents) مع بقاء الألوان والتنسيق'
+    };
+    showToast(msgMap[type]);
   }
 
-  function insertRowAction() {
-    showToast('تم إدراج صف جديد في ورقة العمل (Insert Row)');
-  }
-
-  function deleteRowAction() {
-    clearCellAction();
-    showToast('تم حذف محتوى الخلايا المحددة (Delete)');
-  }
-
-  function autoFitCells() {
-    showToast('تم احتواء تلقائي لعرض الأعمدة وارتفاع الصفوف (AutoFit Format)');
-  }
-
-  // الفرز الأبجدي التصاعدي والتنازلي (المحاضرة 3 ص10)
-  function sortStudentsAsc() {
-    sortStudentRows(true);
-  }
-  function sortStudentsDesc() {
-    sortStudentRows(false);
-  }
-  function toggleSortStudents() {
-    sortStudentRows(sortAscState);
-    sortAscState = !sortAscState;
-  }
+  // الفرز الأبجدي والرقمي (Sort Ascending & Sort Descending ص10)
+  function sortStudentsAsc() { sortStudentRows(true); }
+  function sortStudentsDesc() { sortStudentRows(false); }
 
   function sortStudentRows(asc) {
+    if (currentSheet !== 'main') {
+      showToast('انتقل إلى ورقة درجات المرحلة الثانية لترتيب الطلاب');
+      return;
+    }
     const rows = [];
     for (let r = 4; r <= 13; r++) {
       rows.push({
@@ -2019,7 +2136,14 @@
         d: cellsData['D' + r].raw
       });
     }
-    rows.sort((x, y) => asc ? x.name.localeCompare(y.name, 'ar') : y.name.localeCompare(x.name, 'ar'));
+    const col = activeCellId.charAt(0);
+    if (['B','C','D'].includes(col)) {
+      const key = col.toLowerCase();
+      rows.sort((x, y) => asc ? parseFloat(x[key]) - parseFloat(y[key]) : parseFloat(y[key]) - parseFloat(x[key]));
+    } else {
+      rows.sort((x, y) => asc ? x.name.localeCompare(y.name, 'ar') : y.name.localeCompare(x.name, 'ar'));
+    }
+
     rows.forEach((item, idx) => {
       const r = idx + 4;
       cellsData['A' + r].raw = item.name;
@@ -2031,23 +2155,363 @@
       cellsData['G' + r].raw = `=IF(F${r}>=50;"ناجح";"راسب")`;
     });
     recalcAll();
-    showToast(asc ? 'تم الترتيب التصاعدي (Sort Ascending أ → ي)' : 'تم الترتيب التنازلي (Sort Descending ي → أ)');
+    showToast(asc
+      ? 'تم الترتيب التصاعدي (Sort Ascending: الأسماء أ→ي أو الأرقام من الأصغر للأكبر)'
+      : 'تم الترتيب التنازلي (Sort Descending: الأسماء ي→أ أو الأرقام من الأكبر للأصغر)');
   }
 
+  // أوامر Find & Select (ص11)
   function findStudentPrompt() {
-    const q = prompt('اكتب اسم الطالب للبحث عنه في الجدول (مثلاً: حيدر أو بتول):');
+    const q = prompt('بحث (Find): اكتب اسم الطالب أو الرقم للبحث عنه (مثلاً: حيدر أو بتول):');
     if (!q) return;
-    for (let r = 4; r <= 13; r++) {
-      if (String(cellsData['A' + r].raw).includes(q.trim())) {
-        selectCell('A' + r);
-        showToast('تم العثور على الطالب في الخلية A' + r);
-        return;
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) {
+        if (String(cellsData[c + r]?.val).includes(q.trim())) {
+          selectCell(c + r);
+          showToast(`تم العثور على "${q}" في الخلية ${c + r}`);
+          return;
+        }
       }
     }
-    showToast('لم يتم العثور على الاسم المطلوب');
+    showToast('لم يتم العثور على النص المطلوب');
   }
 
-  // ================= وظائف تبويب إدراج (INSERT) الكاملة =================
+  function replacePrompt() {
+    const oldTxt = prompt('استبدال (Replace) - اكتب القيمة الحالية المراد استبدالها:');
+    if (!oldTxt) return;
+    const newTxt = prompt(`اكتب القيمة الجديدة بدلاً من "${oldTxt}":`);
+    if (newTxt === null) return;
+    let count = 0;
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) {
+        const id = c + r;
+        if (String(cellsData[id].raw).includes(oldTxt)) {
+          cellsData[id].raw = String(cellsData[id].raw).replace(oldTxt, newTxt);
+          count++;
+        }
+      }
+    }
+    recalcAll();
+    showToast(`تم استبدال ${count} خلية بنجاح (Replace)`);
+  }
+
+  function goToCellPrompt() {
+    const target = prompt('الانتقال إلى (Go To): اكتب عنوان الخلية (مثلاً A6 أو E4 أو G4):', activeCellId);
+    if (!target) return;
+    const clean = target.trim().toUpperCase();
+    if (cellsData[clean]) {
+      selectCell(clean);
+      showToast('تم الانتقال إلى الخلية ' + clean);
+    } else {
+      showToast('عنوان الخلية غير صحيح');
+    }
+  }
+
+  function highlightSpecialCells(type) {
+    selectedRangeIds = [];
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) {
+        const id = c + r;
+        const raw = String(cellsData[id]?.raw || '');
+        if (type === 'formulas' && raw.startsWith('=')) selectedRangeIds.push(id);
+        else if (type === 'constants' && raw !== '' && !raw.startsWith('=')) selectedRangeIds.push(id);
+        else if (type === 'cond' && (cellsData[id].val === 'ناجح' || cellsData[id].val === 'راسب' || cellsData[id].dataBar > 0)) selectedRangeIds.push(id);
+      }
+    }
+    renderGrid();
+    showToast(`تم تحديد ${selectedRangeIds.length} خلية مطابقة لأمر (${type})`);
+  }
+
+  // ================= أوامر مجموعة أنماط (Styles) ومجموعة خلايا (Cells) =================
+  function applyCondRule(ruleType) {
+    for (let r = 4; r <= 13; r++) {
+      ['B','C','D','F'].forEach(c => {
+        const id = c + r;
+        const v = parseFloat(cellsData[id]?.val);
+        if (isNaN(v)) return;
+
+        if (ruleType === 'clearRules') {
+          cellsData[id].style.backgroundColor = '';
+          cellsData[id].style.color = '';
+          cellsData[id].dataBar = 0;
+          cellsData[id].iconSet = '';
+        } else if (ruleType === 'highlightPassFail') {
+          cellsData[id].style.backgroundColor = v >= 50 ? '#dcfce7' : '#fee2e2';
+          cellsData[id].style.color = v >= 50 ? '#166534' : '#991b1b';
+        } else if (ruleType === 'topBottom') {
+          cellsData[id].style.backgroundColor = v >= 85 ? '#fef08a' : '';
+        } else if (ruleType === 'dataBars') {
+          cellsData[id].dataBar = v;
+        } else if (ruleType === 'colorScales') {
+          cellsData[id].style.backgroundColor = v >= 85 ? '#86efac' : (v >= 50 ? '#fef08a' : '#fca5a5');
+        } else if (ruleType === 'iconSets') {
+          cellsData[id].iconSet = v >= 80 ? '🟢' : (v >= 50 ? '🟡' : '🔴');
+        }
+      });
+    }
+    renderGrid();
+    showToast('تم تطبيق قاعدة التنسيق الشرطي (Conditional Formatting) ✔');
+  }
+
+  function formatAsTableStyle(colorHex) {
+    for (let r = 4; r <= 13; r++) {
+      const bg = r % 2 === 0 ? colorHex : '#ffffff';
+      COLS.forEach(c => {
+        if (c !== 'G') cellsData[c + r].style.backgroundColor = bg;
+      });
+    }
+    renderGrid();
+    showToast('تم تنسيق الجدول (Format as Table)');
+  }
+
+  function applyPresetStyle(styleName) {
+    const map = {
+      good: { backgroundColor: '#c6efce', color: '#006100', fontWeight: 'bold' },
+      bad: { backgroundColor: '#ffc7ce', color: '#9c0006', fontWeight: 'bold' },
+      neutral: { backgroundColor: '#ffeb9c', color: '#9c6500', fontWeight: 'bold' },
+      normal: { backgroundColor: '#ffffff', color: '#000000', fontWeight: 'normal' }
+    };
+    selectedRangeIds.forEach(id => {
+      Object.assign(cellsData[id].style, map[styleName]);
+    });
+    renderGrid();
+    showToast(`تم تطبيق نمط الخلية (${styleName.toUpperCase()})`);
+  }
+
+  function insertCellsShiftDown() {
+    const c = activeCellId.charAt(0);
+    const startR = parseInt(activeCellId.slice(1));
+    for (let r = totalRows; r > startR; r--) {
+      cellsData[c + r].raw = cellsData[c + (r - 1)].raw;
+    }
+    cellsData[activeCellId].raw = '';
+    recalcAll();
+    showToast('تم إدراج خلية وإزاحة الخلايا للأسفل (Insert Cells)');
+  }
+
+  function insertRowAtActive() {
+    const startR = parseInt(activeCellId.slice(1));
+    for (let r = totalRows; r > startR; r--) {
+      for (let c of COLS) {
+        cellsData[c + r].raw = cellsData[c + (r - 1)].raw;
+      }
+    }
+    for (let c of COLS) cellsData[c + startR].raw = '';
+    recalcAll();
+    showToast(`تم إدراج صف جديد رقم ${startR} (Insert Sheet Rows)`);
+  }
+
+  function deleteRowAtActive() {
+    const startR = parseInt(activeCellId.slice(1));
+    for (let r = startR; r < totalRows; r++) {
+      for (let c of COLS) {
+        cellsData[c + r].raw = cellsData[c + (r + 1)].raw;
+      }
+    }
+    recalcAll();
+    showToast(`تم حذف الصف رقم ${startR} (Delete Sheet Rows)`);
+  }
+
+  function promptRowHeight() {
+    const h = prompt('أدخل ارتفاع الصف بالبكسل (Row Height):', '28');
+    if (!h) return;
+    const r = activeCellId.slice(1);
+    COLS.forEach(c => { cellsData[c + r].style.height = h + 'px'; });
+    renderGrid();
+    showToast(`تم تغيير ارتفاع الصف ${r} إلى ${h}px`);
+  }
+
+  function promptColWidth() {
+    const w = prompt('أدخل عرض العمود بالبكسل (Column Width):', '110');
+    if (!w) return;
+    const c = activeCellId.charAt(0);
+    for (let r = 1; r <= totalRows; r++) {
+      cellsData[c + r].style.minWidth = w + 'px';
+    }
+    renderGrid();
+    showToast(`تم تغيير عرض العمود ${c} إلى ${w}px`);
+  }
+
+  function toggleHideActiveRow() {
+    const r = parseInt(activeCellId.slice(1));
+    if (hiddenRows.has(r)) {
+      hiddenRows.clear();
+      showToast('تم إظهار جميع الصفوف المخفية (Unhide Rows)');
+    } else {
+      hiddenRows.add(r);
+      showToast(`تم إخفاء الصف رقم ${r} (Hide Row) - اضغط مرة أخرى لإظهاره`);
+    }
+    renderGrid();
+  }
+
+  function renameActiveSheetPrompt() {
+    const tabEl = currentSheet === 'main' ? document.getElementById('sheetTabMain') : document.getElementById('sheetTabLec3');
+    const newName = prompt('إعادة تسمية الورقة (Rename Sheet):', tabEl.textContent);
+    if (newName) {
+      tabEl.textContent = newName;
+      showToast('تمت إعادة تسمية ورقة العمل إلى: ' + newName);
+    }
+  }
+
+  function autoFitCells() {
+    showToast('تم احتواء تلقائي لحجم الخلايا (AutoFit Column Width & Row Height)');
+  }
+
+  // ================= أوامر الخط والمحاذاة والرقم =================
+  function formatActive(prop, val) {
+    selectedRangeIds.forEach(id => { cellsData[id].style[prop] = val; });
+    renderGrid();
+  }
+
+  function stepFontSize(dir) {
+    const sel = document.getElementById('fontSizeSelect');
+    let nextVal = Math.max(9, Math.min(20, parseInt(sel.value) + dir));
+    sel.value = nextVal;
+    formatActive('fontSize', nextVal + 'px');
+  }
+
+  function rotateTextAngle() {
+    selectedRangeIds.forEach(id => {
+      cellsData[id].style.transform = cellsData[id].style.transform ? '' : 'rotate(-12deg)';
+    });
+    renderGrid();
+    showToast('تم تدوير زاوية النص (Orientation)');
+  }
+
+  function toggleStyle(prop, val) {
+    selectedRangeIds.forEach(id => {
+      cellsData[id].style[prop] = cellsData[id].style[prop] === val ? 'normal' : val;
+    });
+    renderGrid();
+  }
+
+  function applyAllBorders() {
+    selectedRangeIds.forEach(id => { cellsData[id].style.border = '1.5px solid #1e293b'; });
+    renderGrid();
+    showToast('تم تطبيق الحدود (Borders)');
+  }
+
+  function toggleWrapText() {
+    selectedRangeIds.forEach(id => {
+      cellsData[id].style.whiteSpace = cellsData[id].style.whiteSpace === 'normal' ? 'nowrap' : 'normal';
+    });
+    renderGrid();
+    showToast('تم تبديل التفاف النص (Wrap Text)');
+  }
+
+  function mergeAndCenter() {
+    cellsData['A1'].merged = true;
+    cellsData['A1'].colspan = 7;
+    cellsData['A1'].style.textAlign = 'center';
+    ['B1','C1','D1','E1','F1','G1'].forEach(id => { cellsData[id].hiddenByMerge = true; });
+    renderGrid();
+    showToast('تم دمج وتوسيط العنوان (Merge & Center) من A1 إلى G1 ✔');
+  }
+
+  function applyNumberFormat(type) {
+    selectedRangeIds.forEach(id => {
+      const rawNum = parseFloat(String(cellsData[id].val).replace(/[^0-9.-]/g, ''));
+      if (!isNaN(rawNum)) {
+        if (type === 'currency') cellsData[id].raw = rawNum + ' د.ع';
+        else if (type === 'percent') cellsData[id].raw = rawNum + '%';
+        else if (type === 'number') cellsData[id].raw = rawNum.toFixed(2);
+        else if (type === 'comma') cellsData[id].raw = rawNum.toLocaleString();
+        else if (type === 'date') cellsData[id].raw = '2026/10/23';
+        else cellsData[id].raw = String(rawNum);
+      }
+    });
+    recalcAll();
+    showToast('تم تطبيق تنسيق الرقم (Number Format - ص2)');
+  }
+
+  function changeDecimals(dir) {
+    selectedRangeIds.forEach(id => {
+      const num = parseFloat(cellsData[id].val);
+      if (!isNaN(num)) {
+        cellsData[id].val = dir > 0 ? num.toFixed(2) : Math.round(num);
+      }
+    });
+    renderGrid();
+    showToast(dir > 0 ? 'تمت زيادة المنازل العشرية (.00)' : 'تم إنقاص المنازل العشرية (.0)');
+  }
+
+  function activateFormatPainter() {
+    formatPainterStyle = { ...cellsData[activeCellId].style };
+    document.getElementById('formatPainterBtn')?.classList.add('active-tool');
+    showToast('نسخ التنسيق مفعل 🖌️: اضغط الآن على أي خلية لتطبيق نفس التنسيق عليها');
+  }
+
+  // ================= أوامر تبويب الصيغ وتخطيط الصفحة =================
+  function openDefinedNamesModal() {
+    document.getElementById('definedNamesModal').style.display = 'block';
+  }
+
+  function tracePrecedentsAction() {
+    clearTraceHighlights();
+    const raw = String(cellsData[activeCellId]?.raw || '').toUpperCase();
+    const matches = raw.match(/[A-Z]+[0-9]+/g) || [];
+    matches.forEach(id => { if (cellsData[id]) cellsData[id].traceHighlight = true; });
+    renderGrid();
+    showToast('تم تحديد الخلايا السابقة المغذية للمعادلة (Trace Precedents)');
+  }
+
+  function traceDependentsAction() {
+    clearTraceHighlights();
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) {
+        const id = c + r;
+        if (String(cellsData[id]?.raw).toUpperCase().includes(activeCellId)) {
+          cellsData[id].traceHighlight = true;
+        }
+      }
+    }
+    renderGrid();
+    showToast('تم تحديد الخلايا التابعة المعتمدة على هذه الخلية (Trace Dependents)');
+  }
+
+  function removeTraceArrows() {
+    clearTraceHighlights();
+    renderGrid();
+    showToast('تمت إزالة أسهم التتبع (Remove Arrows)');
+  }
+
+  function clearTraceHighlights() {
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) {
+        if (cellsData[c + r]) cellsData[c + r].traceHighlight = false;
+      }
+    }
+  }
+
+  function toggleSheetDirection() {
+    const wrap = document.getElementById('appWrapper');
+    const isLtr = wrap.classList.toggle('ltr-sheet');
+    document.getElementById('excelGrid').dir = isLtr ? 'ltr' : 'rtl';
+    showToast(isLtr ? 'تم قلب اتجاه الورقة من اليسار إلى اليمين (Left-to-Right)' : 'تم قلب اتجاه الورقة من اليمين إلى اليسار (Sheet Right-to-Left - ص12)');
+  }
+
+  function toggleGridlines(show) {
+    document.getElementById('excelGrid').classList.toggle('no-gridlines', !show);
+    showToast(show ? 'إظهار خطوط الشبكة (Gridlines View ☑)' : 'إخفاء خطوط الشبكة (Gridlines View ☐)');
+  }
+
+  function toggleHeadings(show) {
+    document.getElementById('excelGrid').classList.toggle('no-headings', !show);
+    showToast(show ? 'إظهار عناوين الأعمدة والصفوف (Headings View ☑)' : 'إخفاء العناوين (Headings View ☐)');
+  }
+
+  function setGridZoom(scale) {
+    document.getElementById('excelGrid').style.zoom = scale;
+    showToast('تم تغيير حجم الملائمة (Scale to Fit)');
+  }
+
+  function toggleShowFormulas() {
+    showFormulasMode = !showFormulasMode;
+    renderGrid();
+    showToast(showFormulasMode ? 'إظهار الصيغ داخل الخلايا (Show Formulas)' : 'إظهار النواتج النهائية');
+  }
+
+  // ================= أوامر تبويب إدراج (المخططات، Sparklines، Slicer) =================
   function openChartModal(type) {
     const modal = document.getElementById('chartModal');
     const area = document.getElementById('chartCanvasArea');
@@ -2055,9 +2519,9 @@
 
     const students = [];
     for (let r = 4; r <= 13; r++) {
-      const fullName = String(cellsData['A' + r].val || '');
+      const fullName = String(cellsData['A' + r]?.val || 'طالب');
       const shortName = fullName.split(' ').slice(0, 2).join(' ');
-      const avg = parseFloat(cellsData['F' + r].val) || 0;
+      const avg = parseFloat(cellsData['F' + r]?.val) || 0;
       students.push({ name: shortName, avg });
     }
 
@@ -2071,7 +2535,7 @@
           <span style="font-size:8.5px;writing-mode:vertical-rl;margin-top:4px;height:55px;text-align:right;">${s.name}</span>
         </div>`;
       }).join('');
-      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط عمودي (Column Chart) - معدلات الطلاب</div>
+      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط عمودي (Column Chart)</div>
         <div style="display:flex;align-items:flex-end;justify-content:space-around;height:195px;border-bottom:2px solid #475569;padding-top:15px;">${bars}</div>`;
     } else if (type === 'bar') {
       let bars = students.map(s => {
@@ -2085,21 +2549,21 @@
       }).join('');
       area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط شريطي (Bar Chart)</div><div>${bars}</div>`;
     } else if (type === 'pie' || type === 'doughnut') {
-      const radius = type === 'doughnut' ? 'circle cx="80" cy="80" r="30" fill="#f8fafc"' : '';
-      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">${type === 'pie' ? 'مخطط دائري (Pie Chart)' : 'مخطط دائري مجوف (Doughnut)'} - نسبة النجاح والرسوب</div>
+      const innerCircle = type === 'doughnut' ? '<circle cx="80" cy="80" r="30" fill="#f8fafc"/>' : '';
+      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط دائري لنسبة النجاح والرسوب</div>
         <svg width="160" height="160" viewBox="0 0 160 160">
           <circle cx="80" cy="80" r="65" fill="#16a34a"/>
           <path d="M80 80 L80 15 A65 65 0 0 1 118 27 Z" fill="#dc2626"/>
-          <${radius}/>
+          ${innerCircle}
         </svg>
         <div style="font-size:10.5px;margin-top:4px;">🟢 ناجح: <b>90% (9 طلاب)</b> | 🔴 راسب: <b>10% (حيدر جبار)</b></div>`;
-    } else if (type === 'line' || type === 'area' || type === 'scatter') {
+    } else {
       const pts = students.map((s, i) => `${20 + i * 32},${140 - s.avg * 1.2}`).join(' ');
       const circles = students.map((s, i) => `<circle cx="${20 + i * 32}" cy="${140 - s.avg * 1.2}" r="4" fill="${s.avg < 50 ? '#dc2626' : '#1d4ed8'}"/>`).join('');
       const poly = type === 'area'
         ? `<polygon points="20,140 ${pts} 308,140" fill="rgba(59,130,246,0.3)" stroke="#1d4ed8" stroke-width="2"/>`
         : (type === 'line' ? `<polyline points="${pts}" fill="none" stroke="#1d4ed8" stroke-width="2.2"/>` : '');
-      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط ${type === 'line' ? 'خطي (Line)' : (type === 'area' ? 'مساحي (Area)' : 'مبعثر (Scatter)')}</div>
+      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط بياني للدرجات</div>
         <svg width="100%" height="155" viewBox="0 0 330 155">
           <line x1="15" y1="140" x2="320" y2="140" stroke="#64748b"/>
           <line x1="15" y1="10" x2="15" y2="140" stroke="#64748b"/>
@@ -2108,57 +2572,36 @@
     }
   }
 
-  // رسم خطوط المؤشر (Sparklines) داخل العمود H لكل طالب
   function drawSparklines(type) {
     for (let r = 4; r <= 13; r++) {
-      const b = parseFloat(cellsData['B' + r].val) || 0;
-      const c = parseFloat(cellsData['C' + r].val) || 0;
-      const d = parseFloat(cellsData['D' + r].val) || 0;
+      const b = parseFloat(cellsData['B' + r]?.val) || 0;
+      const c = parseFloat(cellsData['C' + r]?.val) || 0;
+      const d = parseFloat(cellsData['D' + r]?.val) || 0;
       const isFail = (b + c + d) / 3 < 50;
       const clr = isFail ? '#dc2626' : '#1d4ed8';
 
       if (type === 'line') {
-        const y1 = 18 - Math.round(b / 7);
-        const y2 = 18 - Math.round(c / 7);
-        const y3 = 18 - Math.round(d / 7);
-        cellsData['H' + r].spark = `<svg width="58" height="18"><polyline points="5,${y1} 28,${y2} 52,${y3}" fill="none" stroke="${clr}" stroke-width="2"/></svg>`;
+        cellsData['H' + r].spark = `<svg width="58" height="18"><polyline points="5,${18-Math.round(b/7)} 28,${18-Math.round(c/7)} 52,${18-Math.round(d/7)}" fill="none" stroke="${clr}" stroke-width="2"/></svg>`;
       } else if (type === 'column') {
-        const h1 = Math.max(3, Math.round(b / 6));
-        const h2 = Math.max(3, Math.round(c / 6));
-        const h3 = Math.max(3, Math.round(d / 6));
-        cellsData['H' + r].spark = `<svg width="58" height="18">
-          <rect x="6" y="${18-h1}" width="10" height="${h1}" fill="${clr}"/>
-          <rect x="24" y="${18-h2}" width="10" height="${h2}" fill="${clr}"/>
-          <rect x="42" y="${18-h3}" width="10" height="${h3}" fill="${clr}"/>
-        </svg>`;
+        const h1 = Math.max(3, Math.round(b / 6)), h2 = Math.max(3, Math.round(c / 6)), h3 = Math.max(3, Math.round(d / 6));
+        cellsData['H' + r].spark = `<svg width="58" height="18"><rect x="6" y="${18-h1}" width="10" height="${h1}" fill="${clr}"/><rect x="24" y="${18-h2}" width="10" height="${h2}" fill="${clr}"/><rect x="42" y="${18-h3}" width="10" height="${h3}" fill="${clr}"/></svg>`;
       } else {
-        cellsData['H' + r].spark = `<svg width="58" height="18">
-          <line x1="2" y1="9" x2="56" y2="9" stroke="#94a3b8"/>
-          <rect x="6" y="${b>=50?2:9}" width="10" height="7" fill="${b>=50?'#16a34a':'#dc2626'}"/>
-          <rect x="24" y="${c>=50?2:9}" width="10" height="7" fill="${c>=50?'#16a34a':'#dc2626'}"/>
-          <rect x="42" y="${d>=50?2:9}" width="10" height="7" fill="${d>=50?'#16a34a':'#dc2626'}"/>
-        </svg>`;
+        cellsData['H' + r].spark = `<svg width="58" height="18"><line x1="2" y1="9" x2="56" y2="9" stroke="#94a3b8"/><rect x="6" y="${b>=50?2:9}" width="10" height="7" fill="${b>=50?'#16a34a':'#dc2626'}"/><rect x="24" y="${c>=50?2:9}" width="10" height="7" fill="${c>=50?'#16a34a':'#dc2626'}"/><rect x="42" y="${d>=50?2:9}" width="10" height="7" fill="${d>=50?'#16a34a':'#dc2626'}"/></svg>`;
       }
     }
     renderGrid();
-    showToast('تم إدراج خطوط المؤشر (Sparklines) في العمود H لجميع الطلاب ✔');
+    showToast('تم رسم خطوط المؤشر (Sparklines) في العمود H');
   }
 
-  function openSlicerModal() {
-    document.getElementById('slicerModal').style.display = 'block';
-  }
+  function openSlicerModal() { document.getElementById('slicerModal').style.display = 'block'; }
 
   function filterTableRows(criteria) {
     const trs = document.querySelectorAll('#gridBody tr');
     trs.forEach(tr => {
       const r = parseInt(tr.dataset.row);
       if (r >= 4 && r <= 13) {
-        const res = String(cellsData['G' + r].val).trim();
-        if (criteria === 'ALL' || res === criteria) {
-          tr.style.display = '';
-        } else {
-          tr.style.display = 'none';
-        }
+        const res = String(cellsData['G' + r]?.val).trim();
+        tr.style.display = (criteria === 'ALL' || res === criteria) ? '' : 'none';
       }
     });
     closeModal('slicerModal');
@@ -2166,175 +2609,176 @@
   }
 
   function openPivotModal() {
-    const modal = document.getElementById('pivotModal');
-    const body = document.getElementById('pivotBody');
-    modal.style.display = 'block';
-    body.innerHTML = `
+    document.getElementById('pivotModal').style.display = 'block';
+    document.getElementById('pivotBody').innerHTML = `
       <table style="width:100%;border-collapse:collapse;font-size:11px;text-align:center;" border="1">
         <tr style="background:#217346;color:#fff;"><th>الفئة</th><th>العدد</th><th>الحالة</th></tr>
         <tr><td>الطلاب (بنين)</td><td>5</td><td>4 ناجح / 1 راسب (حيدر جبار)</td></tr>
         <tr><td>الطالبات (بنات)</td><td>5</td><td>5 ناجحات (100%)</td></tr>
         <tr style="font-weight:bold;background:#dcfce7;"><td>المجموع الكلي</td><td>10</td><td>9 ناجح / 1 راسب</td></tr>
-      </table>
-    `;
+      </table>`;
   }
 
   function insertIllustration(label) {
     cellsData[activeCellId].raw = label;
     recalcAll();
-    showToast('تم إدراج: ' + label + ' في الخلية ' + activeCellId);
+    showToast('تم إدراج: ' + label);
   }
 
   function insertHyperlink() {
-    cellsData[activeCellId].raw = '🔗 موقع جامعة واسط الرسمي (uowasit.edu.iq)';
+    cellsData[activeCellId].raw = '🔗 جامعة واسط (uowasit.edu.iq)';
     cellsData[activeCellId].style = { color: '#2563eb', textDecoration: 'underline' };
     recalcAll();
     showToast('تم إدراج ارتباط تشعبي (Hyperlink)');
   }
 
-  // ================= خيارات تخطيط الصفحة والصيغ =================
-  function toggleSheetDirection() {
-    const wrap = document.getElementById('appWrapper');
-    const isLtr = wrap.classList.toggle('ltr-sheet');
-    document.getElementById('excelGrid').dir = isLtr ? 'ltr' : 'rtl';
-    showToast(isLtr ? 'تم تحويل اتجاه الورقة من اليسار لليمين (LTR)' : 'تم تحويل اتجاه الورقة من اليمين لليسار (Sheet Right-to-Left)');
-  }
-
-  function toggleGridlines(show) {
-    document.getElementById('excelGrid').classList.toggle('no-gridlines', !show);
-  }
-
-  function toggleHeadings(show) {
-    document.getElementById('excelGrid').classList.toggle('no-headings', !show);
-  }
-
-  function setGridZoom(scale) {
-    document.getElementById('excelGrid').style.zoom = scale;
-    showToast('تم تغيير حجم الملائمة (Scale)');
-  }
-
-  function toggleShowFormulas() {
-    showFormulasMode = !showFormulasMode;
-    renderGrid();
-    showToast(showFormulasMode ? 'تم إظهار الصيغ داخل الخلايا (Show Formulas)' : 'تم إظهار النتائج النهائية');
-  }
-
   // نسخ وقص ولصق
-  function copyCell() {
-    clipboardData = { ...cellsData[activeCellId] };
-    showToast('تم نسخ الخلية ' + activeCellId);
-  }
-  function cutCell() {
-    clipboardData = { ...cellsData[activeCellId] };
-    cellsData[activeCellId].raw = '';
-    recalcAll();
-    showToast('تم قص الخلية ' + activeCellId);
-  }
-  function pasteCell() {
-    if (!clipboardData) return;
-    cellsData[activeCellId].raw = clipboardData.raw;
-    recalcAll();
-    showToast('تم اللصق في ' + activeCellId);
+  function copyCell() { clipboardData = { ...cellsData[activeCellId] }; showToast('تم نسخ الخلية ' + activeCellId); }
+  function cutCell() { clipboardData = { ...cellsData[activeCellId] }; cellsData[activeCellId].raw = ''; recalcAll(); showToast('تم قص الخلية ' + activeCellId); }
+  function pasteCell() { if (!clipboardData) return; cellsData[activeCellId].raw = clipboardData.raw; recalcAll(); showToast('تم اللصق في ' + activeCellId); }
+
+  // إدارة القوائم المنسدلة
+  function openDropdown(ev, menuId) {
+    ev.stopPropagation();
+    const menu = document.getElementById(menuId);
+    const isVisible = menu.style.display === 'block';
+    closeAllDropdowns();
+    if (!isVisible) {
+      menu.style.display = 'block';
+      const rect = ev.currentTarget.getBoundingClientRect();
+      let leftPos = Math.min(window.innerWidth - 205, Math.max(8, rect.left));
+      menu.style.top = (rect.bottom + 3) + 'px';
+      menu.style.left = leftPos + 'px';
+    }
   }
 
-  // تبديل التبويبات
+  function closeAllDropdowns(ev) {
+    if (ev && ev.target.closest('.xl-dropdown-menu')) return;
+    document.querySelectorAll('.xl-dropdown-menu').forEach(m => m.style.display = 'none');
+  }
+
   function switchRibbon(tabId) {
+    closeAllDropdowns();
     document.querySelectorAll('.ribbon-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.ribbon-pane').forEach(p => p.classList.remove('active'));
     document.getElementById('tabBtn-' + tabId)?.classList.add('active');
     document.getElementById('pane-' + tabId)?.classList.add('active');
   }
 
-  // تبديل لغة القوائم عربي / إنجليزي
   function toggleLang() {
     isArabicUI = !isArabicUI;
     document.querySelectorAll('[data-ar]').forEach(el => {
       el.textContent = isArabicUI ? el.dataset.ar : el.dataset.en;
     });
-    showToast(isArabicUI ? 'تم التحويل إلى الواجهة العربية' : 'Switched to English Ribbon Labels');
+    showToast(isArabicUI ? 'تم تفعيل الأسماء العربية + الإنجليزية' : 'Switched to English Ribbon Names');
   }
 
-  // تصفير المعادلات للتدريب اليدوي أو حلها بالكامل
   function clearFormulasForPractice() {
+    if (currentSheet === 'lec3') {
+      cellsData['A6'].raw = '';
+      recalcAll();
+      selectCell('A6');
+      showToast('تم تصفير الخلية A6! اضغط الآن على ∑ AutoSum ثم علامة الصح ✔');
+      return;
+    }
     for (let r = 4; r <= 13; r++) {
       cellsData['E' + r].raw = '';
       cellsData['F' + r].raw = '';
       cellsData['G' + r].raw = '';
-      cellsData['H' + r].spark = null;
     }
-    ['B14','C14','D14','B15','C15','D15'].forEach(id => cellsData[id].raw = '');
+    ['B14','C14','D14','B15','C15','D15','B16'].forEach(id => cellsData[id].raw = '');
     recalcAll();
     selectCell('E4');
-    showToast('تم تصفير المعادلات! يمكنك الآن التدرب على كتابتها بنفسك');
+    showToast('تم تصفير المعادلات! تدرب الآن على AutoSum وعلامة الصح ✔ وسحب التعبئة');
   }
 
   function solveAllTable() {
+    if (currentSheet === 'lec3') {
+      cellsData['A6'].raw = '=SUM(A1:A5)';
+      recalcAll();
+      showToast('تم حل تمرين المحاضرة 3: =SUM(A1:A5) والناتج 15 ✔');
+      return;
+    }
     initMainSheetData();
     mergeAndCenter();
-    drawSparklines('column');
     showToast('تم حل جميع معادلات الجدول وتلوين النتائج ✔');
   }
 
   function resetTableData() {
-    initMainSheetData();
-    showToast('تمت استعادة الجدول الأصلي');
+    if (currentSheet === 'lec3') initLecture3SheetData();
+    else initMainSheetData();
+    showToast('تمت استعادة البيانات الأصلية');
   }
 
-  // ================= نظام مدرب الامتحان العملي (8 مهام) =================
+  // ================= مدرب الامتحان العملي (10 مهام تغطي المحاضرة 3 بالكامل) =================
   const examTasks = [
     {
-      title: 'التمرين 1 من 8: دمج وتوسيط العنوان (Merge & Center)',
-      desc: 'اضغط على زر "دمج وتوسيط (Merge & Center)" في تبويب الصفحة الرئيسية لدمج عنوان الجدول A1:G1.',
-      hint: 'في الحاسوب: نحدد من A1 إلى G1 بالماوس ثم نضغط Merge & Center من مجموعة Alignment.',
-      apply: () => { switchRibbon('home'); mergeAndCenter(); },
-      check: () => cellsData['A1'].merged === true
+      title: 'التمرين 1 من 10: تمرين المحاضرة 3 (جمع الخلايا A1:A5 بالخطوات الـ 5)',
+      desc: 'افتح ورقة "تمرين المحاضرة 3 (A1:A5)"، حدد الخلية A6 ثم اضغط (∑ AutoSum) في مجموعة تحرير، ثم اضغط علامة الصح ✔ في شريط الصيغة.',
+      hint: 'الخطوات ص5-8: 1) ندخل 1..5 في A1:A5  2) نحدد A6  3) نضغط AutoSum ∑  4) تظهر =SUM(A1:A5)  5) نضغط علامة الصح ✔.',
+      apply: () => { switchSheet('lec3'); selectCell('A6'); startAutoSumStep('SUM'); setTimeout(() => commitFormulaEdit(), 900); },
+      check: () => currentSheet === 'lec3' && String(cellsData['A6']?.val) === '15'
     },
     {
-      title: 'التمرين 2 من 8: حساب المجموع بدالة الجمع التلقائي (AutoSum ∑)',
-      desc: 'حدد الخلية E4 ثم اضغط على "جمع تلقائي ∑" في مجموعة تحرير (Editing) ثم اسحب التعبئة لباقي الطلاب.',
-      hint: 'في الحاسوب: نحدد الخلية E4 ثم نضغط AutoSum ∑ فتظهر =SUM(B4:D4) ثم نضغط علامة الصح ✔.',
-      apply: () => { selectCell('E4'); insertAutoFunction('SUM'); fillDownAction(); },
-      check: () => String(cellsData['E4'].val) === '115' && String(cellsData['E5'].val) === '250'
+      title: 'التمرين 2 من 10: حساب المعدل (Average) لنفس الأرقام أو للطلاب',
+      desc: 'سؤال الملزمة ص8: هل يمكن الحصول على معدل مجموعة أرقام؟ جرب اختيار Average من قائمة ∑ AutoSum ثم اضغط علامة الصح ✔.',
+      hint: 'في الملزمة ص8: نعم وبنفس الخطوات السابقة لكن فقط نغير نوع الدالة من جمع Sum إلى معدل Average.',
+      apply: () => { switchSheet('main'); selectCell('F4'); startAutoSumStep('AVERAGE'); commitFormulaEdit(); fillDirection('down'); },
+      check: () => parseFloat(cellsData['F4']?.val) > 0
     },
     {
-      title: 'التمرين 3 من 8: حساب المعدل بدالة (AVERAGE)',
-      desc: 'حدد الخلية F4 واختر دالة المعدل Average من قائمة دوال ∑ ثم اضغط "✚ سحب التعبئة".',
-      hint: 'في الحاسوب: نختار السهم بجانب AutoSum ∑ ونختار Average لحساب معدل درجات الطالب.',
-      apply: () => { selectCell('F4'); insertAutoFunction('AVERAGE'); fillDownAction(); },
-      check: () => parseFloat(cellsData['F4'].val) < 50 && parseFloat(cellsData['F5'].val) > 80
+      title: 'التمرين 3 من 10: دالة النتيجة (IF) - حيدر جبار راسب والبقية ناجحون',
+      desc: 'في ورقة المرحلة الثانية حدد الخلية G4 وطبق معادلة =IF(F4>=50;"ناجح";"راسب") ثم اضغط "✚ سحب التعبئة".',
+      hint: 'يظهر حيدر جبار نعمه لهيب (راسب باللون الأحمر) لأن معدله 38.3، بينما بقية الـ 9 طلاب ناجحون باللون الأخضر.',
+      apply: () => { switchSheet('main'); selectCell('G4'); startAutoSumStep('IF'); commitFormulaEdit(); fillDirection('down'); },
+      check: () => cellsData['G4']?.val === 'راسب' && cellsData['G5']?.val === 'ناجح'
     },
     {
-      title: 'التمرين 4 من 8: دالة الشرط (IF) لإظهار ناجح أخضر وراسب أحمر',
-      desc: 'في الخلية G4 طبّق معادلة =IF(F4>=50;"ناجح";"راسب") ثم اسحب التعبئة ليظهر حيدر جبار راسب (أحمر) والبقية ناجحون (أخضر).',
-      hint: 'في الحاسوب: نكتب =IF(F4>=50;"ناجح";"راسب") في شريط الصيغة ثم نسحب مقبض التعبئة الأسود.',
-      apply: () => { selectCell('G4'); insertAutoFunction('IF'); fillDownAction(); },
-      check: () => cellsData['G4'].val === 'راسب' && cellsData['G5'].val === 'ناجح'
-    },
-    {
-      title: 'التمرين 5 من 8: استخراج أعلى درجة (MAX) وأقل درجة (MIN)',
-      desc: 'حدد الخلية B14 واختر دالة Max، وفي الخلية B15 اختر دالة Min من قائمة الجمع التلقائي.',
-      hint: 'في الحاسوب: نحدد B14 ونختار Max من قائمة AutoSum، ونحدد B15 ونختار Min.',
-      apply: () => { selectCell('B14'); insertAutoFunction('MAX'); selectCell('B15'); insertAutoFunction('MIN'); },
-      check: () => String(cellsData['B14'].val) === '93' && String(cellsData['B15'].val) === '35'
-    },
-    {
-      title: 'التمرين 6 من 8: الترتيب الأبجدي (Sort Ascending A→Z)',
-      desc: 'من تبويب الصفحة الرئيسية (مجموعة تحرير) اضغط على "فرز وتصفية (Sort & Filter)" لترتيب الأسماء أبجدياً.',
-      hint: 'في المحاضرة 3: Sort Ascending يرتب الأسماء من أ إلى ي والأرقام من الأصغر للأكبر.',
-      apply: () => { sortStudentsAsc(); },
+      title: 'التمرين 4 من 10: مجموعة رقم (Number) - ص2 بالملزمة',
+      desc: 'حدد خلية رقمية ثم جرب اختيار النسبة المئوية (%) أو العملة ($) أو زيادة الأصفار العشرية (.00) من مجموعة رقم Number.',
+      hint: 'مجموعة رقم Number يتم منها تنسيق كيفية عرض قيم الخلايا (نسبة مئوية، تأريخ، عملة، أرقام).',
+      apply: () => { switchRibbon('home'); selectCell('E4'); applyNumberFormat('number'); },
       check: () => true
     },
     {
-      title: 'التمرين 7 من 8: إدراج مخطط عمودي وخطوط المؤشر من تبويب إدراج',
-      desc: 'افتح تبويب "إدراج (Insert)" واضغط على "عمود (Column)" في مجموعة مخططات أو خطوط المؤشر.',
-      hint: 'في الحاسوب: من تبويب إدراج نختار مجموعة مخططات ثم نضغط على عمود.',
-      apply: () => { switchRibbon('insert'); drawSparklines('column'); openChartModal('column'); },
-      check: () => cellsData['H4'].spark !== null
+      title: 'التمرين 5 من 10: مجموعة أنماط (Styles) والتنسيق الشرطي - ص2 وص3',
+      desc: 'اضغط على زر "Conditional Formatting ▾" وجرب خيارات Data Bars أو Color Scales أو أزرار Good / Bad / Neutral.',
+      hint: 'مجموعة أنماط Styles تضم Conditional Formatting و Format as Table وأنماط الخلية Normal, Bad, Good, Neutral.',
+      apply: () => { switchRibbon('home'); applyCondRule('dataBars'); },
+      check: () => true
     },
     {
-      title: 'التمرين 8 من 8: خيارات الورقة (Sheet Right-to-Left) في تخطيط الصفحة',
-      desc: 'افتح تبويب "تخطيط الصفحة (Page Layout)" وجرب زر "ورقة من اليمين لليسار (Sheet Right-to-Left)".',
-      hint: 'في المحاضرة 3 ص12: مجموعة Sheet Options تتحكم باتجاه الورقة وإظهار خطوط الشبكة والعناوين.',
+      title: 'التمرين 6 من 10: مجموعة خلايا (Cells: Insert, Delete, Format) - ص3',
+      desc: 'اضغط على زر "إدراج Insert ▾" أو "حذف Delete ▾" أو "تنسيق Format ▾" في مجموعة خلايا Cells لتجربة أوامرها.',
+      hint: 'من Format نتحكم بارتفاع وعرض الخلية وإخفاء وإظهار الخلايا وإعادة تسمية ورقة العمل (Rename Sheet).',
+      apply: () => { switchRibbon('home'); autoFitCells(); },
+      check: () => true
+    },
+    {
+      title: 'التمرين 7 من 10: الفرق بين ملئ Fill ومسح Clear (سؤال الواجب ص9 وص10)',
+      desc: 'اضغط على قائمة "ملئ Fill ▾" وجرب Down، واضغط على قائمة "مسح Clear ▾" وجرب الفرق بين Clear Formats و Clear Contents.',
+      hint: 'ملئ Fill يملأ الخلايا بنفس التنسيق والاتجاه، بينما مسح Clear يمسح التنسيق أو المحتوى أو الكل.',
+      apply: () => { switchRibbon('home'); selectCell('E4'); fillDirection('down'); },
+      check: () => true
+    },
+    {
+      title: 'التمرين 8 من 10: الفرق بين Sort Ascending و Sort Descending (سؤال الواجب ص10)',
+      desc: 'اضغط على "Sort & Filter ▾" في مجموعة تحرير وجرب الترتيب التصاعدي (أ إلى ي) والترتيب التنازلي (ي إلى أ).',
+      hint: 'Sort Ascending يرتب من أ إلى ي (أو الأصغر للأكبر)، و Sort Descending يرتب من ي إلى أ (أو الأكبر للأصغر).',
+      apply: () => { switchRibbon('home'); sortStudentsAsc(); },
+      check: () => true
+    },
+    {
+      title: 'التمرين 9 من 10: أمر بحث واختيار Find & Select (ص11 بالملزمة)',
+      desc: 'اضغط على "Find & Select ▾" وجرب البحث عن طالب (Find) أو الانتقال لخلية (Go To) أو تحديد المعادلات (Formulas).',
+      hint: 'يتضمن Find و Replace و Go To وتحديد الخلايا التي تحتوي على Formulas أو Constants.',
+      apply: () => { switchRibbon('home'); highlightSpecialCells('formulas'); },
+      check: () => true
+    },
+    {
+      title: 'التمرين 10 من 10: تبويب تخطيط الصفحة (Scale to Fit و Sheet Options ص11-12)',
+      desc: 'افتح تبويب "تخطيط الصفحة PAGE LAYOUT" وجرب زر Sheet Right-to-Left وخيارات Gridlines و Headings.',
+      hint: 'مجموعة Sheet Options تقلب اتجاه الورقة من اليمين إلى اليسار وتتحكم بإظهار وطباعة خطوط الشبكة والعناوين.',
       apply: () => { switchRibbon('layout'); toggleSheetDirection(); },
       check: () => true
     }
@@ -2348,51 +2792,26 @@
     document.getElementById('examDesc').textContent = t.desc;
   }
 
-  function nextTask() {
-    currentTaskIdx = (currentTaskIdx + 1) % examTasks.length;
-    renderExamTask();
-  }
-
-  function prevTask() {
-    currentTaskIdx = (currentTaskIdx - 1 + examTasks.length) % examTasks.length;
-    renderExamTask();
-  }
-
-  function applyCurrentTask() {
-    examTasks[currentTaskIdx].apply();
-  }
-
+  function nextTask() { currentTaskIdx = (currentTaskIdx + 1) % examTasks.length; renderExamTask(); }
+  function prevTask() { currentTaskIdx = (currentTaskIdx - 1 + examTasks.length) % examTasks.length; renderExamTask(); }
+  function applyCurrentTask() { examTasks[currentTaskIdx].apply(); }
   function checkCurrentTask() {
-    if (examTasks[currentTaskIdx].check()) {
-      showToast('أحسنت! إجابتك صحيحة 100% 🎉');
-    } else {
-      showToast('لم تكتمل الخطوة بعد، اضغط "طبقها لي" لمشاهدة الحل');
-    }
+    if (examTasks[currentTaskIdx].check()) showToast('أحسنت! تطبيقك صحيح ومطابق للمحاضرة الثالثة 🎉');
+    else showToast('اضغط على زر "🪄 طبقها لي" لمشاهدة التطبيق العملي للخطوة');
   }
+  function showTaskHint() { showToast(examTasks[currentTaskIdx].hint); }
+  function toggleExamBar() { document.getElementById('examBar').classList.toggle('hidden'); }
 
-  function showTaskHint() {
-    showToast(examTasks[currentTaskIdx].hint);
-  }
-
-  function toggleExamBar() {
-    document.getElementById('examBar').classList.toggle('hidden');
-  }
-
-  // تحديث شريط الحالة السفلي
   function updateStatusBar() {
-    document.getElementById('statusCellInfo').textContent = `جاهز (Ready) | الخلية: ${activeCellId}`;
+    document.getElementById('statusCellInfo').textContent = `جاهز (Ready) | الخلية النشطة: ${activeCellId}`;
     const nums = selectedRangeIds.map(id => parseFloat(cellsData[id]?.val)).filter(n => !isNaN(n));
     const sum = nums.reduce((a, b) => a + b, 0);
     const avg = nums.length ? (sum / nums.length).toFixed(1) : '-';
     document.getElementById('statusCalcInfo').textContent = `المجموع: ${sum} | المعدل: ${avg} | العدد: ${selectedRangeIds.length}`;
   }
 
-  function openModal(id) {
-    document.getElementById(id).style.display = 'block';
-  }
-  function closeModal(id) {
-    document.getElementById(id).style.display = 'none';
-  }
+  function openModal(id) { document.getElementById(id).style.display = 'block'; }
+  function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
   let toastTimer = null;
   function showToast(msg) {
@@ -2400,10 +2819,9 @@
     el.textContent = msg;
     el.style.display = 'block';
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => { el.style.display = 'none'; }, 3000);
+    toastTimer = setTimeout(() => { el.style.display = 'none'; }, 3600);
   }
 
-  // تشغيل المحاكي عند التحميل
   window.onload = () => {
     initMainSheetData();
     selectCell('G4');
