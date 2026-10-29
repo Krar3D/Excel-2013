@@ -968,10 +968,10 @@
             <span data-ar="Format as Table ▾" data-en="Format as Table ▾">Format as Table ▾</span>
           </button>
           <div class="cell-styles-box">
-            <button class="style-tile normal" onclick="applyPresetStyle('normal')">Normal</button>
-            <button class="style-tile bad" onclick="applyPresetStyle('bad')">Bad</button>
-            <button class="style-tile good" onclick="applyPresetStyle('good')">Good</button>
-            <button class="style-tile neutral" onclick="applyPresetStyle('neutral')">Neutral</button>
+            <button class="style-tile normal" onclick="applyPresetStyle('normal')" data-ar="عادي" data-en="Normal">Normal</button>
+            <button class="style-tile bad" onclick="applyPresetStyle('bad')" data-ar="سيئ" data-en="Bad">Bad</button>
+            <button class="style-tile good" onclick="applyPresetStyle('good')" data-ar="جيد" data-en="Good">Good</button>
+            <button class="style-tile neutral" onclick="applyPresetStyle('neutral')" data-ar="محايد" data-en="Neutral">Neutral</button>
           </div>
         </div>
         <div class="r-group-title" data-ar="2- مجموعة أنماط Styles" data-en="Styles">2- مجموعة أنماط Styles</div>
@@ -1001,7 +1001,7 @@
         <div class="r-group-content">
           <div class="xl-col-stack">
             <div class="xl-row-stack">
-              <button class="xl-btn-sm" onclick="startAutoSumStep('SUM')" style="font-weight:700;color:#1d4ed8;background:#eff6ff;border-color:#bfdbfe;">∑ AutoSum</button>
+              <button class="xl-btn-sm" onclick="startAutoSumStep('SUM')" style="font-weight:700;color:#1d4ed8;background:#eff6ff;border-color:#bfdbfe;" data-ar="∑ جمع تلقائي" data-en="∑ AutoSum">∑ AutoSum</button>
               <button class="xl-icon-btn" onclick="openDropdown(event, 'menu-autosum')" title="قائمة دوال الجمع التلقائي">▾</button>
             </div>
             <button class="xl-btn-sm" onclick="openDropdown(event, 'menu-fill')">⬇️ <span data-ar="ملئ Fill ▾" data-en="Fill ▾">ملئ Fill ▾</span></button>
@@ -1029,7 +1029,7 @@
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="openPivotModal()">
             <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" fill="#fff" stroke="#475569" stroke-width="1.3"/><rect x="2" y="3" width="20" height="5" fill="#93c5fd"/><rect x="2" y="8" width="6" height="13" fill="#dbeafe"/><path d="M11 15h6m0 0l-2-2m2 2l-2 2M11 15v-4" stroke="#1d4ed8" stroke-width="1.6" fill="none"/></svg>
-            <span>PivotTable ▾</span>
+            <span data-ar="جدول محوري ▾" data-en="PivotTable ▾">PivotTable ▾</span>
           </button>
           <button class="xl-btn-lg" onclick="formatAsTableStyle('#dbeafe')">
             <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" fill="#fff" stroke="#475569"/><rect x="2" y="3" width="20" height="5" fill="#3b82f6"/><line x1="2" y1="12" x2="22" y2="12" stroke="#93c5fd"/><line x1="9" y1="8" x2="9" y2="21" stroke="#cbd5e1"/></svg>
@@ -1055,7 +1055,7 @@
           </button>
           <button class="xl-btn-lg" onclick="insertIllustration('🟩 مخطط SmartArt')">
             <svg viewBox="0 0 24 24"><polygon points="3,6 15,6 20,12 15,18 3,18 7,12" fill="#4ade80" stroke="#15803d"/></svg>
-            <span>SmartArt</span>
+            <span data-ar="سمارت آرت" data-en="SmartArt">SmartArt</span>
           </button>
           <button class="xl-btn-lg" onclick="insertIllustration('📸 لقطة شاشة')">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="16" height="13" stroke="#475569" stroke-dasharray="2,2" fill="#f8fafc"/><circle cx="16" cy="16" r="4.5" fill="#38bdf8" stroke="#0369a1"/></svg>
@@ -1147,9 +1147,9 @@
             <span data-ar="نسق Themes ▾" data-en="Themes">Themes ▾</span>
           </button>
           <div class="xl-col-stack">
-            <button class="xl-btn-sm" onclick="formatAsTableStyle('#e0f2fe')">🎨 Colors الألوان</button>
-            <button class="xl-btn-sm" onclick="formatActive('fontFamily','Calibri')">🔤 Fonts الخطوط</button>
-            <button class="xl-btn-sm" onclick="showToast('تم تطبيق تأثيرات النسق Effects')">✨ Effects التأثيرات</button>
+            <button class="xl-btn-sm" onclick="formatAsTableStyle('#e0f2fe')" data-ar="🎨 الألوان" data-en="🎨 Colors">🎨 Colors الألوان</button>
+            <button class="xl-btn-sm" onclick="formatActive('fontFamily','Calibri')" data-ar="🔤 الخطوط" data-en="🔤 Fonts">🔤 Fonts الخطوط</button>
+            <button class="xl-btn-sm" onclick="showToast('تم تطبيق تأثيرات النسق Effects')" data-ar="✨ التأثيرات" data-en="✨ Effects">✨ Effects التأثيرات</button>
           </div>
         </div>
         <div class="r-group-title" data-ar="نسق Themes" data-en="Themes">نسق Themes</div>
@@ -1159,19 +1159,19 @@
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="showToast('الهوامش Margins: Normal عادي')">
             <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" fill="#fff" stroke="#475569"/><rect x="7" y="5" width="10" height="14" fill="none" stroke="#3b82f6" stroke-dasharray="2,2"/></svg>
-            <span>Margins ▾</span>
+            <span data-ar="الهوامش ▾" data-en="Margins ▾">Margins ▾</span>
           </button>
           <button class="xl-btn-lg" onclick="showToast('اتجاه الطباعة Orientation: Landscape أفقي')">
             <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" fill="#e0f2fe" stroke="#0284c7"/></svg>
-            <span>Orientation ▾</span>
+            <span data-ar="الاتجاه ▾" data-en="Orientation ▾">Orientation ▾</span>
           </button>
           <button class="xl-btn-lg" onclick="showToast('حجم الورقة Size: A4')">
             <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" fill="#fff" stroke="#475569"/><text x="7.5" y="15" font-size="7" font-weight="bold">A4</text></svg>
-            <span>Size ▾</span>
+            <span data-ar="الحجم ▾" data-en="Size ▾">Size ▾</span>
           </button>
           <button class="xl-btn-lg" onclick="showToast('تم تحديد ناحية الطباعة Print Area')">
             <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" fill="#fef08a" stroke="#ca8a04" stroke-dasharray="2,2"/></svg>
-            <span>Print Area ▾</span>
+            <span data-ar="منطقة الطباعة ▾" data-en="Print Area ▾">Print Area ▾</span>
           </button>
         </div>
         <div class="r-group-title" data-ar="إعداد الصفحة Page Setup" data-en="Page Setup">Page Setup</div>
@@ -1182,7 +1182,7 @@
         <div class="r-group-content">
           <div class="xl-col-stack">
             <div class="xl-row-stack">
-              <span style="font-size:9px;width:42px;">Width:</span>
+              <span style="font-size:9px;width:42px;" data-ar="العرض:" data-en="Width:">Width:</span>
               <select class="xl-select" onchange="showToast('تم ضبط عرض الصفحة عند الطباعة Width: ' + this.value)">
                 <option>Automatic</option>
                 <option>1 page</option>
@@ -1190,7 +1190,7 @@
               </select>
             </div>
             <div class="xl-row-stack">
-              <span style="font-size:9px;width:42px;">Height:</span>
+              <span style="font-size:9px;width:42px;" data-ar="الارتفاع:" data-en="Height:">Height:</span>
               <select class="xl-select" onchange="showToast('تم ضبط ارتفاع الصفحة عند الطباعة Height: ' + this.value)">
                 <option>Automatic</option>
                 <option>1 page</option>
@@ -1198,7 +1198,7 @@
               </select>
             </div>
             <div class="xl-row-stack">
-              <span style="font-size:9px;width:42px;">Scale:</span>
+              <span style="font-size:9px;width:42px;" data-ar="النسبة:" data-en="Scale:">Scale:</span>
               <select class="xl-select" onchange="setGridZoom(this.value)">
                 <option value="1">100%</option>
                 <option value="0.9">90%</option>
@@ -1216,15 +1216,15 @@
         <div class="r-group-content">
           <button class="xl-btn-lg" id="rtlSheetBtn" onclick="toggleSheetDirection()">
             <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" fill="#fff" stroke="#475569"/><polygon points="15,7 9,12 15,17" fill="#2563eb"/></svg>
-            <span>Sheet Right-to-Left</span>
+            <span data-ar="ورقة من اليمين لليسار" data-en="Sheet Right-to-Left">Sheet Right-to-Left</span>
           </button>
           <div class="xl-col-stack" style="padding:0 4px;border-right:1px solid #e2e8f0;">
-            <b style="font-size:9px;color:#1e293b;">Gridlines</b>
+            <b style="font-size:9px;color:#1e293b;" data-ar="خطوط الشبكة" data-en="Gridlines">Gridlines</b>
             <label style="font-size:9px;cursor:pointer;"><input type="checkbox" id="chkGridlines" checked onchange="toggleGridlines(this.checked)"> View عرض</label>
             <label style="font-size:9px;cursor:pointer;"><input type="checkbox" onchange="showToast('تم تفعيل طباعة خطوط الشبكة Gridlines Print')"> Print طباعة</label>
           </div>
           <div class="xl-col-stack" style="padding:0 4px;">
-            <b style="font-size:9px;color:#1e293b;">Headings</b>
+            <b style="font-size:9px;color:#1e293b;" data-ar="العناوين" data-en="Headings">Headings</b>
             <label style="font-size:9px;cursor:pointer;"><input type="checkbox" id="chkHeadings" checked onchange="toggleHeadings(this.checked)"> View عرض</label>
             <label style="font-size:9px;cursor:pointer;"><input type="checkbox" onchange="showToast('تم تفعيل طباعة العناوين Headings Print')"> Print طباعة</label>
           </div>
@@ -1236,11 +1236,11 @@
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="showToast('إحضار إلى الأمام Bring Forward')">
             <svg viewBox="0 0 24 24"><rect x="4" y="4" width="11" height="11" fill="#3b82f6"/><rect x="9" y="9" width="11" height="11" fill="#cbd5e1" stroke="#475569"/></svg>
-            <span>Bring Forward</span>
+            <span data-ar="إحضار للأمام" data-en="Bring Forward">Bring Forward</span>
           </button>
           <button class="xl-btn-lg" onclick="showToast('إرسال إلى الخلف Send Backward')">
             <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" fill="#3b82f6"/><rect x="4" y="4" width="11" height="11" fill="#cbd5e1" stroke="#475569"/></svg>
-            <span>Send Backward</span>
+            <span data-ar="إرسال للخلف" data-en="Send Backward">Send Backward</span>
           </button>
         </div>
         <div class="r-group-title" data-ar="ترتيب Arrange" data-en="Arrange">Arrange</div>
@@ -1251,21 +1251,27 @@
     <div class="ribbon-pane" id="pane-formulas">
       <div class="r-group">
         <div class="r-group-content">
-          <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-autosum')">
+          <button class="xl-btn-lg" onclick="openFxDialog('Most Recently Used')">
             <svg viewBox="0 0 24 24"><text x="3" y="18" font-size="16" font-style="italic" font-weight="bold" fill="#217346">fx</text></svg>
-            <span>Insert Function</span>
+            <span data-ar="إدراج دالة" data-en="Insert Function">Insert Function</span>
           </button>
           <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-autosum')">
             <svg viewBox="0 0 24 24"><text x="4" y="19" font-size="18" font-weight="bold" fill="#1d4ed8">∑</text></svg>
-            <span>AutoSum ▾</span>
+            <span data-ar="جمع تلقائي ▾" data-en="AutoSum ▾">AutoSum ▾</span>
           </button>
+          <button class="xl-btn-lg" onclick="openFxDialog('Most Recently Used')"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#2563eb"/><text x="7" y="16" font-size="10" fill="#fff" font-weight="bold">★</text></svg><span data-ar="المستخدمة مؤخراً ▾" data-en="Recently Used ▾">Recently Used ▾</span></button>
+          <button class="xl-btn-lg" onclick="openFxDialog('Financial')"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#16a34a"/><text x="7" y="16" font-size="10" fill="#fff" font-weight="bold">$</text></svg><span data-ar="مالية ▾" data-en="Financial ▾">Financial ▾</span></button>
           <button class="xl-btn-lg" onclick="startAutoSumStep('IF')">
             <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#a855f7"/><text x="9" y="16" font-size="11" fill="#fff" font-weight="bold">?</text></svg>
-            <span>Logical ▾</span>
+            <span data-ar="منطقية ▾" data-en="Logical ▾">Logical ▾</span>
           </button>
+          <button class="xl-btn-lg" onclick="openFxDialog('Text')"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#f59e0b"/><text x="7" y="16" font-size="10" fill="#fff" font-weight="bold">A</text></svg><span data-ar="نصية ▾" data-en="Text ▾">Text ▾</span></button>
+          <button class="xl-btn-lg" onclick="openFxDialog('Date &amp; Time')"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#ea580c"/><text x="7" y="16" font-size="10" fill="#fff" font-weight="bold">31</text></svg><span data-ar="التاريخ والوقت ▾" data-en="Date &amp; Time ▾">Date &amp; Time ▾</span></button>
+          <button class="xl-btn-lg" onclick="openFxDialog('Lookup &amp; Reference')"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#0284c7"/><text x="7" y="16" font-size="10" fill="#fff" font-weight="bold">Q</text></svg><span data-ar="البحث والمرجع ▾" data-en="Lookup &amp; Reference ▾">Lookup &amp; Reference ▾</span></button>
+          <button class="xl-btn-lg" onclick="openFxDialog('Math &amp; Trig')"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#0f766e"/><text x="7" y="16" font-size="10" fill="#fff" font-weight="bold">θ</text></svg><span data-ar="رياضيات ومثلثات ▾" data-en="Math &amp; Trig ▾">Math &amp; Trig ▾</span></button>
           <button class="xl-btn-lg" onclick="startAutoSumStep('AVERAGE')">
             <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="#0284c7"/><text x="5" y="15" font-size="8" fill="#fff" font-weight="bold">More</text></svg>
-            <span>More Functions ▾</span>
+            <span data-ar="دوال إضافية ▾" data-en="More Functions ▾">More Functions ▾</span>
           </button>
         </div>
         <div class="r-group-title" data-ar="1- مكتبة الدوال Function Library" data-en="Function Library">1- Function Library</div>
@@ -1276,12 +1282,13 @@
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="openDefinedNamesModal()">
             <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" fill="#fef08a" stroke="#ca8a04"/><text x="5" y="15" font-size="7.5" font-weight="bold">Name</text></svg>
-            <span>Name Manager</span>
+            <span data-ar="مدير الأسماء" data-en="Name Manager">Name Manager</span>
           </button>
           <button class="xl-btn-lg" onclick="openDropdown(event, 'menu-define-name')">
             <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" fill="#dcfce7" stroke="#16a34a"/><text x="5" y="15" font-size="7" font-weight="bold">Define</text></svg>
-            <span>Define Name ▾</span>
+            <span data-ar="تعريف اسم ▾" data-en="Define Name ▾">Define Name ▾</span>
           </button>
+        <div class="xl-col-stack"><button class="xl-btn-sm" onclick="showToast('Use in Formula: اختر اسماً معرفاً (مثل درجات_الاقتصاد) لإدراجه بالمعادلة')" data-ar="استخدام في صيغة ▾" data-en="Use in Formula ▾">Use in Formula ▾</button><button class="xl-btn-sm" onclick="openDefinedNamesModal()" data-ar="إنشاء من التحديد" data-en="Create from Selection">Create from Selection</button></div>
         </div>
         <div class="r-group-title" data-ar="2- تعريف الأسماء Defined Names" data-en="Defined Names">2- Defined Names</div>
       </div>
@@ -1290,14 +1297,16 @@
       <div class="r-group">
         <div class="r-group-content">
           <div class="xl-col-stack">
-            <button class="xl-btn-sm" onclick="tracePrecedentsAction()">🔵↗ Trace Precedents</button>
-            <button class="xl-btn-sm" onclick="traceDependentsAction()">🔵↘ Trace Dependents</button>
-            <button class="xl-btn-sm" onclick="removeTraceArrows()">✕ Remove Arrows</button>
+            <button class="xl-btn-sm" onclick="tracePrecedentsAction()" data-ar="🔵↗ تتبع السوابق" data-en="🔵↗ Trace Precedents">🔵↗ Trace Precedents</button>
+            <button class="xl-btn-sm" onclick="traceDependentsAction()" data-ar="🔵↘ تتبع التوابع" data-en="🔵↘ Trace Dependents">🔵↘ Trace Dependents</button>
+            <button class="xl-btn-sm" onclick="removeTraceArrows()" data-ar="✕ إزالة الأسهم" data-en="✕ Remove Arrows">✕ Remove Arrows</button>
           </div>
           <button class="xl-btn-lg" onclick="toggleShowFormulas()">
             <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" fill="#fff" stroke="#475569"/><text x="3" y="15" font-size="7.5" font-weight="bold" fill="#1d4ed8">=SUM</text></svg>
-            <span>Show Formulas</span>
+            <span data-ar="إظهار الصيغ" data-en="Show Formulas">Show Formulas</span>
           </button>
+        <div class="xl-col-stack"><button class="xl-btn-sm" onclick="errorCheckAction()" data-ar="⚠ التحقق من الأخطاء ▾" data-en="⚠ Error Checking ▾">⚠ Error Checking ▾</button><button class="xl-btn-sm" onclick="evalFormulaAction()" data-ar="Ⓐ تقييم الصيغة" data-en="Ⓐ Evaluate Formula">Ⓐ Evaluate Formula</button></div>
+          <button class="xl-btn-lg" onclick="watchWindowAction()"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" fill="#e2e8f0" stroke="#334155"/><circle cx="12" cy="12" r="4" fill="#38bdf8"/></svg><span data-ar="نافذة المراقبة" data-en="Watch Window">Watch Window</span></button>
         </div>
         <div class="r-group-title" data-ar="تدقيق الصيغ Formula Auditing" data-en="Formula Auditing">Formula Auditing</div>
       </div>
@@ -1307,8 +1316,9 @@
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="recalcAll(); showToast('تم حساب المصنف بالكامل Calculate Now ✔')">
             <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1" fill="#e2e8f0" stroke="#334155"/><rect x="7" y="5" width="10" height="4" fill="#86efac"/></svg>
-            <span>Calculate Now</span>
+            <span data-ar="احسب الآن" data-en="Calculate Now">Calculate Now</span>
           </button>
+        <div class="xl-col-stack"><button class="xl-btn-sm" onclick="showToast('Calculation Options: Automatic ✔ (حساب تلقائي)')" data-ar="خيارات الحساب ▾" data-en="Calculation Options ▾">Calculation Options ▾</button><button class="xl-btn-sm" onclick="recalcAll(); showToast('تم حساب الورقة الحالية Calculate Sheet ✔')" data-ar="احسب الورقة" data-en="Calculate Sheet">Calculate Sheet</button></div>
         </div>
         <div class="r-group-title" data-ar="حساب Calculation" data-en="Calculation">Calculation</div>
       </div>
@@ -1320,18 +1330,18 @@
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="sortStudentsAsc()">
             <svg viewBox="0 0 24 24"><text x="5" y="11" font-size="9" font-weight="bold" fill="#1d4ed8">A</text><text x="5" y="20" font-size="9" font-weight="bold" fill="#dc2626">Z</text><path d="M16 4v16l-3-3m3 3l3-3" stroke="#166534" stroke-width="2" fill="none"/></svg>
-            <span>Sort A to Z</span>
+            <span data-ar="ترتيب من أ إلى ي" data-en="Sort A to Z">Sort A to Z</span>
           </button>
           <button class="xl-btn-lg" onclick="sortStudentsDesc()">
             <svg viewBox="0 0 24 24"><text x="5" y="11" font-size="9" font-weight="bold" fill="#dc2626">Z</text><text x="5" y="20" font-size="9" font-weight="bold" fill="#1d4ed8">A</text><path d="M16 4v16l-3-3m3 3l3-3" stroke="#166534" stroke-width="2" fill="none"/></svg>
-            <span>Sort Z to A</span>
+            <span data-ar="ترتيب من ي إلى أ" data-en="Sort Z to A">Sort Z to A</span>
           </button>
           <button class="xl-btn-lg" onclick="openSlicerModal()">
             <svg viewBox="0 0 24 24"><polygon points="3,4 21,4 14,13 14,20 10,18 10,13" fill="#38bdf8" stroke="#0284c7"/></svg>
-            <span>Filter تصفية</span>
+            <span data-ar="تصفية" data-en="Filter">Filter تصفية</span>
           </button>
         </div>
-        <div class="r-group-title">Sort & Filter</div>
+        <div class="r-group-title" data-ar="ترتيب وتصفية" data-en="Sort & Filter">Sort & Filter</div>
       </div>
     </div>
 
@@ -1340,10 +1350,10 @@
         <div class="r-group-content">
           <button class="xl-btn-lg" onclick="showToast('التدقيق الإملائي Spelling: لا توجد أخطاء ✔')">
             <svg viewBox="0 0 24 24"><text x="4" y="11" font-size="8" font-weight="bold">ABC</text><path d="M5 16l4 4 10-10" stroke="#16a34a" stroke-width="2.5" fill="none"/></svg>
-            <span>Spelling</span>
+            <span data-ar="التدقيق الإملائي" data-en="Spelling">Spelling</span>
           </button>
         </div>
-        <div class="r-group-title">Proofing</div>
+        <div class="r-group-title" data-ar="التدقيق" data-en="Proofing">Proofing</div>
       </div>
     </div>
 
@@ -1355,7 +1365,7 @@
             <label style="font-size:9.5px;"><input type="checkbox" checked onchange="toggleHeadings(this.checked)"> Headings العناوين</label>
           </div>
         </div>
-        <div class="r-group-title">Show</div>
+        <div class="r-group-title" data-ar="إظهار" data-en="Show">Show</div>
       </div>
     </div>
 
@@ -1510,7 +1520,7 @@
     <div class="fx-btns">
       <button class="fx-btn fx-btn-cancel" style="color:#dc2626;" onclick="cancelFormulaEdit()" title="علامة الخطأ ✕: إلغاء العملية الحسابية (ص5 بالملزمة)">✕</button>
       <button class="fx-btn fx-btn-check" style="color:#16a34a;" onclick="commitFormulaEdit()" title="علامة الصح ✔: إتمام المعادلة وإظهار الناتج (ص5 و ص8 بالملزمة)">✔</button>
-      <button class="fx-btn" style="color:#217346;font-style:italic;" onclick="openDropdown(event, 'menu-autosum')" title="إدراج دالة Insert Function">fx</button>
+      <button class="fx-btn" style="color:#217346;font-style:italic;" onclick="openFxDialog('Most Recently Used')" title="إدراج دالة Insert Function">fx</button>
     </div>
     <input type="text" class="formula-input" id="formulaInput" placeholder="اكتب القيمة أو المعادلة مثل =SUM(A1:A5) ثم اضغط علامة الصح ✔"
       oninput="onFormulaInputLive(this.value)"
@@ -1687,11 +1697,37 @@
     <p><b>2- مجموعة تعريف الأسماء (Define Names):</b> لتسمية الخلايا بدلاً من اسمها المعروف بمربع الأسماء إلى اسم أسهل (مثل تغيير B6 إلى "أحمد") لنصل إليها بسرعة.</p>
     <p style="background:#eff6ff;padding:6px;border-right:3px solid #2563eb;margin-top:5px;"><b>🏠 السؤال الواجب البيتي:</b> البيانات A1:A6 هي Xi، قيم i=1..6. أوجد:<br>
     <b>Y1 = Σ(Xi−5)² / 6</b> و <b>Y2 = Σ((Xi·5)−(Xi/2))·Xi</b><br>
-    بنفس الطريقة: <code>=(A1-5)^2</code> ثم Fill Down إلى B6، AutoSum في B7، ثم <code>=B7/6</code>. وللـ Y2: <code>=(A1*5)-(A1/2)*A1</code> ثم AutoSum. <button class="m-chip" onclick="closeModal('lectureModal');switchSheet('lec4y6')">🏠 الواجب</button></p>
+    بنفس الطريقة: <code>=(A1-5)^2</code> ثم Fill Down إلى B6، AutoSum في B7، ثم <code>=B7/6</code>. وللـ Y2: <code>=(A1*5)-(A1/2)*A1</code> ثم AutoSum ثم <code>=C7/6</code>. <button class="m-chip" onclick="closeModal('lectureModal');switchSheet('lec4y6')">🏠 الواجب</button></p>
   </div>
 </div>
 
 <!-- أزرار تكبير وتصغير الموقع -->
+
+<!-- نافذة Insert Function (صفحة 37 بالمحاضرة) -->
+<div class="floating-panel" id="fxModal" style="max-width:390px;direction:ltr;text-align:left;">
+  <div class="floating-header"><span>Insert Function</span><button onclick="closeModal('fxModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button></div>
+  <div class="floating-body">
+    <div>Search for a function:</div>
+    <div style="display:flex;gap:4px;"><input id="fxSearch" class="dialog-input" style="flex:1" placeholder="Type a brief description of what you want to do and then click Go"><button class="ex-btn" style="background:#e2e8f0;color:#1e293b;" onclick="fxFill(document.getElementById('fxSearch').value.trim())">Go</button></div>
+    <div style="margin-top:4px;">Or select a category:</div>
+    <select id="fxCat" class="dialog-input" onchange="fxFill()"></select>
+    <div style="margin-top:4px;">Select a function:</div>
+    <select id="fxList" size="6" class="dialog-input" onchange="fxDesc()" style="height:100px;"></select>
+    <div id="fxDescBox" style="font-size:10.5px;min-height:48px;margin:4px 0;"></div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;"><button class="ex-btn" style="background:#217346;color:#fff;padding:4px 18px;" onclick="fxOk()">OK</button><button class="ex-btn" style="background:#e2e8f0;color:#1e293b;" onclick="closeModal('fxModal')">Cancel</button></div>
+  </div>
+</div>
+<!-- نافذة Function Arguments (صفحة 38 بالمحاضرة) -->
+<div class="floating-panel" id="fxArgModal" style="max-width:390px;direction:ltr;text-align:left;">
+  <div class="floating-header"><span>Function Arguments</span><button onclick="closeModal('fxArgModal');cancelFormulaEdit()" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button></div>
+  <div class="floating-body">
+    <div id="fxArgName" style="font-weight:bold;"></div>
+    <div id="fxArgRows"></div>
+    <div id="fxArgDesc" style="font-size:10.5px;margin:6px 0;"></div>
+    <div>Formula result = <b id="fxArgRes"></b></div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;margin-top:6px;"><button class="ex-btn" style="background:#217346;color:#fff;padding:4px 18px;" onclick="fxArgOk()">OK</button><button class="ex-btn" style="background:#e2e8f0;color:#1e293b;" onclick="closeModal('fxArgModal');cancelFormulaEdit()">Cancel</button></div>
+  </div>
+</div>
 
 <div class="toast-msg" id="toastMsg"></div>
 
@@ -1822,13 +1858,13 @@
   function ySolve(n, k, tplB, tplC) {
     const o = {};
     for (let r = 1; r <= n; r++) { o['B' + r] = tplB.replace(/#/g, r); o['C' + r] = tplC.replace(/#/g, r); }
-    o['B' + (n + 1)] = `=SUM(B1:B${n})`; o['B' + (n + 2)] = `=B${n + 1}/${k}`; o['C' + (n + 1)] = `=SUM(C1:C${n})`;
+    o['B' + (n + 1)] = `=SUM(B1:B${n})`; o['B' + (n + 2)] = `=B${n + 1}/${k}`; o['C' + (n + 1)] = `=SUM(C1:C${n})`; o['C' + (n + 2)] = `=C${n + 1}/${k}`;
     return o;
   }
   function yBuild(g, n, c, tgt, note) {
     for (let r = 1; r <= n; r++) g['A' + r].raw = String(r);
     tgt.forEach(id => g[id].style = TGT);
-    g['E1'].raw = 'Y1 ←'; g['E' + (n + 2)].raw = 'Y1 ←';
+    g['D' + (n + 2)].raw = 'Y1 و Y2';
     l4note(g, 'A15', note);
   }
   const LEC4 = {
@@ -1842,10 +1878,10 @@
       build(g) { for (let r = 1; r <= 6; r++) { g['A' + r].raw = String(r); g['B' + r].raw = String(r + 6); } g['D6'].style = TGT; l4note(g, 'A15', 'حدد D6 ← Sum ← اكتب =SUM(A1:B6) ← علامة الصح ✔'); } },
     lec4y10: { name: 'Y1 و Y2 (10)', active: 'B1', auto: { B11: 'B1:B10', C11: 'C1:C10' }, fillTo: { B: 10, C: 10 },
       solve: ySolve(10, 10, '=(A#-3)^2', '=(A#*3)-(A#/2)*A#'),
-      build(g) { yBuild(g, 10, 'B', ['B11', 'B12', 'C11'], 'B: =(A1-3)^2 ثم Fill Down | B11 = AutoSum | B12 = B11/10 | C: Y2'); } },
+      build(g) { yBuild(g, 10, 'B', ['B11', 'B12', 'C11', 'C12'], 'B: =(A1-3)^2 ثم Fill Down | B11 = AutoSum | B12 = B11/10 | C: Y2 (C11 جمع ثم C12 قسمة)'); } },
     lec4y6: { name: 'الواجب Y (6)', active: 'B1', auto: { B7: 'B1:B6', C7: 'C1:C6' }, fillTo: { B: 6, C: 6 },
       solve: ySolve(6, 6, '=(A#-5)^2', '=(A#*5)-(A#/2)*A#'),
-      build(g) { yBuild(g, 6, 'B', ['B7', 'B8', 'C7'], 'B: =(A1-5)^2 ثم Fill Down | B7 = AutoSum | B8 = B7/6 | C: Y2'); } }
+      build(g) { yBuild(g, 6, 'B', ['B7', 'B8', 'C7', 'C8'], 'B: =(A1-5)^2 ثم Fill Down | B7 = AutoSum | B8 = B7/6 | C: Y2 (C11 جمع ثم C12 قسمة)'); } }
   };
   const LEC4_IDS = Object.keys(LEC4);
   function makeLec4Grid(id) { const g = createEmptyGrid(); LEC4[id].build(g); return g; }
@@ -2069,6 +2105,10 @@
             return res ? trueVal : falseVal;
           }
         }
+      }
+      if (upper.startsWith('MOD(') && upper.endsWith(')')) {
+        const [x, y] = upper.slice(4, -1).split(/[;,]/).map(t => parseFloat(cellsData[t.trim()]?.val ?? t));
+        return y ? Number((x - y * Math.floor(x / y)).toFixed(2)) : '#DIV/0!';
       }
       // معادلات الخلايا المباشرة مثل =A1+A2+A3+A4+A5 كما في شرح الملزمة ص8
       const replaced = upper.replace(/[A-Z]+[0-9]+/g, m => {
@@ -3145,11 +3185,15 @@
     document.getElementById('pane-' + tabId)?.classList.add('active');
   }
 
+  function applyLang() {
+    document.querySelectorAll('[data-ar]').forEach(el => {
+      if (!el.children.length) el.textContent = isArabicUI ? el.dataset.ar : el.dataset.en;
+    });
+  }
+
   function toggleLang() {
     isArabicUI = !isArabicUI;
-    document.querySelectorAll('[data-ar]').forEach(el => {
-      el.textContent = isArabicUI ? el.dataset.ar : el.dataset.en;
-    });
+    applyLang();
     showToast(isArabicUI ? 'تم تفعيل الأسماء العربية + الإنجليزية' : 'Switched to English Ribbon Names');
   }
 
@@ -3235,14 +3279,14 @@
       hint: 'خطوات الحل 1-5: B1 ← سحب التعبئة إلى B10 ← B11 =SUM(B1:B10) ← B12 =B11/10 وناتج Y1 = 14.5.',
       apply: () => { switchSheet('lec4y10'); const sv = LEC4.lec4y10.solve; Object.keys(sv).forEach(k => { if (k[0] === 'B') cellsData[k].raw = sv[k]; }); recalcAll(); selectCell('B12'); },
       check: () => chk('lec4y10', 'B12', 14.5) },
-    { title: 'التمرين 9 من 10: Y2 = Σ((Xi*3)-(Xi/2))*Xi', desc: 'في العمود C: C1 =(A1*3)-(A1/2)*A1 ثم Fill Down حتى C10، ثم C11 AutoSum.',
-      hint: 'نفس الخطوات لكن نغير المعادلة في الخلية الأولى، و C11 =SUM(C1:C10).',
+    { title: 'التمرين 9 من 10: Y2 = Σ((Xi*3)-(Xi/2))*Xi', desc: 'في العمود C: C1 =(A1*3)-(A1/2)*A1 ثم Fill Down حتى C10، ثم C11 AutoSum ثم C12 =C11/10 (الخطوتان 4 و5 بالملزمة).',
+      hint: 'نفس الخطوات لكن نغير المعادلة في الخلية الأولى، و C11 =SUM(C1:C10) و C12 =C11/10 فيظهر Y2.',
       apply: () => { switchSheet('lec4y10'); const sv = LEC4.lec4y10.solve; Object.keys(sv).forEach(k => { if (k[0] === 'C') cellsData[k].raw = sv[k]; }); recalcAll(); selectCell('C11'); },
-      check: () => chk('lec4y10', 'C11', -27.5) },
-    { title: 'التمرين 10 من 10: الواجب البيتي (6 قيم، العدد 5)', desc: 'في ورقة "الواجب Y (6)": B =(A1-5)^2 و B7 AutoSum و B8 =B7/6 ، وفي C: =(A1*5)-(A1/2)*A1 و C7 AutoSum.',
+      check: () => chk('lec4y10', 'C11', -27.5) && chk('lec4y10', 'C12', -2.75) },
+    { title: 'التمرين 10 من 10: الواجب البيتي (6 قيم، العدد 5)', desc: 'في ورقة "الواجب Y (6)": B =(A1-5)^2 و B7 AutoSum و B8 =B7/6 ، وفي C: =(A1*5)-(A1/2)*A1 و C7 AutoSum و C8 =C7/6.',
       hint: 'Y1 = Σ(Xi-5)²/6 ≈ 5.17 و Y2 = Σ… = 59.5 (حسب صيغة الملزمة).',
       apply: () => { switchSheet('lec4y6'); Object.entries(LEC4.lec4y6.solve).forEach(([k, v]) => cellsData[k].raw = v); recalcAll(); selectCell('B8'); },
-      check: () => chk('lec4y6', 'B8', 5.17) && chk('lec4y6', 'C7', 59.5) }
+      check: () => chk('lec4y6', 'B8', 5.17) && chk('lec4y6', 'C7', 59.5) && chk('lec4y6', 'C8', 9.92) }
   ];
 
   let currentTaskIdx = 0;
@@ -3283,6 +3327,121 @@
     toastTimer = setTimeout(() => { el.style.display = 'none'; }, 3600);
   }
 
+  // ================= نافذة Insert Function (المحاضرة 4) =================
+  const FXD = [
+    'SUM|Math & Trig|number1,number2,...|Adds all the numbers in a range of cells.',
+    'MOD|Math & Trig|number,divisor|Returns the remainder after a number is divided by a divisor.',
+    'ROUND|Math & Trig|number,num_digits|Rounds a number to a specified number of digits.',
+    'SQRT|Math & Trig|number|Returns a positive square root.',
+    'AVERAGE|Statistical|number1,number2,...|Returns the average (arithmetic mean) of its arguments, which can be numbers or names, arrays, or references that contain numbers.',
+    'COUNT|Statistical|value1,value2,...|Counts the number of cells in a range that contain numbers.',
+    'MAX|Statistical|number1,number2,...|Returns the largest value in a set of values.',
+    'MIN|Statistical|number1,number2,...|Returns the smallest value in a set of values.',
+    'MEDIAN|Statistical|number1,number2,...|Returns the median of the given numbers.',
+    'IF|Logical|logical_test,value_if_true,value_if_false|Checks whether a condition is met, and returns one value if TRUE, and another value if FALSE.',
+    'AND|Logical|logical1,logical2,...|Checks whether all arguments are TRUE.',
+    'DAY|Date & Time|serial_number|Returns the day of the month, a number from 1 to 31.',
+    'MONTH|Date & Time|serial_number|Returns the month, a number from 1 to 12.',
+    'TODAY|Date & Time||Returns the current date.',
+    'PMT|Financial|rate,nper,pv|Calculates the payment for a loan based on constant payments and a constant interest rate.',
+    'FV|Financial|rate,nper,pmt|Returns the future value of an investment.',
+    'VLOOKUP|Lookup & Reference|lookup_value,table_array,col_index_num|Looks for a value in the leftmost column of a table, then returns a value in the same row from a column you specify.',
+    'HYPERLINK|Lookup & Reference|link_location,friendly_name|Creates a shortcut that opens a document on your computer, network server, or the Internet.',
+    'INDEX|Lookup & Reference|array,row_num,column_num|Returns a value or reference from within a table or range.',
+    'DSUM|Database|database,field,criteria|Adds the numbers in the field column of records in the database that match the conditions you specify.',
+    'LEFT|Text|text,num_chars|Returns the specified number of characters from the start of a text string.',
+    'LEN|Text|text|Returns the number of characters in a text string.',
+    'UPPER|Text|text|Converts text to uppercase.',
+    'ISNUMBER|Information|value|Checks whether a value is a number, and returns TRUE or FALSE.',
+    'ISBLANK|Information|value|Checks whether a reference is to an empty cell.',
+    'CONVERT|Engineering|number,from_unit,to_unit|Converts a number from one measurement system to another.',
+    'DEC2BIN|Engineering|number,places|Converts a decimal number to binary.'
+  ].map(x => { const a = x.split('|'); return { n: a[0], c: a[1], s: a[2], d: a[3] }; });
+  const FX_CATS = ['Most Recently Used', 'All', 'Financial', 'Date & Time', 'Math & Trig', 'Statistical', 'Lookup & Reference', 'Database', 'Text', 'Logical', 'Information', 'Engineering'];
+  const FX_MRU = ['AVERAGE', 'DAY', 'SUM', 'IF', 'HYPERLINK', 'COUNT', 'MAX'];
+  const FX_OK = ['SUM', 'AVERAGE', 'COUNT', 'MAX', 'MIN', 'IF', 'MOD'];
+  let fxCell = 'A1', fxCur = null;
+  const $id = i => document.getElementById(i);
+
+  function openFxDialog(cat) {
+    fxCell = activeCellId;
+    $id('fxCat').innerHTML = FX_CATS.map(c => `<option>${c}</option>`).join('');
+    $id('fxCat').value = cat || 'Most Recently Used';
+    $id('fxSearch').value = '';
+    fxFill();
+    openModal('fxModal');
+  }
+  function fxFill(q) {
+    const cat = $id('fxCat').value;
+    let l = q ? FXD.filter(f => (f.n + ' ' + f.d + ' ' + f.c).toLowerCase().includes(q.toLowerCase()))
+      : cat === 'Most Recently Used' ? FX_MRU.map(n => FXD.find(f => f.n === n))
+      : cat === 'All' ? FXD : FXD.filter(f => f.c === cat);
+    $id('fxList').innerHTML = l.map(f => `<option>${f.n}</option>`).join('');
+    $id('fxList').selectedIndex = 0;
+    fxDesc();
+  }
+  function fxDesc() {
+    const f = FXD.find(x => x.n === $id('fxList').value);
+    $id('fxDescBox').innerHTML = f ? `<b>${f.n}(${f.s.replace(/,/g, ', ')})</b><br>${f.d}` : 'No functions found.';
+  }
+  function fxFormula() {
+    const v = [...document.querySelectorAll('.fx-in')].map(i => normalizeDigits(i.value.trim()));
+    while (v.length && !v[v.length - 1]) v.pop();
+    return `=${fxCur.n}(${v.join(fxCur.n === 'IF' ? ';' : ',')})`;
+  }
+  function fxLive() {
+    const f = fxFormula(), r = evaluateFormula(f, '', new Set());
+    $id('fxArgRes').textContent = FX_OK.includes(fxCur.n) && r !== f ? r : '';
+  }
+  function fxOk() {
+    const f = FXD.find(x => x.n === $id('fxList').value);
+    if (!f) return;
+    closeModal('fxModal');
+    fxCur = f;
+    selectCell(fxCell);
+    pendingFormulaBeforeEdit = cellsData[fxCell].raw || '';
+    cellsData[fxCell].raw = '=';
+    $id('formulaInput').value = '=';
+    isWaitingConfirm = true;
+    $id('formulaBarContainer').classList.add('pending-confirm');
+    recalcAll();
+    const args = f.s ? f.s.split(',').filter(a => a !== '...').slice(0, 3) : [];
+    $id('fxArgName').textContent = f.n;
+    $id('fxArgRows').innerHTML = args.map((a, i) => `<div style="display:flex;gap:6px;align-items:center;margin:3px 0;"><b style="min-width:100px;">${a}</b><input class="dialog-input fx-in" oninput="fxLive()" style="flex:1" placeholder="${i === 0 ? 'e.g. A1:A6' : ''}"><span style="color:#64748b;">= number</span></div>`).join('');
+    $id('fxArgDesc').textContent = f.d;
+    fxLive();
+    openModal('fxArgModal');
+  }
+  function fxArgOk() {
+    closeModal('fxArgModal');
+    const f = fxFormula();
+    if (!FX_OK.includes(fxCur.n)) {
+      cancelFormulaEdit();
+      showToast(`الدالة ${fxCur.n} للتعريف فقط؛ المحاكي يحسب: SUM, AVERAGE, COUNT, MAX, MIN, IF, MOD`);
+      return;
+    }
+    cellsData[fxCell].raw = f;
+    $id('formulaInput').value = f;
+    isWaitingConfirm = true;
+    $id('formulaBarContainer').classList.add('pending-confirm');
+    clearTraceHighlights();
+    (f.match(/[A-Z]+\d+(?::[A-Z]+\d+)*/gi) || []).flatMap(x => expandRange(x.toUpperCase())).forEach(id => { if (cellsData[id]) cellsData[id].traceHighlight = true; });
+    recalcAll();
+    showToast(`ظهرت المعادلة ${f} في الخلية وشريط الصيغة — اضغط علامة الصح ✔ للتنفيذ أو ✕ للإلغاء`);
+  }
+  function evalFormulaAction() {
+    const c = cellsData[activeCellId];
+    showToast(String(c.raw).startsWith('=') ? `Evaluate Formula (${activeCellId}): ${c.raw}  ⟵  ${c.val}` : `الخلية ${activeCellId} ليست معادلة`);
+  }
+  function errorCheckAction() {
+    const bad = Object.keys(cellsData).filter(k => String(cellsData[k].val).startsWith('#'));
+    showToast(bad.length ? `Error Checking: أخطاء في ${bad.join(', ')}` : 'Error Checking: لا توجد أخطاء في الورقة ✔');
+  }
+  function watchWindowAction() {
+    const c = cellsData[activeCellId];
+    showToast(`Watch Window | ${activeCellId} | القيمة: ${c.val || '-'} | الصيغة: ${c.raw || '-'}`);
+  }
+
   let siteZoom = 1;
   function changeSiteZoom(d) {
     siteZoom = d === 0 ? 1 : Math.min(1.8, Math.max(0.6, Math.round((siteZoom + d) * 100) / 100));
@@ -3293,6 +3452,7 @@
   window.onload = () => {
     initAllSheetsStore();
     renderExamTask();
+    applyLang();
   };
 </script>
 </body>
