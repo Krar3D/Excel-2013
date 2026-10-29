@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>محاكي Excel 2013 الشامل - المحاضرة الثالثة (قسم الاقتصاد - المرحلة الثانية)</title>
+<title>محاكي Excel 2013 الشامل - المحاضرة الرابعة (قسم الاقتصاد - المرحلة الثانية)</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
 
@@ -809,6 +809,12 @@
     text-align: center;
     max-width: 92%;
   }
+  :root { --site-zoom: 1; }
+  .app-wrapper { zoom: var(--site-zoom); }
+  .floating-body { font-size: calc(11px * var(--site-zoom)); }
+  #zoomCtl { zoom: calc(1 / var(--site-zoom)); direction: ltr; display: inline-flex; align-items: center; gap: 2px; background: #fff; border-radius: 12px; padding: 1px 3px; }
+  #zoomCtl button { border: none; background: #dcfce7; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; cursor: pointer; padding: 0; }
+  #zoomCtl span { font-size: 9.5px; font-weight: 700; color: #217346; min-width: 30px; text-align: center; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -833,10 +839,11 @@
   <div class="uni-bar">
     <div>🏛️ <b>جامعة واسط - قسم الاقتصاد</b> | المرحلة الثانية (شعبة أ + ب)</div>
     <div class="uni-bar-actions">
-      <button class="uni-btn btn-gold" onclick="openModal('lectureModal')">📖 شرح المحاضرة 3 والواجب</button>
-      <button class="uni-btn btn-blue" onclick="switchSheet('lec3')">🔢 تمرين A1:A5 بالملزمة</button>
+      <button class="uni-btn btn-gold" onclick="openModal('lectureModal')">📖 شرح المحاضرة 4 والتطبيقات</button>
+      <button class="uni-btn btn-blue" onclick="switchSheet('lec4v')">🔢 تطبيقات المحاضرة 4</button>
       <button class="uni-btn btn-dark" onclick="toggleExamBar()">🎓 مدرب الامتحان (10)</button>
       <button class="uni-btn btn-lang" onclick="clearFormulasForPractice()">🧹 تصفير للتدريب</button>
+      <div id="zoomCtl"><button onclick="changeSiteZoom(-0.1)" title="تصغير">➖</button><span id="zoomLbl" onclick="changeSiteZoom(0)" title="إعادة 100%">100%</span><button onclick="changeSiteZoom(0.1)" title="تكبير">➕</button></div>
     </div>
   </div>
 
@@ -1482,14 +1489,14 @@
   <!-- 5. شريط مدرب الامتحان العملي (10 تمارين شاملة للمحاضرة 3) -->
   <div class="exam-bar" id="examBar">
     <div class="exam-top">
-      <span class="exam-title" id="examTitle">التمرين 1 من 10: تمرين المحاضرة 3 (جمع الخلايا A1:A5 بالخطوات الـ 5)</span>
+      <span class="exam-title" id="examTitle">التمرين 1 من 10: جمع عمودي A1:A3 في الخلية A4</span>
       <div class="exam-actions">
         <button class="ex-btn" style="background:#334155;color:#fff;" onclick="prevTask()">◀ السابق</button>
         <button class="ex-btn" style="background:#334155;color:#fff;" onclick="nextTask()">التالي ▶</button>
         <button class="ex-btn" style="background:#dc2626;color:#fff;" onclick="toggleExamBar()">✕ إخفاء</button>
       </div>
     </div>
-    <div class="exam-desc" id="examDesc">اضغط "🪄 طبقها لي" أو افتح ورقة (تمرين المحاضرة 3) وحدد A6 ثم اضغط AutoSum ∑ ثم اضغط علامة الصح ✔ في شريط الصيغة.</div>
+    <div class="exam-desc" id="examDesc">افتح ورقة "عمودي"، حدد A4 ثم اضغط AutoSum ∑ ثم Sum ثم علامة الصح ✔ في شريط الصيغة.</div>
     <div class="exam-actions">
       <button class="ex-btn" style="background:#eab308;color:#1e293b;" onclick="checkCurrentTask()">✔ تحقق من إجابتي</button>
       <button class="ex-btn" style="background:#0284c7;color:#fff;" onclick="applyCurrentTask()">🪄 طبقها لي</button>
@@ -1554,7 +1561,7 @@
       </div>
       <button class="new-sheet-plus-btn" onclick="addNewSheet()" title="إدراج ورقة عمل جديدة (New Sheet +)">+</button>
     </div>
-    <div id="selectionStats" style="font-weight:700;color:#217346;">الناجحون: 9 (أخضر) | الراسبون: 1 (حيدر جبار - أحمر)</div>
+    <div id="selectionStats" style="font-weight:700;color:#217346;">الناجح: 1 (حيدر جبار - أخضر) | الراسبون: 9 (أحمر)</div>
   </div>
 
   <!-- 10. شريط الحالة السفلي -->
@@ -1611,8 +1618,8 @@
   </div>
   <div class="floating-body" style="display:flex;flex-direction:column;gap:6px;">
     <button class="ex-btn" style="background:#e2e8f0;color:#1e293b;" onclick="filterTableRows('ALL')">عرض جميع الطلاب (10)</button>
-    <button class="ex-btn" style="background:#dcfce7;color:#166534;" onclick="filterTableRows('ناجح')">الطلاب الناجحون فقط (9) - أخضر</button>
-    <button class="ex-btn" style="background:#fee2e2;color:#991b1b;" onclick="filterTableRows('راسب')">الراسبون فقط (حيدر جبار نعمه لهيب) - أحمر</button>
+    <button class="ex-btn" style="background:#dcfce7;color:#166534;" onclick="filterTableRows('ناجح')">الناجح فقط (حيدر جبار نعمه لهيب) - أخضر</button>
+    <button class="ex-btn" style="background:#fee2e2;color:#991b1b;" onclick="filterTableRows('راسب')">الراسبون فقط (9) - أحمر</button>
   </div>
 </div>
 
@@ -1639,52 +1646,52 @@
   </div>
 </div>
 
-<!-- نافذة ملخص المحاضرة الثالثة الشامل مع حل الواجب -->
+<!-- نافذة ملخص المحاضرة الرابعة + التطبيقات -->
 <div class="floating-panel" id="lectureModal">
-  <div class="floating-header">
-    <span>📖 ملخص المحاضرة الثالثة الكامل + حل الواجب البيتي</span>
-    <button onclick="closeModal('lectureModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
-  </div>
+  <div class="floating-header"><span>📖 المحاضرة 4: تبويب الصيغ Formulas + التطبيقات</span>
+    <button onclick="closeModal('lectureModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button></div>
   <div class="floating-body">
-    <p><b>📌 أولاً: الصور في الصفحة 1 من الملزمة:</b><br>
-    1️⃣ <b>تبويب الصيغ أو المعادلات (Formulas)</b>.<br>
-    2️⃣ <b>مجموعة تعريف الأسماء (Defined Names)</b>: وتضم `Define Name` و `Name Manager`.<br>
-    3️⃣ <b>شريط العنوان</b>: `Book1 - Excel (Product Activation Failed)`.</p>
-    <hr style="margin:6px 0;">
-    <p><b>📌 ثانياً: تبويب الصفحة الرئيسة (Home Tab):</b></p>
-    <ul style="padding-right:16px;">
-      <li><b>1- مجموعة رقم (Number):</b> لتنسيق كيفية عرض قيم الخلايا (نسبة مئوية `%` أو تأريخ أو عملة `$` أو أرقام `General`).</li>
-      <li><b>2- مجموعة أنماط (Styles):</b> للتحكم في تنسيق ونمط الخلايا، وتشمل التنسيق الشرطي (<b>Conditional Formatting</b>) وتنسيق كجدول (<b>Format as Table</b>) وأنماط الخلية (`Normal`, `Bad`, `Good`, `Neutral`).</li>
-      <li><b>3- مجموعة خلايا (Cells):</b> وتشمل 3 أوامر:
-        <br>• <b>إدراج Insert:</b> لإدراج خلايا أو أعمدة أو صفوف أو ورقة عمل جديدة.
-        <br>• <b>حذف Delete:</b> لحذف خلايا أو أعمدة أو صفوف أو ورقة عمل.
-        <br>• <b>تنسيق Format:</b> لتحديد حجم الخلية (ارتفاع وعرض واحتواء) وإخفاء وإظهار الخلايا ونقل وإعادة تسمية ورقة العمل.</li>
-      <li><b>4- مجموعة تحرير (Editing):</b> وتشمل:
-        <br>• <b>الجمع التلقائي AutoSum ∑:</b> ويضم (`Sum` دالة الجمع، `Average` دالة المعدل، `Count Numbers` دالة حساب، `Max`، `Min`، `More Functions`).</li>
+    <p><b>📌 تبويب الصيغ (Formulas):</b> نتعامل فيه مع الصيغ الرياضية ونتحكم بالدوال المدرجة بالصيغ.</p>
+    <p style="margin-top:5px;"><b>1- مجموعة مكتبة الدوال (Function Library):</b> تساعد على تغيير وإدراج الدوال في ورقة العمل. كل "كتاب" يخص علماً: <b>Financial</b> مالية، <b>Logical</b> منطقية، <b>Text</b> نصية، <b>Date &amp; Time</b> زمنية، <b>Lookup &amp; Reference</b> مرجعية، <b>Math &amp; Trig</b> رياضيات ومثلثات، و<b>More Functions</b> دوال إضافية، إضافة إلى <b>Insert Function</b> و<b>Recently Used</b>.</p>
+    <ul style="padding-right:16px;margin-top:5px;">
+      <li><b>∑ AutoSum (الجمع التلقائي):</b> يجمع عدداً من الخلايا بعد تحديدها ويضع الناتج في الخلية النشطة، ويضم: Sum و Average (المعدل) و Count Numbers و Max (أعلى قيمة) و Min (أقل قيمة).</li>
+      <li><b>fx (Function):</b> فيه أكثر من 300 دالة رياضية وإحصائية (Sum, Average, Count, Max, Min, Mod...).</li>
     </ul>
-    <hr style="margin:6px 0;">
-    <p style="background:#eff6ff;padding:6px;border-right:3px solid #2563eb;"><b>🔢 خطوات جمع الخلايا `A1 + A2 + A3 + A4 + A5` (صفحة 5 إلى 8):</b><br>
-    1. نقوم بإدخال الأرقام (1، 2، 3، 4، 5) في الخلايا `A1:A5`.<br>
-    2. نحدد الخلية `A6` كخلية نشطة بالزر الأيسر للماوس.<br>
-    3. نضغط على علامة الجمع `∑ AutoSum` في مجموعة تحرير `Editing`.<br>
-    4. تظهر المعادلة `=SUM(A1:A5)` في شريط الصيغة وفي الخلية النشطة.<br>
-    5. نضغط على <b>علامة الصح ✔</b> في شريط الصيغة لإتمام المعادلة وإظهار الناتج (15)، أو <b>علامة الخطأ ✕</b> لإلغائها.<br>
-    <i>* وبنفس الخطوات نحصل على المعدل باختيار `Average`.</i></p>
-    <p style="background:#fef9c3;padding:5px;border-right:3px solid #eab308;margin-top:5px;"><b>⚠️ ملاحظة مهمة جداً (صفحة 8):</b> برنامج Excel 2013 لا يتعامل مع الأرقام مباشرة وإنما يتعامل مع <b>الخلايا</b>؛ فلا يفهم `1 + 1` وإنما يفهم `A1 + A2`.</p>
-    <hr style="margin:6px 0;">
-    <p><b>📝 حل الواجب البيتي (صفحة 10 بالملزمة):</b></p>
-    <p><b>س1/ ما الفرق بين ملئ Fill ومسح Clear؟</b><br>
-    • <b>ملئ (Fill):</b> هو أمر لملء الخلايا بنفس التنسيق والاتجاه على غرار القيم السابقة الموجودة إما للأسفل (`Down`) أو اليمين (`Right`) أو الأعلى (`Up`) أو اليسار (`Left`).<br>
-    • <b>مسح (Clear):</b> هو أمر لمسح التنسيق (`Clear Formats`) أو محتوى الخلية (`Clear Contents`) أو مسح الكل (`Clear All`) أو التعليقات أو الارتباطات.</p>
-    <p style="margin-top:4px;"><b>س2/ ما الفرق بين Sort Ascending و Sort Descending؟</b><br>
-    • <b>الترتيب التصاعدي (Sort Ascending / Smallest to Largest):</b> يرتب الأسماء أبجدياً من (أ إلى ي أو A إلى Z)، ويرتب الأرقام من أصغر رقم إلى أكبر رقم.<br>
-    • <b>الترتيب التنازلي (Sort Descending / Largest to Smallest):</b> يرتب الأسماء تنازلياً من (ي إلى أ أو Z إلى A)، ويرتب الأرقام من أكبر رقم إلى أصغر رقم.</p>
-    <hr style="margin:6px 0;">
-    <p><b>📌 ثالثاً: تبويب تخطيط الصفحة (Page Layout Tab - ص11 وص12):</b><br>
-    1. <b>مجموعة تغيير الحجم لغرض الملائمة (Scale to Fit):</b> لتحديد طول وعرض الخلية (`Width`, `Height`, `Scale`) ليتم طباعة المستند كاملاً في عدد محدد من الأوراق.<br>
-    2. <b>مجموعة خيارات الورقة (Sheet Options):</b> لقلب اتجاه الورقة من اليمين إلى اليسار وبالعكس (`Sheet Right-to-Left`)، والتحكم في إظهار (`View`) أو طباعة (`Print`) خطوط الشبكة (`Gridlines`) والعناوين (`Headings`).</p>
+    <p style="background:#eff6ff;padding:6px;border-right:3px solid #2563eb;margin-top:5px;"><b>خطوات استخدام fx (الصور 1-7):</b><br>
+    1. حدد الخلية النشطة ثم اضغط fx بالزر الأيسر.<br>
+    2. يظهر مربع حوار Insert Function.<br>
+    3. اختر التصنيف Function Category (مثل Math &amp; Trig أو Statistical).<br>
+    4. اختر اسم الدالة Function Name.<br>
+    5. اضغط OK فتظهر الدالة في Name Box وشريط الصيغة.<br>
+    6. تظهر نافذة Function Arguments.<br>
+    7. اكتب أول خلية ثم <b>:</b> ثم آخر خلية مثل <code>A1:A6</code> (النقطتان بـ Shift + ك) واضغط OK، فتظهر المعادلة في الخلية وشريط الصيغة؛ اضغط <b>✔ صح</b> للتنفيذ أو <b>✕ خطأ</b> للإلغاء.</p>
+    <p style="background:#fef9c3;padding:5px;border-right:3px solid #eab308;margin-top:5px;"><b>⚠️ مهم:</b> Excel لا يتعامل مع الأرقام بل مع <b>الخلايا</b>، فأدخل الأرقام في الخلايا ثم طبّق المعادلة بكتابة اسم الخلية.</p>
+    <hr style="margin:7px 0;">
+    <p><b>📝 التطبيقات العملية (مطلوبة بالامتحان) — اضغط لفتح ورقتها:</b></p>
+    <p style="margin-top:4px;"><b>س1/ جمع ومعدل خلايا عمودياً:</b> أدخل A1:A3 وحدد A4 → ∑ AutoSum → Sum تظهر <code>=SUM(A1:A3)</code> (في الملزمة تُكتب A1:A2:A3) ثم ✔. وللمعدل اختر Average. <button class="m-chip" onclick="closeModal('lectureModal');switchSheet('lec4v')">🔢 عمودي</button></p>
+    <p style="margin-top:4px;"><b>س2/ أفقياً:</b> أدخل A1 و B1 و C1 وحدد D1 → Sum ثم Average بنفس الخطوات: <code>=SUM(A1:C1)</code>. <button class="m-chip" onclick="closeModal('lectureModal');switchSheet('lec4h')">↔️ أفقي</button></p>
+    <p style="margin-top:4px;"><b>س3/ خلايا مبعثرة:</b> أدخل A1 و B2 و C3 و D4 و E5 وحدد F7، اختر Sum وأدخل أسماء الخلايا بين القوسين <code>=SUM(A1:B2:C3:D4:E5)</code> ثم ✔ (وفي Excel الحقيقي بالفاصلة <code>=SUM(A1,B2,C3,D4,E5)</code>). <button class="m-chip" onclick="closeModal('lectureModal');switchSheet('lec4s')">✳️ مبعثر</button></p>
+    <p style="margin-top:4px;"><b>س4/ جمع مصفوفة (مجموعة صفوف وأعمدة):</b> أدخل البيانات في A1:B6 وحدد D6 (خلية فارغة خارج المصفوفة) → Sum ثم اكتب <code>=SUM(A1:B6)</code> ثم ✔. <button class="m-chip" onclick="closeModal('lectureModal');switchSheet('lec4m')">▦ مصفوفة</button></p>
+    <p style="background:#fee2e2;padding:5px;border-right:3px solid #dc2626;margin-top:5px;"><b>ملاحظة مهمة:</b> في الامتحان إذا ظهرت لك الصيغة في شريط الصيغة (أي دالة كانت مثل <code>=Sum(A1:A2:…:A6)</code>) تحصل على درجة كاملة.</p>
+    <hr style="margin:7px 0;">
+    <p><b>⭐ سؤال مهم جداً:</b> البيانات A1:A10 هي قيم Xi (i=1..10). أوجد:<br>
+    <b>Y1 = Σ(Xi−3)² / 10</b> و <b>Y2 = Σ((Xi·3)−(Xi/2))·Xi</b></p>
+    <p style="margin-top:4px;"><b>حل الفرع أ (Y1):</b><br>
+    1. أدخل 1 إلى 10 في A1:A10 (Fill → Series).<br>
+    2. حدد B1 واكتب <code>=(A1-3)^2</code> ثم ✔.<br>
+    3. اسحب مقبض التعبئة (+) من B1 إلى B10 (Fill Down)، فتتغير الخلية A تلقائياً (B4 تعطي <code>=(A4-3)^2</code>).<br>
+    4. حدد B11 واضغط AutoSum → <code>=SUM(B1:B10)</code> (هذا البسط).<br>
+    5. حدد B12 واكتب <code>=B11/10</code> فنحصل على Y1.</p>
+    <p style="margin-top:4px;"><b>حل الفرع ب (Y2):</b> نفس الخطوات لكن نغيّر معادلة B1 إلى <code>=(A1*3)-(A1/2)*A1</code> ثم الخطوتين 4 و5. (للمطابقة الحرفية للقانون استعمل <code>=((A1*3)-(A1/2))*A1</code>). <button class="m-chip" onclick="closeModal('lectureModal');switchSheet('lec4y10')">⭐ Y1,Y2 (10)</button></p>
+    <hr style="margin:7px 0;">
+    <p><b>2- مجموعة تعريف الأسماء (Define Names):</b> لتسمية الخلايا بدلاً من اسمها المعروف بمربع الأسماء إلى اسم أسهل (مثل تغيير B6 إلى "أحمد") لنصل إليها بسرعة.</p>
+    <p style="background:#eff6ff;padding:6px;border-right:3px solid #2563eb;margin-top:5px;"><b>🏠 السؤال الواجب البيتي:</b> البيانات A1:A6 هي Xi، قيم i=1..6. أوجد:<br>
+    <b>Y1 = Σ(Xi−5)² / 6</b> و <b>Y2 = Σ((Xi·5)−(Xi/2))·Xi</b><br>
+    بنفس الطريقة: <code>=(A1-5)^2</code> ثم Fill Down إلى B6، AutoSum في B7، ثم <code>=B7/6</code>. وللـ Y2: <code>=(A1*5)-(A1/2)*A1</code> ثم AutoSum. <button class="m-chip" onclick="closeModal('lectureModal');switchSheet('lec4y6')">🏠 الواجب</button></p>
   </div>
 </div>
+
+<!-- أزرار تكبير وتصغير الموقع -->
 
 <div class="toast-msg" id="toastMsg"></div>
 
@@ -1758,19 +1765,19 @@
     });
 
     const students = [
-      // حيدر جبار نعمه لهيب (الوحيد الراسب - أحمر)
-      { name: 'حيدر جبار نعمه لهيب', b: 35, c: 42, d: 38 },
+      // حيدر جبار نعمه لهيب (الوحيد الناجح - أخضر) والبقية راسبون - أحمر
+      { name: 'حيدر جبار نعمه لهيب', b: 82, c: 76, d: 88 },
       // 4 أولاد ناجحون (أخضر)
-      { name: 'زين العابدين احمد عبد الامير علي', b: 84, c: 78, d: 88 },
-      { name: 'سجاد ياسر مجيد رشيد', b: 76, c: 82, d: 80 },
-      { name: 'مصطفى رحمان علي كعيد', b: 88, c: 85, d: 92 },
-      { name: 'حسن سعيد كاظم حمزه', b: 72, c: 75, d: 79 },
+      { name: 'زين العابدين احمد عبد الامير علي', b: 40, c: 35, d: 44 },
+      { name: 'سجاد ياسر مجيد رشيد', b: 38, c: 45, d: 41 },
+      { name: 'مصطفى رحمان علي كعيد', b: 44, c: 39, d: 47 },
+      { name: 'حسن سعيد كاظم حمزه', b: 36, c: 41, d: 43 },
       // 5 بنات ناجحات (أخضر)
-      { name: 'بتول ياس خضير كصيور', b: 91, c: 89, d: 95 },
-      { name: 'شهد سعدون ظاهر عجه', b: 80, c: 77, d: 84 },
-      { name: 'اسراء جاسم رزاق داود', b: 86, c: 90, d: 88 },
-      { name: 'زهراء قاسم سالم حربي', b: 79, c: 83, d: 85 },
-      { name: 'نور الهدى هادي محسن حمود', b: 93, c: 91, d: 96 }
+      { name: 'بتول ياس خضير كصيور', b: 45, c: 42, d: 48 },
+      { name: 'شهد سعدون ظاهر عجه', b: 33, c: 40, d: 37 },
+      { name: 'اسراء جاسم رزاق داود', b: 42, c: 46, d: 39 },
+      { name: 'زهراء قاسم سالم حربي', b: 37, c: 44, d: 41 },
+      { name: 'نور الهدى هادي محسن حمود', b: 46, c: 43, d: 49 }
     ];
 
     students.forEach((st, idx) => {
@@ -1803,24 +1810,51 @@
     return grid;
   }
 
-  function buildLecture3SheetCells() {
-    const grid = createEmptyGrid();
-    grid['A1'].raw = '1';
-    grid['A2'].raw = '2';
-    grid['A3'].raw = '3';
-    grid['A4'].raw = '4';
-    grid['A5'].raw = '5';
-    grid['A6'].raw = ''; // جاهزة ليضغط الطالب على AutoSum ثم علامة الصح ✔
-    grid['A6'].style = { fontWeight: 'bold', backgroundColor: '#fef9c3' };
-
-    grid['C1'].raw = 'تمرين المحاضرة 3 (صفحة 5 - 8):';
-    grid['C1'].style = { fontWeight: 'bold', color: '#14532d' };
-    grid['C2'].raw = '1) الأرقام 1 إلى 5 موضوعة في A1:A5';
-    grid['C3'].raw = '2) الخلية النشطة المحددة الآن هي A6';
-    grid['C4'].raw = '3) اضغط زر (∑ AutoSum) في مجموعة تحرير';
-    grid['C5'].raw = '4) ستظهر =SUM(A1:A5) في الخلية وشريط الصيغة';
-    grid['C6'].raw = '5) اضغط علامة الصح ✔ لإظهار الناتج (15) أو ✕ للإلغاء';
-    return grid;
+  // ================= تطبيقات المحاضرة 4 =================
+  const TGT = { fontWeight: 'bold', backgroundColor: '#fef9c3' };
+  function l4note(g, id, txt) {
+    const row = id.slice(1);
+    g[id].raw = txt;
+    g[id].style = { fontSize: '9.5px', color: '#14532d', textAlign: 'right', fontWeight: 'bold', backgroundColor: '#f0fdf4' };
+    g[id].colspan = 8;
+    COLS.slice(1).forEach(c => { g[c + row].hiddenByMerge = true; });
+  }
+  function ySolve(n, k, tplB, tplC) {
+    const o = {};
+    for (let r = 1; r <= n; r++) { o['B' + r] = tplB.replace(/#/g, r); o['C' + r] = tplC.replace(/#/g, r); }
+    o['B' + (n + 1)] = `=SUM(B1:B${n})`; o['B' + (n + 2)] = `=B${n + 1}/${k}`; o['C' + (n + 1)] = `=SUM(C1:C${n})`;
+    return o;
+  }
+  function yBuild(g, n, c, tgt, note) {
+    for (let r = 1; r <= n; r++) g['A' + r].raw = String(r);
+    tgt.forEach(id => g[id].style = TGT);
+    g['E1'].raw = 'Y1 ←'; g['E' + (n + 2)].raw = 'Y1 ←';
+    l4note(g, 'A15', note);
+  }
+  const LEC4 = {
+    lec4v: { name: 'عمودي A1:A3', active: 'A4', auto: { A4: 'A1:A3' }, solve: { A4: '=SUM(A1:A3)' },
+      build(g) { [10, 20, 30].forEach((v, i) => g['A' + (i + 1)].raw = String(v)); g['A4'].style = TGT; l4note(g, 'A15', 'حدد A4 ← ∑ AutoSum ← Sum أو Average ← علامة الصح ✔'); } },
+    lec4h: { name: 'أفقي A1:C1', active: 'D1', auto: { D1: 'A1:C1' }, solve: { D1: '=SUM(A1:C1)' },
+      build(g) { [10, 20, 30].forEach((v, i) => g['ABC'[i] + '1'].raw = String(v)); g['D1'].style = TGT; l4note(g, 'A15', 'حدد D1 ← ∑ AutoSum ← Sum أو Average ← علامة الصح ✔'); } },
+    lec4s: { name: 'خلايا مبعثرة', active: 'F7', auto: { F7: 'A1:B2:C3:D4:E5' }, solve: { F7: '=SUM(A1:B2:C3:D4:E5)' },
+      build(g) { ['A1', 'B2', 'C3', 'D4', 'E5'].forEach((id, i) => g[id].raw = String((i + 1) * 10)); g['F7'].style = TGT; l4note(g, 'A15', 'حدد F7 ← Sum ← اكتب أسماء الخلايا A1:B2:C3:D4:E5 ← ✔'); } },
+    lec4m: { name: 'مصفوفة A1:B6', active: 'D6', auto: { D6: 'A1:B6' }, solve: { D6: '=SUM(A1:B6)' },
+      build(g) { for (let r = 1; r <= 6; r++) { g['A' + r].raw = String(r); g['B' + r].raw = String(r + 6); } g['D6'].style = TGT; l4note(g, 'A15', 'حدد D6 ← Sum ← اكتب =SUM(A1:B6) ← علامة الصح ✔'); } },
+    lec4y10: { name: 'Y1 و Y2 (10)', active: 'B1', auto: { B11: 'B1:B10', C11: 'C1:C10' }, fillTo: { B: 10, C: 10 },
+      solve: ySolve(10, 10, '=(A#-3)^2', '=(A#*3)-(A#/2)*A#'),
+      build(g) { yBuild(g, 10, 'B', ['B11', 'B12', 'C11'], 'B: =(A1-3)^2 ثم Fill Down | B11 = AutoSum | B12 = B11/10 | C: Y2'); } },
+    lec4y6: { name: 'الواجب Y (6)', active: 'B1', auto: { B7: 'B1:B6', C7: 'C1:C6' }, fillTo: { B: 6, C: 6 },
+      solve: ySolve(6, 6, '=(A#-5)^2', '=(A#*5)-(A#/2)*A#'),
+      build(g) { yBuild(g, 6, 'B', ['B7', 'B8', 'C7'], 'B: =(A1-5)^2 ثم Fill Down | B7 = AutoSum | B8 = B7/6 | C: Y2'); } }
+  };
+  const LEC4_IDS = Object.keys(LEC4);
+  function makeLec4Grid(id) { const g = createEmptyGrid(); LEC4[id].build(g); return g; }
+  function expandRange(str) {
+    const p = str.split(':');
+    if (p.length !== 2) return p;
+    const c1 = COLS.indexOf(p[0][0]), c2 = COLS.indexOf(p[1][0]), r1 = +p[0].slice(1), r2 = +p[1].slice(1), out = [];
+    for (let r = Math.min(r1, r2); r <= Math.max(r1, r2); r++) for (let c = Math.min(c1, c2); c <= Math.max(c1, c2); c++) out.push(COLS[c] + r);
+    return out;
   }
 
   function initAllSheetsStore() {
@@ -1835,16 +1869,7 @@
         gridlines: true,
         headings: true
       },
-      {
-        id: 'lec3',
-        name: 'تمرين المحاضرة 3 (A1:A5)',
-        cellsData: buildLecture3SheetCells(),
-        hiddenRows: [],
-        activeCellId: 'A6',
-        ltr: false,
-        gridlines: true,
-        headings: true
-      }
+      ...LEC4_IDS.map(id => ({ id, name: LEC4[id].name, cellsData: makeLec4Grid(id), hiddenRows: [], activeCellId: LEC4[id].active, ltr: false, gridlines: true, headings: true }))
     ];
     newSheetCounter = 3;
     loadSheetFromStore('main');
@@ -1883,6 +1908,9 @@
     if (chkG) chkG.checked = !!sh.gridlines;
     const chkH = document.getElementById('chkHeadings');
     if (chkH) chkH.checked = !!sh.headings;
+
+    const st = document.getElementById('selectionStats');
+    if (st) st.style.display = sh.id === 'main' ? '' : 'none';
 
     renderSheetTabsBar();
     recalcAll();
@@ -1960,6 +1988,7 @@
   // ================= محرك الحسابات الآمن بدون أخطاء المراجع الدائرية =================
   function getRangeValues(rangeStr, visited = new Set()) {
     const parts = rangeStr.toUpperCase().split(':');
+    if (parts.length > 2) return parts.map(x => parseFloat(cellsData[x.trim()]?.val)).filter(v => !isNaN(v));
     if (parts.length !== 2) return [];
     const c1 = COLS.indexOf(parts[0].charAt(0));
     const r1 = parseInt(parts[0].slice(1));
@@ -2047,8 +2076,8 @@
         const v = parseFloat(cellsData[m]?.val);
         return isNaN(v) ? 0 : v;
       });
-      if (/^[0-9+\-*/().\s]+$/.test(replaced)) {
-        const out = Function('"use strict";return (' + replaced + ')')();
+      if (/^[0-9+\-*/().\s^]+$/.test(replaced)) {
+        const out = Function('"use strict";return (' + replaced.replace(/\^/g, '**') + ')')();
         return Number.isFinite(out) ? Number(out.toFixed(2)) : '#DIV/0!';
       }
     } catch (e) {
@@ -2099,7 +2128,7 @@
 
         const td = document.createElement('td');
         td.id = 'cell-' + id;
-        if ((c === 'A' && r >= 4 && r <= 13 && currentSheetId === 'main') || (c === 'C' && currentSheetId === 'lec3')) {
+        if ((c === 'A' && r >= 4 && r <= 13 && currentSheetId === 'main')) {
           td.classList.add('col-name');
         }
         if (cell.colspan && cell.colspan > 1) {
@@ -2251,7 +2280,11 @@
     let formula = '';
     let highlightRange = [];
 
-    if (currentSheetId === 'lec3' || (c === 'A' && r === 6)) {
+    const l4r = LEC4[currentSheetId]?.auto?.[activeCellId];
+    if (l4r) {
+      formula = `=${fnName}(${l4r})`;
+      highlightRange = expandRange(l4r);
+    } else if (c === 'A' && r === 6) {
       formula = `=${fnName}(A1:A5)`;
       highlightRange = ['A1','A2','A3','A4','A5'];
     } else if (fnName === 'IF') {
@@ -2306,7 +2339,7 @@
     clearTraceHighlights();
     document.getElementById('formulaInput').value = cellsData[activeCellId]?.raw || '';
     recalcAll();
-    showToast('✕ تم الضغط على علامة الخطأ وإلغاء العملية الحسابية كما في المحاضرة 3');
+    showToast('✕ تم الضغط على علامة الخطأ وإلغاء العملية الحسابية كما في المحاضرة 4');
   }
 
   function appendFormulaText(txt) {
@@ -2373,6 +2406,15 @@
     }
 
     if (dir === 'down') {
+      const ft = LEC4[currentSheetId]?.fillTo?.[col];
+      if (ft && startRow < ft) {
+        for (let r = startRow + 1; r <= ft; r++) {
+          cellsData[col + r].raw = String(srcRaw).replace(/([A-Z]+)(\d+)/gi, (m, cl, rn) => cl.toUpperCase() + (parseInt(rn) + r - startRow));
+        }
+        recalcAll();
+        showToast(`تم Fill Down من ${col}${startRow} إلى ${col}${ft} ✔ (تغيّر اسم الخلية A تلقائياً)`);
+        return;
+      }
       if (currentSheetId === 'main' && startRow >= 4 && startRow <= 13) {
         for (let r = 4; r <= 13; r++) {
           if (r === startRow) continue;
@@ -2986,11 +3028,11 @@
       const innerCircle = type === 'doughnut' ? '<circle cx="80" cy="80" r="30" fill="#f8fafc"/>' : '';
       area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط دائري لنسبة النجاح والرسوب</div>
         <svg width="160" height="160" viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r="65" fill="#16a34a"/>
-          <path d="M80 80 L80 15 A65 65 0 0 1 118 27 Z" fill="#dc2626"/>
+          <circle cx="80" cy="80" r="65" fill="#dc2626"/>
+          <path d="M80 80 L80 15 A65 65 0 0 1 118 27 Z" fill="#16a34a"/>
           ${innerCircle}
         </svg>
-        <div style="font-size:10.5px;margin-top:4px;">🟢 ناجح: <b>90% (9 طلاب)</b> | 🔴 راسب: <b>10% (حيدر جبار)</b></div>`;
+        <div style="font-size:10.5px;margin-top:4px;">🟢 ناجح: <b>10% (حيدر جبار)</b> | 🔴 راسب: <b>90% (9 طلاب)</b></div>`;
     } else {
       const pts = students.map((s, i) => `${20 + i * 32},${140 - s.avg * 1.2}`).join(' ');
       const circles = students.map((s, i) => `<circle cx="${20 + i * 32}" cy="${140 - s.avg * 1.2}" r="4" fill="${s.avg < 50 ? '#dc2626' : '#1d4ed8'}"/>`).join('');
@@ -3051,9 +3093,9 @@
     document.getElementById('pivotBody').innerHTML = `
       <table style="width:100%;border-collapse:collapse;font-size:11px;text-align:center;" border="1">
         <tr style="background:#217346;color:#fff;"><th>الفئة</th><th>العدد</th><th>الحالة</th></tr>
-        <tr><td>الطلاب (بنين)</td><td>5</td><td>4 ناجح / 1 راسب (حيدر جبار)</td></tr>
-        <tr><td>الطالبات (بنات)</td><td>5</td><td>5 ناجحات (100%)</td></tr>
-        <tr style="font-weight:bold;background:#dcfce7;"><td>المجموع الكلي</td><td>10</td><td>9 ناجح / 1 راسب</td></tr>
+        <tr><td>الطلاب (بنين)</td><td>5</td><td>1 ناجح (حيدر جبار) / 4 راسب</td></tr>
+        <tr><td>الطالبات (بنات)</td><td>5</td><td>5 راسبات (100%)</td></tr>
+        <tr style="font-weight:bold;background:#dcfce7;"><td>المجموع الكلي</td><td>10</td><td>1 ناجح / 9 راسب</td></tr>
       </table>`;
   }
 
@@ -3112,11 +3154,12 @@
   }
 
   function clearFormulasForPractice() {
-    if (currentSheetId === 'lec3') {
-      cellsData['A6'].raw = '';
+    if (LEC4[currentSheetId]) {
+      const ks = Object.keys(LEC4[currentSheetId].solve);
+      ks.forEach(k => cellsData[k].raw = '');
       recalcAll();
-      selectCell('A6');
-      showToast('تم تصفير الخلية A6! اضغط الآن على ∑ AutoSum ثم علامة الصح ✔');
+      selectCell(ks[0]);
+      showToast('تم التصفير! طبّق الآن بنفسك: AutoSum ثم علامة الصح ✔');
       return;
     }
     if (currentSheetId !== 'main') switchSheet('main');
@@ -3132,10 +3175,10 @@
   }
 
   function solveAllTable() {
-    if (currentSheetId === 'lec3') {
-      cellsData['A6'].raw = '=SUM(A1:A5)';
+    if (LEC4[currentSheetId]) {
+      Object.entries(LEC4[currentSheetId].solve).forEach(([k, v]) => cellsData[k].raw = v);
       recalcAll();
-      showToast('تم حل تمرين المحاضرة 3: =SUM(A1:A5) والناتج 15 ✔');
+      showToast('تم حل التطبيق وظهرت الصيغ والنواتج ✔');
       return;
     }
     if (currentSheetId !== 'main') switchSheet('main');
@@ -3147,8 +3190,8 @@
   }
 
   function resetTableData() {
-    if (currentSheetId === 'lec3') {
-      cellsData = buildLecture3SheetCells();
+    if (LEC4[currentSheetId]) {
+      cellsData = makeLec4Grid(currentSheetId);
     } else if (currentSheetId === 'main') {
       cellsData = buildMainSheetCells();
     } else {
@@ -3160,78 +3203,46 @@
     showToast('تمت استعادة البيانات الأصلية للورقة الحالية');
   }
 
-  // ================= مدرب الامتحان العملي (10 مهام تغطي المحاضرة 3 بالكامل) =================
+  // ================= مدرب الامتحان العملي (10 تطبيقات من المحاضرة 4) =================
+  const chk = (id, cell, v) => {
+    const g = id === currentSheetId ? cellsData : sheetsStore.find(x => x.id === id)?.cellsData;
+    return !!g && Math.abs(parseFloat(g[cell]?.val) - v) < 0.01;
+  };
+  const autoTask = (id, cell, fn) => () => { switchSheet(id); selectCell(cell); startAutoSumStep(fn); commitFormulaEdit(); };
   const examTasks = [
-    {
-      title: 'التمرين 1 من 10: تمرين المحاضرة 3 (جمع الخلايا A1:A5 بالخطوات الـ 5)',
-      desc: 'افتح ورقة "تمرين المحاضرة 3 (A1:A5)"، حدد الخلية A6 ثم اضغط (∑ AutoSum) في مجموعة تحرير، ثم اضغط علامة الصح ✔ في شريط الصيغة.',
-      hint: 'الخطوات ص5-8: 1) ندخل 1..5 في A1:A5  2) نحدد A6  3) نضغط AutoSum ∑  4) تظهر =SUM(A1:A5)  5) نضغط علامة الصح ✔.',
-      apply: () => { switchSheet('lec3'); selectCell('A6'); startAutoSumStep('SUM'); setTimeout(() => commitFormulaEdit(), 700); },
-      check: () => currentSheetId === 'lec3' && String(cellsData['A6']?.val) === '15'
-    },
-    {
-      title: 'التمرين 2 من 10: حساب المعدل (Average) لنفس الأرقام أو للطلاب',
-      desc: 'سؤال الملزمة ص8: هل يمكن الحصول على معدل مجموعة أرقام؟ جرب اختيار Average من قائمة ∑ AutoSum ثم اضغط علامة الصح ✔.',
-      hint: 'في الملزمة ص8: نعم وبنفس الخطوات السابقة لكن فقط نغير نوع الدالة من جمع Sum إلى معدل Average.',
-      apply: () => { switchSheet('main'); selectCell('F4'); startAutoSumStep('AVERAGE'); commitFormulaEdit(); fillDirection('down'); },
-      check: () => parseFloat(cellsData['F4']?.val) > 0
-    },
-    {
-      title: 'التمرين 3 من 10: دالة النتيجة (IF) - حيدر جبار راسب والبقية ناجحون',
-      desc: 'في ورقة المرحلة الثانية حدد الخلية G4 وطبق معادلة =IF(F4>=50;"ناجح";"راسب") ثم اضغط "✚ سحب التعبئة".',
-      hint: 'يظهر حيدر جبار نعمه لهيب (راسب باللون الأحمر) لأن معدله 38.3، بينما بقية الـ 9 طلاب ناجحون باللون الأخضر.',
-      apply: () => { switchSheet('main'); selectCell('G4'); startAutoSumStep('IF'); commitFormulaEdit(); fillDirection('down'); },
-      check: () => cellsData['G4']?.val === 'راسب' && cellsData['G5']?.val === 'ناجح'
-    },
-    {
-      title: 'التمرين 4 من 10: مجموعة رقم (Number) - ص2 بالملزمة',
-      desc: 'حدد خلية رقمية ثم جرب اختيار النسبة المئوية (%) أو العملة ($) أو زيادة الأصفار العشرية (.00) من مجموعة رقم Number.',
-      hint: 'مجموعة رقم Number يتم منها تنسيق كيفية عرض قيم الخلايا (نسبة مئوية، تأريخ، عملة، أرقام).',
-      apply: () => { switchRibbon('home'); selectCell('E4'); applyNumberFormat('number'); },
-      check: () => true
-    },
-    {
-      title: 'التمرين 5 من 10: مجموعة أنماط (Styles) والتنسيق الشرطي - ص2 وص3',
-      desc: 'اضغط على زر "Conditional Formatting ▾" وجرب خيارات Data Bars أو Color Scales أو أزرار Good / Bad / Neutral.',
-      hint: 'مجموعة أنماط Styles تضم Conditional Formatting و Format as Table وأنماط الخلية Normal, Bad, Good, Neutral.',
-      apply: () => { switchRibbon('home'); applyCondRule('dataBars'); },
-      check: () => true
-    },
-    {
-      title: 'التمرين 6 من 10: مجموعة خلايا (Cells: Insert, Delete, Format) وإضافة ورقة (+)',
-      desc: 'اضغط على علامة الزائد (+) أسفل الجدول لإدراج ورقة عمل جديدة (Sheet)، أو جرب قائمة "إدراج Insert ▾" و"تنسيق Format ▾".',
-      hint: 'يمكنك إضافة ورقة عمل جديدة بالضغط على زر + في شريط الأوراق السفلي أو من Insert -> Insert Sheet.',
-      apply: () => { addNewSheet(); },
-      check: () => sheetsStore.length >= 3
-    },
-    {
-      title: 'التمرين 7 من 10: الفرق بين ملئ Fill ومسح Clear (سؤال الواجب ص9 وص10)',
-      desc: 'اضغط على قائمة "ملئ Fill ▾" وجرب Down، واضغط على قائمة "مسح Clear ▾" وجرب الفرق بين Clear Formats و Clear Contents.',
-      hint: 'ملئ Fill يملأ الخلايا بنفس التنسيق والاتجاه، بينما مسح Clear يمسح التنسيق أو المحتوى أو الكل.',
-      apply: () => { switchSheet('main'); switchRibbon('home'); selectCell('E4'); fillDirection('down'); },
-      check: () => true
-    },
-    {
-      title: 'التمرين 8 من 10: الفرق بين Sort Ascending و Sort Descending (سؤال الواجب ص10)',
-      desc: 'اضغط على "Sort & Filter ▾" في مجموعة تحرير وجرب الترتيب التصاعدي (أ إلى ي) والترتيب التنازلي (ي إلى أ).',
-      hint: 'Sort Ascending يرتب من أ إلى ي (أو الأصغر للأكبر)، و Sort Descending يرتب من ي إلى أ (أو الأكبر للأصغر).',
-      apply: () => { switchSheet('main'); switchRibbon('home'); sortStudentsAsc(); },
-      check: () => true
-    },
-    {
-      title: 'التمرين 9 من 10: أمر بحث واختيار Find & Select (ص11 بالملزمة)',
-      desc: 'اضغط على "Find & Select ▾" وجرب البحث عن طالب (Find) أو الانتقال لخلية (Go To) أو تحديد المعادلات (Formulas).',
-      hint: 'يتضمن Find و Replace و Go To وتحديد الخلايا التي تحتوي على Formulas أو Constants.',
-      apply: () => { switchSheet('main'); switchRibbon('home'); highlightSpecialCells('formulas'); },
-      check: () => true
-    },
-    {
-      title: 'التمرين 10 من 10: تبويب تخطيط الصفحة (Scale to Fit و Sheet Options ص11-12)',
-      desc: 'افتح تبويب "تخطيط الصفحة PAGE LAYOUT" وجرب زر Sheet Right-to-Left وخيارات Gridlines و Headings.',
-      hint: 'مجموعة Sheet Options تقلب اتجاه الورقة من اليمين إلى اليسار وتتحكم بإظهار وطباعة خطوط الشبكة والعناوين.',
-      apply: () => { switchRibbon('layout'); toggleSheetDirection(); },
-      check: () => true
-    }
+    { title: 'التمرين 1 من 10: جمع عمودي A1:A3 في A4', desc: 'افتح ورقة "عمودي A1:A3"، حدد A4 ثم ∑ AutoSum ثم Sum ثم علامة الصح ✔.',
+      hint: 'ندخل A1:A3، نحدد A4، AutoSum → Sum فتظهر =SUM(A1:A3) في شريط الصيغة، ثم ✔.',
+      apply: autoTask('lec4v', 'A4', 'SUM'), check: () => chk('lec4v', 'A4', 60) },
+    { title: 'التمرين 2 من 10: معدل عمودي A1:A3 في A4', desc: 'في نفس الورقة حدد A4 واختر Average بدل Sum ثم ✔.',
+      hint: 'نفس الخطوات لكن نختار دالة Average فتظهر =AVERAGE(A1:A3).',
+      apply: autoTask('lec4v', 'A4', 'AVERAGE'), check: () => chk('lec4v', 'A4', 20) },
+    { title: 'التمرين 3 من 10: جمع أفقي A1:C1 في D1', desc: 'افتح ورقة "أفقي A1:C1"، حدد D1 ثم AutoSum ثم Sum ثم ✔.',
+      hint: 'الخلايا A1 و B1 و C1 أفقية، والناتج في D1: =SUM(A1:C1).',
+      apply: autoTask('lec4h', 'D1', 'SUM'), check: () => chk('lec4h', 'D1', 60) },
+    { title: 'التمرين 4 من 10: معدل أفقي A1:C1 في D1', desc: 'حدد D1 واختر Average ثم ✔.',
+      hint: '=AVERAGE(A1:C1) والناتج 20.',
+      apply: autoTask('lec4h', 'D1', 'AVERAGE'), check: () => chk('lec4h', 'D1', 20) },
+    { title: 'التمرين 5 من 10: جمع خلايا مبعثرة في F7', desc: 'افتح ورقة "خلايا مبعثرة"، حدد F7 واختر Sum واكتب أسماء الخلايا A1:B2:C3:D4:E5 ثم ✔.',
+      hint: 'الخلايا ليست في صف أو عمود واحد: نكتب أسماءها بين القوسين =SUM(A1:B2:C3:D4:E5) والناتج 150.',
+      apply: autoTask('lec4s', 'F7', 'SUM'), check: () => chk('lec4s', 'F7', 150) },
+    { title: 'التمرين 6 من 10: معدل الخلايا المبعثرة في F7', desc: 'حدد F7 واختر Average مع نفس أسماء الخلايا ثم ✔.',
+      hint: '=AVERAGE(A1:B2:C3:D4:E5) والناتج 30.',
+      apply: autoTask('lec4s', 'F7', 'AVERAGE'), check: () => chk('lec4s', 'F7', 30) },
+    { title: 'التمرين 7 من 10: جمع مصفوفة A1:B6 في D6', desc: 'افتح ورقة "مصفوفة A1:B6"، حدد D6 (خارج المصفوفة) ثم Sum واكتب A1:B6 ثم ✔.',
+      hint: 'أول خلية A1 ثم : ثم آخر خلية B6: =SUM(A1:B6) والناتج 78.',
+      apply: autoTask('lec4m', 'D6', 'SUM'), check: () => chk('lec4m', 'D6', 78) },
+    { title: 'التمرين 8 من 10: سؤال مهم - Y1 = Σ(Xi-3)²/10', desc: 'في ورقة "Y1 و Y2 (10)": B1 =(A1-3)^2 ثم Fill Down حتى B10، ثم B11 AutoSum، ثم B12 =B11/10.',
+      hint: 'خطوات الحل 1-5: B1 ← سحب التعبئة إلى B10 ← B11 =SUM(B1:B10) ← B12 =B11/10 وناتج Y1 = 14.5.',
+      apply: () => { switchSheet('lec4y10'); const sv = LEC4.lec4y10.solve; Object.keys(sv).forEach(k => { if (k[0] === 'B') cellsData[k].raw = sv[k]; }); recalcAll(); selectCell('B12'); },
+      check: () => chk('lec4y10', 'B12', 14.5) },
+    { title: 'التمرين 9 من 10: Y2 = Σ((Xi*3)-(Xi/2))*Xi', desc: 'في العمود C: C1 =(A1*3)-(A1/2)*A1 ثم Fill Down حتى C10، ثم C11 AutoSum.',
+      hint: 'نفس الخطوات لكن نغير المعادلة في الخلية الأولى، و C11 =SUM(C1:C10).',
+      apply: () => { switchSheet('lec4y10'); const sv = LEC4.lec4y10.solve; Object.keys(sv).forEach(k => { if (k[0] === 'C') cellsData[k].raw = sv[k]; }); recalcAll(); selectCell('C11'); },
+      check: () => chk('lec4y10', 'C11', -27.5) },
+    { title: 'التمرين 10 من 10: الواجب البيتي (6 قيم، العدد 5)', desc: 'في ورقة "الواجب Y (6)": B =(A1-5)^2 و B7 AutoSum و B8 =B7/6 ، وفي C: =(A1*5)-(A1/2)*A1 و C7 AutoSum.',
+      hint: 'Y1 = Σ(Xi-5)²/6 ≈ 5.17 و Y2 = Σ… = 59.5 (حسب صيغة الملزمة).',
+      apply: () => { switchSheet('lec4y6'); Object.entries(LEC4.lec4y6.solve).forEach(([k, v]) => cellsData[k].raw = v); recalcAll(); selectCell('B8'); },
+      check: () => chk('lec4y6', 'B8', 5.17) && chk('lec4y6', 'C7', 59.5) }
   ];
 
   let currentTaskIdx = 0;
@@ -3246,7 +3257,7 @@
   function prevTask() { currentTaskIdx = (currentTaskIdx - 1 + examTasks.length) % examTasks.length; renderExamTask(); }
   function applyCurrentTask() { examTasks[currentTaskIdx].apply(); }
   function checkCurrentTask() {
-    if (examTasks[currentTaskIdx].check()) showToast('أحسنت! تطبيقك صحيح ومطابق للمحاضرة الثالثة 🎉');
+    if (examTasks[currentTaskIdx].check()) showToast('أحسنت! تطبيقك صحيح ومطابق للمحاضرة الرابعة 🎉');
     else showToast('اضغط على زر "🪄 طبقها لي" لمشاهدة التطبيق العملي للخطوة');
   }
   function showTaskHint() { showToast(examTasks[currentTaskIdx].hint); }
@@ -3270,6 +3281,13 @@
     el.style.display = 'block';
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => { el.style.display = 'none'; }, 3600);
+  }
+
+  let siteZoom = 1;
+  function changeSiteZoom(d) {
+    siteZoom = d === 0 ? 1 : Math.min(1.8, Math.max(0.6, Math.round((siteZoom + d) * 100) / 100));
+    document.documentElement.style.setProperty('--site-zoom', siteZoom);
+    document.getElementById('zoomLbl').textContent = Math.round(siteZoom * 100) + '%';
   }
 
   window.onload = () => {
