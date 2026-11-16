@@ -2100,4 +2100,1499 @@
           const id = c + r;
           const cell = cellsData[id];
           if (!cell) continue;
-          if (cell.raw && Stri
+          if (cell.raw && String(cell.raw).startsWith('=')) {
+            cell.val = evaluateFormula(cell.raw, id, new Set());
+          } else {
+            cell.val = cell.raw;
+          }
+        }
+      }
+    }
+    renderGrid();
+  }
+
+  function renderGrid() {
+    const tbody = document.getElementById('gridBody');
+    tbody.innerHTML = '';
+
+    for (let r = 1; r <= totalRows; r++) {
+      if (hiddenRows.has(r)) continue;
+      const tr = document.createElement('tr');
+      tr.dataset.row = r;
+
+      const rowHeader = document.createElement('th');
+      rowHeader.textContent = r;
+      rowHeader.onclick = () => selectRowCells(r);
+      if (selectedRangeIds.some(id => id.slice(1) === String(r))) {
+        rowHeader.classList.add('selected-header');
+      }
+      tr.appendChild(rowHeader);
+
+      for (let c of COLS) {
+        const id = c + r;
+        const cell = cellsData[id];
+        if (!cell || cell.hiddenByMerge) continue;
+
+        const td = document.createElement('td');
+        td.id = 'cell-' + id;
+        if ((c === 'A' && r >= 4 && r <= 13 && currentSheetId === 'main')) {
+          td.classList.add('col-name');
+        }
+        if (cell.colspan && cell.colspan > 1) {
+          td.colSpan = cell.colspan;
+        }
+        if (cell.rowspan && cell.rowspan > 1) {
+          td.rowSpan = cell.rowspan;
+        }
+
+        // عرض الصيغة في وضع Show Formulas أو عند انتظار تأكيد علامة الصح ✔ (الخطوة 4 بالملزمة)
+        let displayVal = (showFormulasMode || (isWaitingConfirm && id === activeCellId)) && String(cell.raw).startsWith('=')
+          ? cell.raw
+          : cell.val;
+
+        if (cell.spark) {
+          td.innerHTML = cell.spark;
+        } else if (cell.dataBar > 0) {
+          td.innerHTML = `<div class="data-bar-fill" style="width:${Math.min(96, cell.dataBar)}%;"></div><span class="cell-text-layer">${cell.iconSet ? cell.iconSet + ' ' : ''}${displayVal ?? ''}</span>`;
+        } else {
+          td.textContent = (cell.iconSet ? cell.iconSet + ' ' : '') + (displayVal !== undefined ? displayVal : '');
+        }
+
+        Object.assign(td.style, cell.style);
+
+        // تلوين تلقائي فوري لخانة النتيجة: ناجح بالأخضر وراسب بالأحمر
+        const textVal = String(cell.val).trim();
+        if (textVal === 'ناجح' && !(isWaitingConfirm && id === activeCellId)) {
+          td.classList.add('cell-pass');
+        } else if (textVal === 'راسب' && !(isWaitingConfirm && id === activeCellId)) {
+          td.classList.add('cell-fail');
+        }
+
+        if (id === activeCellId) td.classList.add('active-cell');
+        if (selectedRangeIds.includes(id)) td.classList.add('in-range');
+        if (cell.traceHighlight) td.classList.add('formula-range-highlight');
+
+        td.onclick = () => handleCellTap(id);
+        td.ondblclick = () => {
+          selectCell(id);
+          document.getElementById('formulaInput').focus();
+        };
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+    updateStatusBar();
+  }
+
+  function handleCellTap(id) {
+    const fInput = document.getElementById('formulaInput');
+    // إذا كان الطالب يكتب معادلة تبدأ بـ = وضغط على خلية أخرى، ندرج اسم الخلية في المعادلة
+    if (document.activeElement === fInput && fInput.value.trim().startsWith('=') && id !== activeCellId) {
+      fInput.value += id;
+      onFormulaInputLive(fInput.value);
+      fInput.focus();
+      return;
+    }
+
+    if (formatPainterStyle) {
+      cellsData[id].style = { ...formatPainterStyle };
+      formatPainterStyle = null;
+      document.getElementById('formatPainterBtn')?.classList.remove('active-tool');
+      renderGrid();
+      showToast('تم لصق التنسيق (Format Painter) على الخلية ' + id);
+      return;
+    }
+    if (rangeMode) {
+      if (rangeAnchorPending) {
+        selectCell(id);
+        rangeAnchorPending = false;
+        showToast('بداية النطاق: ' + id + ' — اضغط الآن على خلية النهاية');
+      } else {
+        selectRangeBetween(rangeStartId, id);
+        rangeAnchorPending = true;
+      }
+    } else {
+      selectCell(id);
+    }
+  }
+
+  function selectCell(id) {
+    if (isWaitingConfirm && id !== activeCellId) {
+      commitFormulaEdit();
+    }
+    isWaitingConfirm = false;
+    document.getElementById('formulaBarContainer').classList.remove('pending-confirm');
+    clearTraceHighlights();
+
+    activeCellId = id;
+    rangeStartId = id;
+    selectedRangeIds = [id];
+    document.getElementById('nameBox').textContent = id;
+    document.getElementById('formulaInput').value = cellsData[id]?.raw || '';
+    renderGrid();
+  }
+
+  function selectRangeBetween(id1, id2) {
+    const c1 = COLS.indexOf(id1.charAt(0));
+    const r1 = parseInt(id1.slice(1));
+    const c2 = COLS.indexOf(id2.charAt(0));
+    const r2 = parseInt(id2.slice(1));
+    selectedRangeIds = [];
+    for (let r = Math.min(r1, r2); r <= Math.max(r1, r2); r++) {
+      for (let c = Math.min(c1, c2); c <= Math.max(c1, c2); c++) {
+        selectedRangeIds.push(COLS[c] + r);
+      }
+    }
+    document.getElementById('nameBox').textContent = `${id1}:${id2}`;
+    renderGrid();
+  }
+
+  function selectColumnCells(colLetter) {
+    activeCellId = colLetter + '1';
+    selectedRangeIds = [];
+    for (let r = 1; r <= totalRows; r++) selectedRangeIds.push(colLetter + r);
+    document.getElementById('nameBox').textContent = `${colLetter}1:${colLetter}${totalRows}`;
+    document.getElementById('formulaInput').value = cellsData[activeCellId]?.raw || '';
+    renderGrid();
+  }
+
+  function selectRowCells(rowNum) {
+    activeCellId = 'A' + rowNum;
+    selectedRangeIds = COLS.map(c => c + rowNum);
+    document.getElementById('nameBox').textContent = `A${rowNum}:H${rowNum}`;
+    document.getElementById('formulaInput').value = cellsData[activeCellId]?.raw || '';
+    renderGrid();
+  }
+
+  function selectAllSheetCells() {
+    activeCellId = 'A1';
+    selectedRangeIds = [];
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) selectedRangeIds.push(c + r);
+    }
+    document.getElementById('nameBox').textContent = `A1:H${totalRows}`;
+    renderGrid();
+  }
+
+  function toggleRangeMode() {
+    rangeMode = !rangeMode;
+    if (rangeMode) { rangeAnchorPending = false; showToast('النطاق يبدأ من ' + activeCellId + ' — اضغط على خلية النهاية'); }
+    const btn = document.getElementById('rangeModeBtn');
+    btn.textContent = rangeMode ? '🔲 تحديد نطاق: مفعّل ✔' : '🔲 تحديد نطاق: متوقف';
+    btn.style.background = rangeMode ? '#dbeafe' : '#fff';
+  }
+
+  function onFormulaInputLive(val) {
+    if (pendingFormulaBeforeEdit === null) {
+      pendingFormulaBeforeEdit = cellsData[activeCellId]?.raw || '';
+    }
+    isWaitingConfirm = true;
+    document.getElementById('formulaBarContainer').classList.add('pending-confirm');
+    cellsData[activeCellId].raw = val;
+  }
+
+  // ================= الخطوات الـ 5 لدالة الجمع التلقائي AutoSum كما في الملزمة ص5-8 =================
+  // تخمين نطاق الجمع التلقائي كما يفعل Excel: الأرقام المتصلة فوق الخلية، وإلا على يسارها
+  function guessAutoRange(c, r) {
+    const isNum = id => { const v = cellsData[id]?.val; return v !== '' && v !== undefined && v !== null && isFinite(v); };
+    let top = r - 1;
+    while (top >= 1 && isNum(c + top)) top--;
+    if (top < r - 1) return `${c}${top + 1}:${c}${r - 1}`;
+    const ci = COLS.indexOf(c);
+    let left = ci - 1;
+    while (left >= 0 && isNum(COLS[left] + r)) left--;
+    if (left < ci - 1) return `${COLS[left + 1]}${r}:${COLS[ci - 1]}${r}`;
+    return '';
+  }
+
+  function startAutoSumStep(fnName) {
+    const r = parseInt(activeCellId.slice(1));
+    const c = activeCellId.charAt(0);
+    let formula = '';
+    let highlightRange = [];
+
+    const qr = QSHEETS[currentSheetId]?.auto?.[activeCellId]
+      || (currentSheetId !== 'main' && fnName !== 'IF' ? guessAutoRange(c, r) : '');
+    if (qr) {
+      formula = `=${fnName}(${qr})`;
+      highlightRange = expandRange(qr);
+    } else if (currentSheetId !== 'main') {
+      formula = `=${fnName}()`;
+    } else if (fnName === 'IF') {
+      const rowNum = (r >= 4 && r <= 13) ? r : 4;
+      formula = `=IF(F${rowNum}>=50;"ناجح";"راسب")`;
+      highlightRange = ['F' + rowNum];
+    } else if (fnName === 'MAX' || fnName === 'MIN' || fnName === 'COUNT') {
+      const colLet = (['B','C','D','E','F'].includes(c)) ? c : 'B';
+      formula = `=${fnName}(${colLet}4:${colLet}13)`;
+      for (let i = 4; i <= 13; i++) highlightRange.push(colLet + i);
+    } else {
+      const rowNum = (r >= 4 && r <= 13) ? r : 4;
+      formula = `=${fnName}(B${rowNum}:D${rowNum})`;
+      highlightRange = ['B' + rowNum, 'C' + rowNum, 'D' + rowNum];
+    }
+
+    pendingFormulaBeforeEdit = cellsData[activeCellId].raw;
+    cellsData[activeCellId].raw = formula;
+    document.getElementById('formulaInput').value = formula;
+
+    // تفعيل وضع الخطوة 4 بالملزمة: إظهار المعادلة في الخلية وشريط الصيغة وإضاءة علامة الصح ✔ والخطأ ✕
+    isWaitingConfirm = true;
+    document.getElementById('formulaBarContainer').classList.add('pending-confirm');
+    clearTraceHighlights();
+    highlightRange.forEach(id => { if (cellsData[id]) cellsData[id].traceHighlight = true; });
+
+    recalcAll();
+    showToast(`الخطوة 4: ظهرت المعادلة ${formula} في الخلية وشريط الصيغة — اضغط علامة الصح ✔ لإظهار الناتج أو ✕ للإلغاء!`);
+  }
+
+  // الخطوة 5 بالملزمة: الضغط على علامة الصح ✔ لإتمام المعادلة
+  function commitFormulaEdit() {
+    const val = normalizeDigits(document.getElementById('formulaInput').value);
+    cellsData[activeCellId].raw = val;
+    pendingFormulaBeforeEdit = null;
+    isWaitingConfirm = false;
+    document.getElementById('formulaBarContainer').classList.remove('pending-confirm');
+    clearTraceHighlights();
+    recalcAll();
+    saveCurrentSheetToStore();
+    showToast(`✔ تم إتمام المعادلة! الناتج في ${activeCellId} هو: ${cellsData[activeCellId].val}`);
+  }
+
+  // الضغط على علامة الخطأ ✕ لإلغاء المعادلة
+  function cancelFormulaEdit() {
+    if (isWaitingConfirm && pendingFormulaBeforeEdit !== null) {
+      cellsData[activeCellId].raw = pendingFormulaBeforeEdit;
+    }
+    pendingFormulaBeforeEdit = null;
+    isWaitingConfirm = false;
+    document.getElementById('formulaBarContainer').classList.remove('pending-confirm');
+    clearTraceHighlights();
+    document.getElementById('formulaInput').value = cellsData[activeCellId]?.raw || '';
+    recalcAll();
+    showToast('✕ تم الضغط على علامة الخطأ وإلغاء العملية الحسابية كما في المحاضرة 4');
+  }
+
+  function appendFormulaText(txt) {
+    const inp = document.getElementById('formulaInput');
+    if (pendingFormulaBeforeEdit === null) {
+      pendingFormulaBeforeEdit = cellsData[activeCellId]?.raw || '';
+    }
+    if (txt !== '=' && !inp.value.startsWith('=')) {
+      inp.value = '=' + inp.value;
+    }
+    inp.value += txt;
+    cellsData[activeCellId].raw = inp.value;
+    isWaitingConfirm = true;
+    document.getElementById('formulaBarContainer').classList.add('pending-confirm');
+    inp.focus();
+  }
+
+  // ================= نافذة الحوار المدمجة (بدون استخدام prompt) =================
+  let dialogCallback = null;
+
+  function openCustomDialog({ title, label1, default1 = '', label2 = null, default2 = '', onConfirm }) {
+    document.getElementById('customDialogTitle').textContent = title;
+    document.getElementById('customDialogLabel').textContent = label1;
+    const inp1 = document.getElementById('customDialogInput1');
+    inp1.value = default1;
+
+    const grp2 = document.getElementById('customDialogSecondGroup');
+    const inp2 = document.getElementById('customDialogInput2');
+    if (label2) {
+      grp2.style.display = 'block';
+      document.getElementById('customDialogLabel2').textContent = label2;
+      inp2.value = default2;
+    } else {
+      grp2.style.display = 'none';
+      inp2.value = '';
+    }
+
+    dialogCallback = onConfirm;
+    document.getElementById('customDialogModal').style.display = 'block';
+    setTimeout(() => inp1.focus(), 60);
+  }
+
+  function submitCustomDialog() {
+    const v1 = document.getElementById('customDialogInput1').value;
+    const v2 = document.getElementById('customDialogInput2').value;
+    closeModal('customDialogModal');
+    if (typeof dialogCallback === 'function') {
+      dialogCallback(v1, v2);
+    }
+  }
+
+  // ================= أوامر مجموعة تحرير: Fill و Clear و Sort و Find (ص9 - ص11) =================
+  function fillDirection(dir) {
+    if (isWaitingConfirm) commitFormulaEdit();
+
+    const col = activeCellId.charAt(0);
+    const startRow = parseInt(activeCellId.slice(1));
+    const srcRaw = cellsData[activeCellId]?.raw || '';
+    const srcStyle = { ...cellsData[activeCellId]?.style };
+
+    if (!srcRaw) {
+      showToast('الخلية النشطة فارغة، اكتب معادلة أو قيمة أولاً ثم اضغط سحب التعبئة');
+      return;
+    }
+
+    if (dir === 'down') {
+      if (currentSheetId === 'main' && startRow >= 4 && startRow <= 13) {
+        for (let r = 4; r <= 13; r++) {
+          if (r === startRow) continue;
+          const updatedFormula = String(srcRaw).replace(/([A-Z]+)(\d+)/g, (full, cLet, rNum) => {
+            return parseInt(rNum) === startRow ? cLet + r : full;
+          });
+          cellsData[col + r].raw = updatedFormula;
+          cellsData[col + r].style = { ...srcStyle };
+        }
+        recalcAll();
+        showToast(`تم تنفيذ أمر ملئ للأسفل (Fill Down ↓) لتعميم المعادلة على جميع الطلاب ✔`);
+      } else if (startRow < totalRows) {
+        const nextR = startRow + 1;
+        const updatedFormula = String(srcRaw).replace(/([A-Z]+)(\d+)/g, (full, cLet, rNum) => {
+          return parseInt(rNum) === startRow ? cLet + nextR : full;
+        });
+        cellsData[col + nextR].raw = updatedFormula;
+        recalcAll();
+        showToast('تم ملئ الخلية للأسفل (Fill Down ↓)');
+      }
+    } else if (dir === 'up' && startRow > 1) {
+      cellsData[col + (startRow - 1)].raw = srcRaw;
+      recalcAll();
+      showToast('تم ملئ الخلية للأعلى (Fill Up ↑)');
+    } else if (dir === 'right') {
+      const cIdx = COLS.indexOf(col);
+      if (cIdx < COLS.length - 1) {
+        cellsData[COLS[cIdx + 1] + startRow].raw = srcRaw;
+        recalcAll();
+        showToast('تم ملئ الخلية لليمين (Fill Right →)');
+      }
+    } else if (dir === 'left') {
+      const cIdx = COLS.indexOf(col);
+      if (cIdx > 0) {
+        cellsData[COLS[cIdx - 1] + startRow].raw = srcRaw;
+        recalcAll();
+        showToast('تم ملئ الخلية لليسار (Fill Left ←)');
+      }
+    }
+  }
+
+  function fillNumberSeries() {
+    const col = activeCellId.charAt(0);
+    for (let i = 1; i <= 5; i++) {
+      cellsData[col + i].raw = String(i);
+    }
+    recalcAll();
+    showToast(`تم ملئ سلسلة أرقام (1 إلى 5) في العمود ${col}`);
+  }
+
+  function clearActionType(type) {
+    selectedRangeIds.forEach(id => {
+      if (type === 'all') {
+        cellsData[id].raw = '';
+        cellsData[id].val = '';
+        cellsData[id].style = {};
+        cellsData[id].spark = null;
+        cellsData[id].dataBar = 0;
+        cellsData[id].iconSet = '';
+      } else if (type === 'formats') {
+        cellsData[id].style = {};
+        cellsData[id].dataBar = 0;
+        cellsData[id].iconSet = '';
+      } else if (type === 'contents') {
+        cellsData[id].raw = '';
+        cellsData[id].val = '';
+        cellsData[id].spark = null;
+      }
+    });
+    document.getElementById('formulaInput').value = cellsData[activeCellId]?.raw || '';
+    recalcAll();
+    const msgMap = {
+      all: 'تم مسح الكل (Clear All: المحتوى والتنسيق)',
+      formats: 'تم مسح التنسيقات فقط (Clear Formats) مع بقاء الأرقام/النص',
+      contents: 'تم مسح المحتويات فقط (Clear Contents) مع بقاء الألوان والتنسيق'
+    };
+    showToast(msgMap[type]);
+  }
+
+  // الفرز الأبجدي والرقمي (Sort Ascending & Sort Descending ص10)
+  function sortStudentsAsc() { sortStudentRows(true); }
+  function sortStudentsDesc() { sortStudentRows(false); }
+
+  function sortStudentRows(asc) {
+    if (currentSheetId !== 'main') {
+      showToast('انتقل إلى ورقة درجات المرحلة الثانية لترتيب الطلاب');
+      return;
+    }
+    const rows = [];
+    for (let r = 4; r <= 13; r++) {
+      rows.push({
+        name: cellsData['A' + r].raw,
+        b: cellsData['B' + r].raw,
+        c: cellsData['C' + r].raw,
+        d: cellsData['D' + r].raw
+      });
+    }
+    const col = activeCellId.charAt(0);
+    if (['B','C','D'].includes(col)) {
+      const key = col.toLowerCase();
+      rows.sort((x, y) => asc ? parseFloat(x[key]) - parseFloat(y[key]) : parseFloat(y[key]) - parseFloat(x[key]));
+    } else {
+      rows.sort((x, y) => asc ? x.name.localeCompare(y.name, 'ar') : y.name.localeCompare(x.name, 'ar'));
+    }
+
+    rows.forEach((item, idx) => {
+      const r = idx + 4;
+      cellsData['A' + r].raw = item.name;
+      cellsData['B' + r].raw = item.b;
+      cellsData['C' + r].raw = item.c;
+      cellsData['D' + r].raw = item.d;
+      cellsData['E' + r].raw = `=SUM(B${r}:D${r})`;
+      cellsData['F' + r].raw = `=AVERAGE(B${r}:D${r})`;
+      cellsData['G' + r].raw = `=IF(F${r}>=50;"ناجح";"راسب")`;
+    });
+    recalcAll();
+    showToast(asc
+      ? 'تم الترتيب التصاعدي (Sort Ascending: الأسماء أ→ي أو الأرقام من الأصغر للأكبر)'
+      : 'تم الترتيب التنازلي (Sort Descending: الأسماء ي→أ أو الأرقام من الأكبر للأصغر)');
+  }
+
+  // أوامر Find & Select (ص11) باستخدام نافذة الحوار المدمجة
+  function findStudentPrompt() {
+    openCustomDialog({
+      title: 'بحث (Find - ص11)',
+      label1: 'اكتب اسم الطالب أو الرقم للبحث عنه (مثلاً: حيدر أو بتول):',
+      default1: 'حيدر',
+      onConfirm: (q) => {
+        if (!q) return;
+        for (let r = 1; r <= totalRows; r++) {
+          for (let c of COLS) {
+            if (String(cellsData[c + r]?.val).includes(q.trim())) {
+              selectCell(c + r);
+              showToast(`تم العثور على "${q}" في الخلية ${c + r}`);
+              return;
+            }
+          }
+        }
+        showToast('لم يتم العثور على النص المطلوب');
+      }
+    });
+  }
+
+  function replacePrompt() {
+    openCustomDialog({
+      title: 'بحث واستبدال (Replace - ص11)',
+      label1: 'القيمة الحالية المراد استبدالها:',
+      default1: '35',
+      label2: 'القيمة الجديدة:',
+      default2: '45',
+      onConfirm: (oldTxt, newTxt) => {
+        if (!oldTxt) return;
+        let count = 0;
+        for (let r = 1; r <= totalRows; r++) {
+          for (let c of COLS) {
+            const id = c + r;
+            if (String(cellsData[id].raw).includes(oldTxt)) {
+              cellsData[id].raw = String(cellsData[id].raw).replace(oldTxt, newTxt);
+              count++;
+            }
+          }
+        }
+        recalcAll();
+        showToast(`تم استبدال ${count} خلية بنجاح (Replace)`);
+      }
+    });
+  }
+
+  function goToCellPrompt() {
+    openCustomDialog({
+      title: 'الانتقال إلى خلية أو نطاق (Go To - ص11)',
+      label1: 'اكتب عنوان الخلية أو النطاق (مثلاً A6 أو G4 أو A1:G1):',
+      default1: activeCellId,
+      onConfirm: (target) => {
+        if (!target) return;
+        const clean = target.trim().toUpperCase();
+        if (clean.includes(':')) {
+          const [p1, p2] = clean.split(':');
+          if (cellsData[p1] && cellsData[p2]) {
+            if (isWaitingConfirm) commitFormulaEdit();
+            activeCellId = p1;
+            rangeStartId = p1;
+            document.getElementById('formulaInput').value = cellsData[p1]?.raw || '';
+            selectRangeBetween(p1, p2);
+            showToast('تم تحديد النطاق ' + clean);
+            return;
+          }
+        }
+        if (cellsData[clean]) {
+          selectCell(clean);
+          showToast('تم الانتقال إلى الخلية ' + clean);
+        } else {
+          showToast('عنوان الخلية غير صحيح');
+        }
+      }
+    });
+  }
+
+  function highlightSpecialCells(type) {
+    selectedRangeIds = [];
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) {
+        const id = c + r;
+        const raw = String(cellsData[id]?.raw || '');
+        if (type === 'formulas' && raw.startsWith('=')) selectedRangeIds.push(id);
+        else if (type === 'constants' && raw !== '' && !raw.startsWith('=')) selectedRangeIds.push(id);
+        else if (type === 'cond' && (cellsData[id].val === 'ناجح' || cellsData[id].val === 'راسب' || cellsData[id].dataBar > 0)) selectedRangeIds.push(id);
+      }
+    }
+    renderGrid();
+    showToast(`تم تحديد ${selectedRangeIds.length} خلية مطابقة لأمر (${type})`);
+  }
+
+  // ================= أوامر مجموعة أنماط (Styles) ومجموعة خلايا (Cells) =================
+  function applyCondRule(ruleType) {
+    for (let r = 4; r <= 13; r++) {
+      ['B','C','D','F'].forEach(c => {
+        const id = c + r;
+        const v = parseFloat(cellsData[id]?.val);
+        if (isNaN(v)) return;
+
+        if (ruleType === 'clearRules') {
+          cellsData[id].style.backgroundColor = '';
+          cellsData[id].style.color = '';
+          cellsData[id].dataBar = 0;
+          cellsData[id].iconSet = '';
+        } else if (ruleType === 'highlightPassFail') {
+          cellsData[id].style.backgroundColor = v >= 50 ? '#dcfce7' : '#fee2e2';
+          cellsData[id].style.color = v >= 50 ? '#166534' : '#991b1b';
+        } else if (ruleType === 'topBottom') {
+          cellsData[id].style.backgroundColor = v >= 85 ? '#fef08a' : '';
+        } else if (ruleType === 'dataBars') {
+          cellsData[id].dataBar = v;
+        } else if (ruleType === 'colorScales') {
+          cellsData[id].style.backgroundColor = v >= 85 ? '#86efac' : (v >= 50 ? '#fef08a' : '#fca5a5');
+        } else if (ruleType === 'iconSets') {
+          cellsData[id].iconSet = v >= 80 ? '🟢' : (v >= 50 ? '🟡' : '🔴');
+        }
+      });
+    }
+    renderGrid();
+    showToast('تم تطبيق قاعدة التنسيق الشرطي (Conditional Formatting) ✔');
+  }
+
+  function formatAsTableStyle(colorHex = '#dcfce7') {
+    for (let r = 4; r <= 13; r++) {
+      const bg = r % 2 === 0 ? colorHex : '#ffffff';
+      COLS.forEach(c => {
+        if (c !== 'G') cellsData[c + r].style.backgroundColor = bg;
+      });
+    }
+    renderGrid();
+    showToast('تم تنسيق الجدول (Format as Table)');
+  }
+
+  function applyPresetStyle(styleName) {
+    const map = {
+      good: { backgroundColor: '#c6efce', color: '#006100', fontWeight: 'bold' },
+      bad: { backgroundColor: '#ffc7ce', color: '#9c0006', fontWeight: 'bold' },
+      neutral: { backgroundColor: '#ffeb9c', color: '#9c6500', fontWeight: 'bold' },
+      normal: { backgroundColor: '#ffffff', color: '#000000', fontWeight: 'normal' }
+    };
+    selectedRangeIds.forEach(id => {
+      Object.assign(cellsData[id].style, map[styleName]);
+    });
+    renderGrid();
+    showToast(`تم تطبيق نمط الخلية (${styleName.toUpperCase()})`);
+  }
+
+  function insertCellsShiftDown() {
+    const c = activeCellId.charAt(0);
+    const startR = parseInt(activeCellId.slice(1));
+    for (let r = totalRows; r > startR; r--) {
+      cellsData[c + r].raw = cellsData[c + (r - 1)].raw;
+    }
+    cellsData[activeCellId].raw = '';
+    recalcAll();
+    showToast('تم إدراج خلية وإزاحة الخلايا للأسفل (Insert Cells)');
+  }
+
+  function insertRowAtActive() {
+    const startR = parseInt(activeCellId.slice(1));
+    for (let r = totalRows; r > startR; r--) {
+      for (let c of COLS) {
+        cellsData[c + r].raw = cellsData[c + (r - 1)].raw;
+      }
+    }
+    for (let c of COLS) cellsData[c + startR].raw = '';
+    recalcAll();
+    showToast(`تم إدراج صف جديد رقم ${startR} (Insert Sheet Rows)`);
+  }
+
+  function insertColAtActive() {
+    const colIdx = COLS.indexOf(activeCellId.charAt(0));
+    if (colIdx === -1) return;
+    for (let c = COLS.length - 1; c > colIdx; c--) {
+      for (let r = 1; r <= totalRows; r++) {
+        cellsData[COLS[c] + r].raw = cellsData[COLS[c - 1] + r].raw;
+      }
+    }
+    for (let r = 1; r <= totalRows; r++) {
+      cellsData[COLS[colIdx] + r].raw = '';
+    }
+    recalcAll();
+    showToast(`تم إدراج عمود جديد في الموضع ${COLS[colIdx]} (Insert Sheet Columns)`);
+  }
+
+  function deleteRowAtActive() {
+    const startR = parseInt(activeCellId.slice(1));
+    for (let r = startR; r < totalRows; r++) {
+      for (let c of COLS) {
+        cellsData[c + r].raw = cellsData[c + (r + 1)].raw;
+      }
+    }
+    recalcAll();
+    showToast(`تم حذف الصف رقم ${startR} (Delete Sheet Rows)`);
+  }
+
+  function deleteColAtActive() {
+    const colIdx = COLS.indexOf(activeCellId.charAt(0));
+    if (colIdx === -1) return;
+    for (let c = colIdx; c < COLS.length - 1; c++) {
+      for (let r = 1; r <= totalRows; r++) {
+        cellsData[COLS[c] + r].raw = cellsData[COLS[c + 1] + r].raw;
+      }
+    }
+    for (let r = 1; r <= totalRows; r++) {
+      cellsData[COLS[COLS.length - 1] + r].raw = '';
+    }
+    recalcAll();
+    showToast(`تم حذف العمود ${COLS[colIdx]} (Delete Sheet Columns)`);
+  }
+
+  function promptRowHeight() {
+    openCustomDialog({
+      title: 'ارتفاع الصف (Row Height - ص3)',
+      label1: 'أدخل ارتفاع الصف بالبكسل:',
+      default1: '28',
+      onConfirm: (h) => {
+        const val = parseInt(h);
+        if (isNaN(val) || val < 14) return;
+        const r = activeCellId.slice(1);
+        COLS.forEach(c => { cellsData[c + r].style.height = val + 'px'; });
+        renderGrid();
+        showToast(`تم تغيير ارتفاع الصف ${r} إلى ${val}px`);
+      }
+    });
+  }
+
+  function promptColWidth() {
+    openCustomDialog({
+      title: 'عرض العمود (Column Width - ص3)',
+      label1: 'أدخل عرض العمود بالبكسل:',
+      default1: '110',
+      onConfirm: (w) => {
+        const val = parseInt(w);
+        if (isNaN(val) || val < 30) return;
+        const c = activeCellId.charAt(0);
+        for (let r = 1; r <= totalRows; r++) {
+          cellsData[c + r].style.minWidth = val + 'px';
+        }
+        renderGrid();
+        showToast(`تم تغيير عرض العمود ${c} إلى ${val}px`);
+      }
+    });
+  }
+
+  function toggleHideActiveRow() {
+    const r = parseInt(activeCellId.slice(1));
+    if (hiddenRows.has(r) || hiddenRows.size > 0) {
+      hiddenRows.clear();
+      showToast('تم إظهار جميع الصفوف المخفية (Unhide Rows)');
+    } else {
+      hiddenRows.add(r);
+      showToast(`تم إخفاء الصف رقم ${r} (Hide Row) - اضغط مرة أخرى لإظهاره`);
+    }
+    renderGrid();
+  }
+
+  function renameActiveSheetPrompt() {
+    const sh = sheetsStore.find(s => s.id === currentSheetId);
+    if (!sh) return;
+    openCustomDialog({
+      title: 'إعادة تسمية ورقة العمل (Rename Sheet - ص3)',
+      label1: 'اكتب الاسم الجديد لورقة العمل:',
+      default1: sh.name,
+      onConfirm: (newName) => {
+        if (newName && newName.trim()) {
+          sh.name = newName.trim();
+          renderSheetTabsBar();
+          showToast('تمت إعادة تسمية ورقة العمل إلى: ' + sh.name);
+        }
+      }
+    });
+  }
+
+  function autoFitCells() {
+    showToast('تم احتواء تلقائي لحجم الخلايا (AutoFit Column Width & Row Height)');
+  }
+
+  // ================= أوامر الخط والمحاذاة والرقم =================
+  function formatActive(prop, val) {
+    selectedRangeIds.forEach(id => { cellsData[id].style[prop] = val; });
+    renderGrid();
+  }
+
+  function stepFontSize(dir) {
+    const sel = document.getElementById('fontSizeSelect');
+    let nextVal = Math.max(9, Math.min(20, parseInt(sel.value) + dir));
+    sel.value = nextVal;
+    formatActive('fontSize', nextVal + 'px');
+  }
+
+  function rotateTextAngle() {
+    selectedRangeIds.forEach(id => {
+      cellsData[id].style.transform = cellsData[id].style.transform ? '' : 'rotate(-12deg)';
+    });
+    renderGrid();
+    showToast('تم تدوير زاوية النص (Orientation)');
+  }
+
+  function toggleStyle(prop, val) {
+    selectedRangeIds.forEach(id => {
+      cellsData[id].style[prop] = cellsData[id].style[prop] === val ? 'normal' : val;
+    });
+    renderGrid();
+  }
+
+  function applyAllBorders() {
+    selectedRangeIds.forEach(id => { cellsData[id].style.border = '1.5px solid #1e293b'; });
+    renderGrid();
+    showToast('تم تطبيق الحدود (Borders)');
+  }
+
+  function toggleWrapText() {
+    selectedRangeIds.forEach(id => {
+      cellsData[id].style.whiteSpace = cellsData[id].style.whiteSpace === 'normal' ? 'nowrap' : 'normal';
+    });
+    renderGrid();
+    showToast('تم تبديل التفاف النص (Wrap Text)');
+  }
+
+  function rangeBounds(ids) {
+    let c1 = 99, c2 = -1, r1 = 999, r2 = 0;
+    ids.forEach(id => {
+      const ci = COLS.indexOf(id.charAt(0)), ri = parseInt(id.slice(1));
+      c1 = Math.min(c1, ci); c2 = Math.max(c2, ci); r1 = Math.min(r1, ri); r2 = Math.max(r2, ri);
+    });
+    return { c1, c2, r1, r2 };
+  }
+
+  function unmergeCell(id) {
+    const tl = cellsData[id];
+    if (!tl || !tl.merged) return;
+    const c1 = COLS.indexOf(id.charAt(0)), r1 = parseInt(id.slice(1));
+    for (let r = r1; r < r1 + (tl.rowspan || 1); r++) {
+      for (let c = c1; c < c1 + (tl.colspan || 1); c++) cellsData[COLS[c] + r].hiddenByMerge = false;
+    }
+    tl.merged = false; tl.colspan = 1; tl.rowspan = 1;
+  }
+
+  function mergeRange(topLeftId, bottomRightId) {
+    const c1 = COLS.indexOf(topLeftId.charAt(0)), r1 = parseInt(topLeftId.slice(1));
+    const c2 = COLS.indexOf(bottomRightId.charAt(0)), r2 = parseInt(bottomRightId.slice(1));
+    for (let r = r1; r <= r2; r++) for (let c = c1; c <= c2; c++) unmergeCell(COLS[c] + r);
+    for (let r = r1; r <= r2; r++) {
+      for (let c = c1; c <= c2; c++) {
+        const id = COLS[c] + r;
+        if (id === topLeftId) continue;
+        cellsData[id].raw = ''; cellsData[id].val = ''; cellsData[id].hiddenByMerge = true;
+      }
+    }
+    const tl = cellsData[topLeftId];
+    tl.merged = true; tl.colspan = c2 - c1 + 1; tl.rowspan = r2 - r1 + 1;
+    tl.style.textAlign = 'center'; tl.style.verticalAlign = 'middle';
+  }
+
+  // دمج وتوسيط: يدمج النطاق المحدد (أفقي أو عمودي أو الاثنان). الضغط عليه مرة ثانية على الخلية المدمجة يلغي الدمج
+  function mergeAndCenter() {
+    if (!selectedRangeIds.length) return;
+    const b = rangeBounds(selectedRangeIds);
+    const tlId = COLS[b.c1] + b.r1;
+    const brId = COLS[b.c2] + b.r2;
+    if (cellsData[tlId].merged) {
+      unmergeCell(tlId);
+      renderGrid();
+      showToast('تم إلغاء دمج الخلية ' + tlId + ' (Unmerge Cells)');
+      return;
+    }
+    if (tlId === brId) {
+      showToast('حدد خليتين أو أكثر أولاً (مثل E2:E4) ثم اضغط دمج وتوسيط Merge & Center');
+      return;
+    }
+    mergeRange(tlId, brId);
+    selectCell(tlId);
+    showToast('تم دمج وتوسيط ' + tlId + ':' + brId + ' في خلية واحدة ✔ (Merge & Center)');
+  }
+
+  function applyNumberFormat(type) {
+    selectedRangeIds.forEach(id => {
+      const cell = cellsData[id];
+      if (!cell) return;
+      const isFormula = String(cell.raw).startsWith('=');
+      const rawNum = parseFloat(String(cell.val).replace(/[^0-9.-]/g, ''));
+      if (!isNaN(rawNum) && !isFormula) {
+        if (type === 'currency') cell.raw = rawNum + ' د.ع';
+        else if (type === 'percent') cell.raw = rawNum + '%';
+        else if (type === 'number') cell.raw = rawNum.toFixed(2);
+        else if (type === 'comma') cell.raw = rawNum.toLocaleString();
+        else if (type === 'date') cell.raw = '2026/10/23';
+        else cell.raw = String(rawNum);
+      } else if (!isNaN(rawNum) && isFormula) {
+        if (type === 'currency') cell.val = rawNum + ' د.ع';
+        else if (type === 'percent') cell.val = rawNum + '%';
+        else if (type === 'number') cell.val = rawNum.toFixed(2);
+      }
+    });
+    renderGrid();
+    showToast('تم تطبيق تنسيق الرقم (Number Format - ص2)');
+  }
+
+  function changeDecimals(dir) {
+    selectedRangeIds.forEach(id => {
+      const num = parseFloat(cellsData[id].val);
+      if (!isNaN(num)) {
+        cellsData[id].val = dir > 0 ? num.toFixed(2) : Math.round(num);
+      }
+    });
+    renderGrid();
+    showToast(dir > 0 ? 'تمت زيادة المنازل العشرية (.00)' : 'تم إنقاص المنازل العشرية (.0)');
+  }
+
+  function activateFormatPainter() {
+    formatPainterStyle = { ...cellsData[activeCellId].style };
+    document.getElementById('formatPainterBtn')?.classList.add('active-tool');
+    showToast('نسخ التنسيق مفعل 🖌️: اضغط الآن على أي خلية لتطبيق نفس التنسيق عليها');
+  }
+
+  // ================= أوامر تبويب الصيغ وتخطيط الصفحة =================
+  function openDefinedNamesModal() {
+    document.getElementById('definedNamesModal').style.display = 'block';
+  }
+
+  function tracePrecedentsAction() {
+    clearTraceHighlights();
+    const raw = String(cellsData[activeCellId]?.raw || '').toUpperCase();
+    const matches = raw.match(/[A-Z]+[0-9]+/g) || [];
+    matches.forEach(id => { if (cellsData[id]) cellsData[id].traceHighlight = true; });
+    renderGrid();
+    showToast('تم تحديد الخلايا السابقة المغذية للمعادلة (Trace Precedents)');
+  }
+
+  function traceDependentsAction() {
+    clearTraceHighlights();
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) {
+        const id = c + r;
+        if (String(cellsData[id]?.raw).toUpperCase().includes(activeCellId)) {
+          cellsData[id].traceHighlight = true;
+        }
+      }
+    }
+    renderGrid();
+    showToast('تم تحديد الخلايا التابعة المعتمدة على هذه الخلية (Trace Dependents)');
+  }
+
+  function removeTraceArrows() {
+    clearTraceHighlights();
+    renderGrid();
+    showToast('تمت إزالة أسهم التتبع (Remove Arrows)');
+  }
+
+  function clearTraceHighlights() {
+    for (let r = 1; r <= totalRows; r++) {
+      for (let c of COLS) {
+        if (cellsData[c + r]) cellsData[c + r].traceHighlight = false;
+      }
+    }
+  }
+
+  function toggleSheetDirection() {
+    const wrap = document.getElementById('appWrapper');
+    const isLtr = wrap.classList.toggle('ltr-sheet');
+    document.getElementById('excelGrid').dir = isLtr ? 'ltr' : 'rtl';
+    saveCurrentSheetToStore();
+    showToast(isLtr ? 'تم قلب اتجاه الورقة من اليسار إلى اليمين (Left-to-Right)' : 'تم قلب اتجاه الورقة من اليمين إلى اليسار (Sheet Right-to-Left - ص12)');
+  }
+
+  function toggleGridlines(show) {
+    document.getElementById('excelGrid').classList.toggle('no-gridlines', !show);
+    saveCurrentSheetToStore();
+    showToast(show ? 'إظهار خطوط الشبكة (Gridlines View ☑)' : 'إخفاء خطوط الشبكة (Gridlines View ☐)');
+  }
+
+  function toggleHeadings(show) {
+    document.getElementById('excelGrid').classList.toggle('no-headings', !show);
+    saveCurrentSheetToStore();
+    showToast(show ? 'إظهار عناوين الأعمدة والصفوف (Headings View ☑)' : 'إخفاء العناوين (Headings View ☐)');
+  }
+
+  function setGridZoom(scale) {
+    document.getElementById('excelGrid').style.zoom = scale;
+    showToast('تم تغيير حجم الملائمة (Scale to Fit)');
+  }
+
+  function toggleShowFormulas() {
+    showFormulasMode = !showFormulasMode;
+    renderGrid();
+    showToast(showFormulasMode ? 'إظهار الصيغ داخل الخلايا (Show Formulas)' : 'إظهار النواتج النهائية');
+  }
+
+  // ================= أوامر تبويب إدراج (المخططات، Sparklines، Slicer) =================
+  function openChartModal(type) {
+    const modal = document.getElementById('chartModal');
+    const area = document.getElementById('chartCanvasArea');
+    modal.style.display = 'block';
+
+    const mainSheet = sheetsStore.find(s => s.id === 'main');
+    const srcCells = (currentSheetId === 'main' ? cellsData : (mainSheet ? mainSheet.cellsData : cellsData));
+
+    const students = [];
+    for (let r = 4; r <= 13; r++) {
+      const fullName = String(srcCells['A' + r]?.val || srcCells['A' + r]?.raw || 'طالب');
+      const shortName = fullName.split(' ').slice(0, 2).join(' ');
+      const avg = parseFloat(srcCells['F' + r]?.val) || 75;
+      students.push({ name: shortName, avg });
+    }
+
+    if (type === 'column') {
+      let bars = students.map(s => {
+        const h = Math.max(12, Math.round(s.avg * 1.3));
+        const clr = s.avg < 50 ? '#dc2626' : '#2563eb';
+        return `<div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:9px;font-weight:bold;color:${clr};">${s.avg}</span>
+          <div style="width:18px;height:${h}px;background:${clr};border-radius:2px 2px 0 0;"></div>
+          <span style="font-size:8.5px;writing-mode:vertical-rl;margin-top:4px;height:55px;text-align:right;">${s.name}</span>
+        </div>`;
+      }).join('');
+      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط عمودي (Column Chart)</div>
+        <div style="display:flex;align-items:flex-end;justify-content:space-around;height:195px;border-bottom:2px solid #475569;padding-top:15px;">${bars}</div>`;
+    } else if (type === 'bar') {
+      let bars = students.map(s => {
+        const w = Math.max(10, Math.round(s.avg));
+        const clr = s.avg < 50 ? '#dc2626' : '#0284c7';
+        return `<div style="display:flex;align-items:center;gap:4px;margin:2px 0;">
+          <span style="width:75px;font-size:9px;text-align:right;overflow:hidden;">${s.name}</span>
+          <div style="height:11px;width:${w}%;background:${clr};border-radius:2px;"></div>
+          <span style="font-size:9px;font-weight:bold;">${s.avg}</span>
+        </div>`;
+      }).join('');
+      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط شريطي (Bar Chart)</div><div>${bars}</div>`;
+    } else if (type === 'pie' || type === 'doughnut') {
+      const innerCircle = type === 'doughnut' ? '<circle cx="80" cy="80" r="30" fill="#f8fafc"/>' : '';
+      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط دائري لنسبة النجاح والرسوب</div>
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="65" fill="#dc2626"/>
+          <path d="M80 80 L80 15 A65 65 0 0 1 118 27 Z" fill="#16a34a"/>
+          ${innerCircle}
+        </svg>
+        <div style="font-size:10.5px;margin-top:4px;">🟢 ناجح: <b>10% (حيدر جبار)</b> | 🔴 راسب: <b>90% (9 طلاب)</b></div>`;
+    } else {
+      const pts = students.map((s, i) => `${20 + i * 32},${140 - s.avg * 1.2}`).join(' ');
+      const circles = students.map((s, i) => `<circle cx="${20 + i * 32}" cy="${140 - s.avg * 1.2}" r="4" fill="${s.avg < 50 ? '#dc2626' : '#1d4ed8'}"/>`).join('');
+      const poly = type === 'area'
+        ? `<polygon points="20,140 ${pts} 308,140" fill="rgba(59,130,246,0.3)" stroke="#1d4ed8" stroke-width="2"/>`
+        : (type === 'line' ? `<polyline points="${pts}" fill="none" stroke="#1d4ed8" stroke-width="2.2"/>` : '');
+      area.innerHTML = `<div style="font-weight:bold;margin-bottom:6px;">مخطط بياني للدرجات</div>
+        <svg width="100%" height="155" viewBox="0 0 330 155">
+          <line x1="15" y1="140" x2="320" y2="140" stroke="#64748b"/>
+          <line x1="15" y1="10" x2="15" y2="140" stroke="#64748b"/>
+          ${poly}${circles}
+        </svg>`;
+    }
+  }
+
+  function drawSparklines(type) {
+    if (currentSheetId !== 'main') {
+      switchSheet('main');
+    }
+    for (let r = 4; r <= 13; r++) {
+      const b = parseFloat(cellsData['B' + r]?.val) || 0;
+      const c = parseFloat(cellsData['C' + r]?.val) || 0;
+      const d = parseFloat(cellsData['D' + r]?.val) || 0;
+      const isFail = (b + c + d) / 3 < 50;
+      const clr = isFail ? '#dc2626' : '#1d4ed8';
+
+      if (type === 'line') {
+        cellsData['H' + r].spark = `<svg width="58" height="18"><polyline points="5,${18-Math.round(b/7)} 28,${18-Math.round(c/7)} 52,${18-Math.round(d/7)}" fill="none" stroke="${clr}" stroke-width="2"/></svg>`;
+      } else if (type === 'column') {
+        const h1 = Math.max(3, Math.round(b / 6)), h2 = Math.max(3, Math.round(c / 6)), h3 = Math.max(3, Math.round(d / 6));
+        cellsData['H' + r].spark = `<svg width="58" height="18"><rect x="6" y="${18-h1}" width="10" height="${h1}" fill="${clr}"/><rect x="24" y="${18-h2}" width="10" height="${h2}" fill="${clr}"/><rect x="42" y="${18-h3}" width="10" height="${h3}" fill="${clr}"/></svg>`;
+      } else {
+        cellsData['H' + r].spark = `<svg width="58" height="18"><line x1="2" y1="9" x2="56" y2="9" stroke="#94a3b8"/><rect x="6" y="${b>=50?2:9}" width="10" height="7" fill="${b>=50?'#16a34a':'#dc2626'}"/><rect x="24" y="${c>=50?2:9}" width="10" height="7" fill="${c>=50?'#16a34a':'#dc2626'}"/><rect x="42" y="${d>=50?2:9}" width="10" height="7" fill="${d>=50?'#16a34a':'#dc2626'}"/></svg>`;
+      }
+    }
+    renderGrid();
+    showToast('تم رسم خطوط المؤشر (Sparklines) في العمود H لجميع الطلاب ✔');
+  }
+
+  function openSlicerModal() { document.getElementById('slicerModal').style.display = 'block'; }
+
+  function filterTableRows(criteria) {
+    if (currentSheetId !== 'main') switchSheet('main');
+    const trs = document.querySelectorAll('#gridBody tr');
+    trs.forEach(tr => {
+      const r = parseInt(tr.dataset.row);
+      if (r >= 4 && r <= 13) {
+        const res = String(cellsData['G' + r]?.val).trim();
+        tr.style.display = (criteria === 'ALL' || res === criteria) ? '' : 'none';
+      }
+    });
+    closeModal('slicerModal');
+    showToast('تمت تصفية الجدول حسب: ' + criteria);
+  }
+
+  function openPivotModal() {
+    document.getElementById('pivotModal').style.display = 'block';
+    document.getElementById('pivotBody').innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-size:11px;text-align:center;" border="1">
+        <tr style="background:#217346;color:#fff;"><th>الفئة</th><th>العدد</th><th>الحالة</th></tr>
+        <tr><td>الطلاب (بنين)</td><td>5</td><td>1 ناجح (حيدر جبار) / 4 راسب</td></tr>
+        <tr><td>الطالبات (بنات)</td><td>5</td><td>5 راسبات (100%)</td></tr>
+        <tr style="font-weight:bold;background:#dcfce7;"><td>المجموع الكلي</td><td>10</td><td>1 ناجح / 9 راسب</td></tr>
+      </table>`;
+  }
+
+  function insertIllustration(label) {
+    cellsData[activeCellId].raw = label;
+    recalcAll();
+    showToast('تم إدراج: ' + label);
+  }
+
+  function insertHyperlink() {
+    cellsData[activeCellId].raw = '🔗 جامعة واسط (uowasit.edu.iq)';
+    cellsData[activeCellId].style = { color: '#2563eb', textDecoration: 'underline' };
+    recalcAll();
+    showToast('تم إدراج ارتباط تشعبي (Hyperlink)');
+  }
+
+  // نسخ وقص ولصق
+  function copyCell() { clipboardData = { ...cellsData[activeCellId] }; showToast('تم نسخ الخلية ' + activeCellId); }
+  function cutCell() { clipboardData = { ...cellsData[activeCellId] }; cellsData[activeCellId].raw = ''; recalcAll(); showToast('تم قص الخلية ' + activeCellId); }
+  function pasteCell() { if (!clipboardData) return; cellsData[activeCellId].raw = clipboardData.raw; recalcAll(); showToast('تم اللصق في ' + activeCellId); }
+
+  // إدارة القوائم المنسدلة
+  function openDropdown(ev, menuId) {
+    ev.stopPropagation();
+    const menu = document.getElementById(menuId);
+    const isVisible = menu.style.display === 'block';
+    closeAllDropdowns();
+    if (!isVisible) {
+      menu.style.display = 'block';
+      const rect = ev.currentTarget.getBoundingClientRect();
+      let leftPos = Math.min(window.innerWidth - 215, Math.max(8, rect.left));
+      menu.style.top = (rect.bottom + 3) + 'px';
+      menu.style.left = leftPos + 'px';
+    }
+  }
+
+  function closeAllDropdowns(ev) {
+    if (ev && ev.target.closest('.xl-dropdown-menu')) return;
+    document.querySelectorAll('.xl-dropdown-menu').forEach(m => m.style.display = 'none');
+  }
+
+  function switchRibbon(tabId) {
+    closeAllDropdowns();
+    document.querySelectorAll('.ribbon-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.ribbon-pane').forEach(p => p.classList.remove('active'));
+    document.getElementById('tabBtn-' + tabId)?.classList.add('active');
+    document.getElementById('pane-' + tabId)?.classList.add('active');
+  }
+
+  function applyLang() {
+    document.querySelectorAll('[data-ar]').forEach(el => {
+      if (!el.children.length) el.textContent = isArabicUI ? el.dataset.ar : el.dataset.en;
+    });
+  }
+
+  function toggleLang() {
+    isArabicUI = !isArabicUI;
+    applyLang();
+    showToast(isArabicUI ? 'تم تفعيل الأسماء العربية + الإنجليزية' : 'Switched to English Ribbon Names');
+  }
+
+  function resetPendingState() {
+    pendingFormulaBeforeEdit = null;
+    isWaitingConfirm = false;
+    document.getElementById('formulaBarContainer').classList.remove('pending-confirm');
+  }
+
+  function goSheet(id) { if (currentSheetId !== id) switchSheet(id); }
+
+  // ---------- بيانات السؤالين ----------
+  const Q1_HEAD = ['الاسم', 'العمر', 'القسم', 'الراتب', 'المجموع'];
+  const Q1_ROWS = [['احمد', '25', 'الحسابات', '780'], ['سارة', '30', 'القانونية', '770'], ['علي', '29', 'الاعلام', '900']];
+  const Q2_VALS = ['478', '498', '455', '485', '444', '421'];
+  const Q1_HEAD_MAP = {}; Q1_HEAD.forEach((t, i) => { Q1_HEAD_MAP[COLS[i] + '1'] = t; });
+  const Q1_DATA_MAP = {}; Q1_ROWS.forEach((row, i) => row.forEach((t, j) => { Q1_DATA_MAP[COLS[j] + (i + 2)] = t; }));
+  const Q2_MAP = {}; Q2_VALS.forEach((v, i) => { Q2_MAP['C' + (i + 1)] = v; });
+
+  function q1Headers() { Q1_HEAD.forEach((t, i) => { cellsData[COLS[i] + '1'].raw = t; }); }
+  function q1Data() { Object.keys(Q1_DATA_MAP).forEach(id => { cellsData[id].raw = Q1_DATA_MAP[id]; }); }
+  function q1Borders() { for (let r = 1; r <= 4; r++) for (let c = 0; c < 5; c++) cellsData[COLS[c] + r].style.border = '1.5px solid #1e293b'; }
+  function q1Merge() { mergeRange('E2', 'E4'); }
+  function q1Red() { cellsData['E2'].style.backgroundColor = '#ff0000'; }
+  function q2Fill() { Object.keys(Q2_MAP).forEach(id => { cellsData[id].raw = Q2_MAP[id]; }); }
+
+  function clearFormulasForPractice() {
+    if (QSHEETS[currentSheetId]) {
+      cellsData = makeQGrid(currentSheetId);
+      hiddenRows.clear();
+      resetPendingState();
+      saveCurrentSheetToStore();
+      recalcAll();
+      selectCell(QSHEETS[currentSheetId].active);
+      showToast('تم التصفير! ابدأ التطبيق بنفسك من الخطوة الأولى في مدرب الامتحان 🎓');
+      return;
+    }
+    if (currentSheetId !== 'main') switchSheet('main');
+    for (let r = 4; r <= 13; r++) {
+      cellsData['E' + r].raw = '';
+      cellsData['F' + r].raw = '';
+      cellsData['G' + r].raw = '';
+    }
+    ['B14','C14','D14','B15','C15','D15','B16'].forEach(id => cellsData[id].raw = '');
+    recalcAll();
+    selectCell('E4');
+    showToast('تم تصفير المعادلات! تدرب الآن على AutoSum وعلامة الصح ✔ وسحب التعبئة');
+  }
+
+  function solveAllTable() {
+    if (currentSheetId === 'q1') {
+      q1Headers(); q1Data(); q1Borders(); q1Merge();
+      cellsData['E2'].raw = '=SUM(D2:D4)';
+      q1Red();
+      resetPendingState();
+      recalcAll();
+      selectCell('E2');
+      showToast('تم حل س1 ✔ المجموع = 2450 في الخلية المدمجة الحمراء E2:E4');
+      return;
+    }
+    if (currentSheetId === 'q2') {
+      q2Fill();
+      cellsData['C8'].raw = '=MAX(C1:C6)';
+      resetPendingState();
+      recalcAll();
+      selectCell('C8');
+      showToast('تم حل س2 ✔ أكبر قيمة = 498 في الخلية C8');
+      return;
+    }
+    if (currentSheetId !== 'main') switchSheet('main');
+    cellsData = buildMainSheetCells();
+    saveCurrentSheetToStore();
+    mergeRange('A1', 'G1');
+    recalcAll();
+    showToast('تم حل جميع معادلات الجدول وتلوين النتائج ✔');
+  }
+
+  function resetTableData() {
+    if (QSHEETS[currentSheetId]) {
+      cellsData = makeQGrid(currentSheetId);
+    } else if (currentSheetId === 'main') {
+      cellsData = buildMainSheetCells();
+    } else {
+      cellsData = createEmptyGrid();
+    }
+    hiddenRows.clear();
+    resetPendingState();
+    saveCurrentSheetToStore();
+    recalcAll();
+    selectCell(activeCellId);
+    showToast('تمت استعادة البيانات الأصلية للورقة الحالية');
+  }
+
+  // ================= مدرب الامتحان خطوة بخطوة: س1 و س2 =================
+  const gOf = id => id === currentSheetId ? cellsData : sheetsStore.find(x => x.id === id)?.cellsData;
+  const normAr = s => normalizeDigits(String(s ?? '')).trim().replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/\s+/g, ' ');
+
+  function isRedColor(c) {
+    if (!c) return false;
+    c = String(c).trim().toLowerCase();
+    if (c === 'red') return true;
+    let r, g, b, m;
+    if ((m = c.match(/^#([0-9a-f]{6})$/))) {
+      r = parseInt(m[1].slice(0, 2), 16); g = parseInt(m[1].slice(2, 4), 16); b = parseInt(m[1].slice(4, 6), 16);
+    } else if ((m = c.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/))) {
+      r = +m[1]; g = +m[2]; b = +m[3];
+    } else return false;
+    return r >= 200 && g <= 90 && b <= 90;
+  }
+
+  // يرجع null إذا صح، وإلا رسالة تقول ما الناقص
+  function cellsMsg(sheetId, map) {
+    const g = gOf(sheetId);
+    if (!g) return 'الورقة غير موجودة';
+    for (const id of Object.keys(map)) {
+      if (normAr(g[id]?.raw) !== normAr(map[id])) return 'الخلية ' + id + ' يجب أن تحتوي «' + map[id] + '»';
+    }
+    return null;
+  }
+  const rawIs = (sheetId, id, re) => re.test(String(gOf(sheetId)?.[id]?.raw ?? '').replace(/\s/g, ''));
+
+  const examSteps = [
+    { q: 1, sheet: 'q1', title: 'كتابة عناوين الجدول',
+      desc: 'في ورقة س1: اضغط A1 واكتب «الاسم» ثم ✔. كرر: B1 «العمر» ، C1 «القسم» ، D1 «الراتب» ، E1 «المجموع» (الصف الأول من A إلى E).',
+      hint: 'كل خلية: اضغطها ← اكتب في شريط الصيغة ← اضغط ✔ (أو Enter). العناوين بالترتيب في A1 B1 C1 D1 E1.',
+      apply() { goSheet('q1'); q1Headers(); recalcAll(); selectCell('A1'); },
+      check: () => cellsMsg('q1', Q1_HEAD_MAP) },
+    { q: 1, sheet: 'q1', title: 'إدخال بيانات الأشخاص الثلاثة',
+      desc: 'أدخل تحت العناوين — الصف 2: احمد، 25، الحسابات، 780 — الصف 3: سارة، 30، القانونية، 770 — الصف 4: علي، 29، الاعلام، 900.',
+      hint: 'الصف 2: A2 احمد، B2 25، C2 الحسابات، D2 780. الصف 3: A3 سارة، B3 30، C3 القانونية، D3 770. الصف 4: A4 علي، B4 29، C4 الاعلام، D4 900. العمود E يبقى فارغاً الآن.',
+      apply() { goSheet('q1'); q1Data(); recalcAll(); selectCell('A2'); },
+      check: () => cellsMsg('q1', Q1_DATA_MAP) },
+    { q: 1, sheet: 'q1', title: 'وضع حدود كاملة للجدول',
+      desc: 'حدد الجدول كله A1:E4 ثم اضغط زر الحدود ⊞ (Borders) في HOME ← Font لتظهر حدود كاملة.',
+      hint: 'طريقتان لتحديد النطاق: (1) اضغط صندوق الاسم Name Box واكتب A1:E4 ثم موافق. (2) اضغط A1 ثم فعّل «🔲 تحديد نطاق» ثم اضغط E4. بعدها اضغط ⊞.',
+      apply() { goSheet('q1'); q1Borders(); recalcAll(); },
+      check: () => {
+        const g = gOf('q1');
+        for (let r = 1; r <= 4; r++) for (let c = 0; c < 5; c++) {
+          if (!g[COLS[c] + r].style.border) return 'الخلية ' + COLS[c] + r + ' بلا حدود: حدد A1:E4 ثم اضغط ⊞';
+        }
+        return null;
+      } },
+    { q: 1, sheet: 'q1', title: 'دمج الخلايا تحت عنوان المجموع',
+      desc: 'حدد E2:E4 (الخلايا الثلاث تحت «المجموع») ثم HOME ← Alignment ← «دمج وتوسيط Merge & Center» فتصير خلية واحدة.',
+      hint: 'اكتب E2:E4 في صندوق الاسم (أو اضغط E2 ثم «تحديد نطاق» ثم E4) ثم اضغط «دمج وتوسيط». ستظهر خلية واحدة طويلة.',
+      apply() { goSheet('q1'); q1Merge(); recalcAll(); selectCell('E2'); },
+      check: () => {
+        const e = gOf('q1').E2;
+        return (e.merged && e.rowspan === 3 && e.colspan === 1) ? null : 'حدد E2:E4 ثم اضغط دمج وتوسيط (Merge & Center)';
+      } },
+    { q: 1, sheet: 'q1', title: 'جمع الرواتب بـ AutoSum',
+      desc: 'اضغط الخلية المدمجة E2 ← ∑ AutoSum ← Sum. ستظهر =SUM(D2:D4) في الخلية وشريط الصيغة (لا تضغط ✔ بعد).',
+      hint: 'الصيغة =SUM(D2:D4) تجمع الرواتب D2 و D3 و D4 فقط (بدون العنوان). في الامتحان يكفي ظهور الصيغة في شريط الصيغة لتحصل على الدرجة.',
+      apply() { goSheet('q1'); selectCell('E2'); startAutoSumStep('SUM'); },
+      check: () => rawIs('q1', 'E2', /^=SUM\(D2:D4\)$/i) ? null : 'الخلية E2 يجب أن تحتوي =SUM(D2:D4): حدد E2 ثم AutoSum ← Sum' },
+    { q: 1, sheet: 'q1', title: 'إتمام المعادلة بعلامة الصح',
+      desc: 'اضغط علامة الصح ✔ (الخضراء) في شريط الصيغة فيظهر المجموع 2450 (780 + 770 + 900). علامة ✕ تلغي العملية.',
+      hint: 'علامة ✔ بجانب fx في شريط الصيغة. بعد الضغط يتحول النص =SUM(D2:D4) إلى الناتج 2450.',
+      apply() {
+        goSheet('q1');
+        if (!rawIs('q1', 'E2', /^=SUM\(D2:D4\)$/i)) { selectCell('E2'); startAutoSumStep('SUM'); }
+        if (isWaitingConfirm) commitFormulaEdit(); else selectCell('E2');
+      },
+      check: () => {
+        const e = gOf('q1').E2;
+        if (!rawIs('q1', 'E2', /^=SUM\(D2:D4\)$/i)) return 'أنجز الخطوة 5 أولاً (=SUM(D2:D4) في E2)';
+        if (currentSheetId === 'q1' && isWaitingConfirm) return 'اضغط علامة الصح ✔ في شريط الصيغة';
+        return parseFloat(e.val) === 2450 ? null : 'ناتج E2 يجب أن يكون 2450';
+      } },
+    { q: 1, sheet: 'q1', title: 'تلوين الخلية المدمجة بالأحمر',
+      desc: 'حدد الخلية المدمجة E2 ثم HOME ← Font ← زر التعبئة الأحمر 🟥 (أو لون التعبئة واختر الأحمر).',
+      hint: 'اضغط E2 ثم 🟥 الموجود بجانب مربع اللون في مجموعة Font. هذا آخر خطوة في س1.',
+      apply() { goSheet('q1'); selectCell('E2'); formatActive('backgroundColor', '#ff0000'); },
+      check: () => isRedColor(gOf('q1').E2.style.backgroundColor) ? null : 'لوّن الخلية المدمجة E2 بالأحمر (زر 🟥)' },
+    { q: 2, sheet: 'q2', title: 'إدخال الأرقام في C1:C6',
+      desc: 'افتح ورقة س2 وأدخل الأرقام عمودياً: C1=478 ، C2=498 ، C3=455 ، C4=485 ، C5=444 ، C6=421.',
+      hint: 'كل رقم في خلية: اضغط C1 واكتب 478 ثم ✔، ثم C2 واكتب 498 وهكذا حتى C6. اترك C7 فارغة.',
+      apply() { goSheet('q2'); q2Fill(); recalcAll(); selectCell('C8'); },
+      check: () => cellsMsg('q2', Q2_MAP) },
+    { q: 2, sheet: 'q2', title: 'كتابة دالة MAX في C8',
+      desc: 'حدد C8 ← ∑ AutoSum ثم السهم ▾ ← Max. ستظهر =MAX(C1:C6) في الخلية وشريط الصيغة.',
+      hint: 'MAX تعني أكبر قيمة. الصيغة =MAX(C1:C6): أول خلية C1 ثم نقطتان : ثم آخر خلية C6. النتيجة تكون في C8 كما طلب السؤال.',
+      apply() { goSheet('q2'); selectCell('C8'); startAutoSumStep('MAX'); },
+      check: () => rawIs('q2', 'C8', /^=MAX\(C1:C6\)$/i) ? null : 'الخلية C8 يجب أن تحتوي =MAX(C1:C6): حدد C8 ثم AutoSum ▾ ← Max' },
+    { q: 2, sheet: 'q2', title: 'إتمام المعادلة بعلامة الصح',
+      desc: 'اضغط علامة الصح ✔ فتظهر أكبر قيمة 498 في C8. 🎉 بهذا تنتهي أسئلة الامتحان.',
+      hint: 'بعد ✔ يظهر الناتج 498 في C8. إذا ضغطت ✕ تلغى الصيغة وتعيد المحاولة.',
+      apply() {
+        goSheet('q2');
+        if (!rawIs('q2', 'C8', /^=MAX\(C1:C6\)$/i)) { selectCell('C8'); startAutoSumStep('MAX'); }
+        if (isWaitingConfirm) commitFormulaEdit(); else selectCell('C8');
+      },
+      check: () => {
+        if (!rawIs('q2', 'C8', /^=MAX\(C1:C6\)$/i)) return 'أنجز الخطوة 9 أولاً (=MAX(C1:C6) في C8)';
+        if (currentSheetId === 'q2' && isWaitingConfirm) return 'اضغط علامة الصح ✔ في شريط الصيغة';
+        return parseFloat(gOf('q2').C8.val) === 498 ? null : 'ناتج C8 يجب أن يكون 498';
+      } }
+  ];
+
+  let currentTaskIdx = 0;
+
+  function renderExamTask(goToSheet) {
+    const t = examSteps[currentTaskIdx];
+    document.getElementById('examTitle').textContent = 'س' + t.q + ' — الخطوة ' + (currentTaskIdx + 1) + ' من ' + examSteps.length + ': ' + t.title;
+    document.getElementById('examDesc').textContent = t.desc;
+    if (goToSheet && t.sheet !== currentSheetId && sheetsStore.some(s => s.id === t.sheet)) switchSheet(t.sheet);
+  }
+
+  function nextTask() { currentTaskIdx = (currentTaskIdx + 1) % examSteps.length; renderExamTask(true); }
+  function prevTask() { currentTaskIdx = (currentTaskIdx - 1 + examSteps.length) % examSteps.length; renderExamTask(true); }
+  function applyCurrentTask() { examSteps[currentTaskIdx].apply(); }
+  function checkCurrentTask() {
+    const msg = examSteps[currentTaskIdx].check();
+    if (!msg) {
+      if (currentTaskIdx < examSteps.length - 1) {
+        showToast('✔ أحسنت! الخطوة صحيحة — ننتقل للخطوة التالية');
+        setTimeout(nextTask, 1000);
+      } else {
+        showToast('🎉 أحسنت! أنهيت تدريب س1 و س2 بنجاح');
+      }
+    } else {
+      showToast('✗ ' + msg + ' — جرّب «💡 كيف أسوّيها؟» أو «🪄 طبقها لي»');
+    }
+  }
+  function showTaskHint() { showToast('💡 ' + examSteps[currentTaskIdx].hint); }
+  function toggleExamBar() { document.getElementById('examBar').classList.toggle('hidden'); }
+
+  function updateStatusBar() {
+    document.getElementById('statusCellInfo').textContent = `جاهز (Ready) | الخلية النشطة: ${activeCellId}`;
+    const nums = selectedRangeIds.map(id => parseFloat(cellsData[id]?.val)).filter(n => !isNaN(n));
+    const sum = nums.reduce((a, b) => a + b, 0);
+    const avg = nums.length ? (sum / nums.length).toFixed(1) : '-';
+    document.getElementById('statusCalcInfo').textContent = `المجموع: ${sum} | المعدل: ${avg} | العدد: ${selectedRangeIds.length}`;
+  }
+
+  function openModal(id) { document.getElementById(id).style.display = 'block'; }
+  function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+  let toastTimer = null;
+  function showToast(msg) {
+    const el = document.getElementById('toastMsg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.style.display = 'none'; }, Math.max(3600, msg.length * 60));
+  }
+
+  // ================= نافذة Insert Function (المحاضرة 4) =================
+  const FXD = [
+    'SUM|Math & Trig|number1,number2,...|Adds all the numbers in a range of cells.',
+    'MOD|Math & Trig|number,divisor|Returns the remainder after a number is divided by a divisor.',
+    'ROUND|Math & Trig|number,num_digits|Rounds a number to a specified number of digits.',
+    'SQRT|Math & Trig|number|Returns a positive square root.',
+    'AVERAGE|Statistical|number1,number2,...|Returns the average (arithmetic mean) of its arguments, which can be numbers or names, arrays, or references that contain numbers.',
+    'COUNT|Statistical|value1,value2,...|Counts the number of cells in a range that contain numbers.',
+    'MAX|Statistical|number1,number2,...|Returns the largest value in a set of values.',
+    'MIN|Statistical|number1,number2,...|Returns the smallest value in a set of values.',
+    'MEDIAN|Statistical|number1,number2,...|Returns the median of the given numbers.',
+    'IF|Logical|logical_test,value_if_true,value_if_false|Checks whether a condition is met, and returns one value if TRUE, and another value if FALSE.',
+    'AND|Logical|logical1,logical2,...|Checks whether all arguments are TRUE.',
+    'DAY|Date & Time|serial_number|Returns the day of the month, a number from 1 to 31.',
+    'MONTH|Date & Time|serial_number|Returns the month, a number from 1 to 12.',
+    'TODAY|Date & Time||Returns the current date.',
+    'PMT|Financial|rate,nper,pv|Calculates the payment for a loan based on constant payments and a constant interest rate.',
+    'FV|Financial|rate,nper,pmt|Returns the future value of an investment.',
+    'VLOOKUP|Lookup & Reference|lookup_value,table_array,col_index_num|Looks for a value in the leftmost column of a table, then returns a value in the same row from a column you specify.',
+    'HYPERLINK|Lookup & Reference|link_location,friendly_name|Creates a shortcut that opens a document on your computer, network server, or the Internet.',
+    'INDEX|Lookup & Reference|array,row_num,column_num|Returns a value or reference from within a table or range.',
+    'DSUM|Database|database,field,criteria|Adds the numbers in the field column of records in the database that match the conditions you specify.',
+    'LEFT|Text|text,num_chars|Returns the specified number of characters from the start of a text string.',
+    'LEN|Text|text|Returns the number of characters in a text string.',
+    'UPPER|Text|text|Converts text to uppercase.',
+    'ISNUMBER|Information|value|Checks whether a value is a number, and returns TRUE or FALSE.',
+    'ISBLANK|Information|value|Checks whether a reference is to an empty cell.',
+    'CONVERT|Engineering|number,from_unit,to_unit|Converts a number from one measurement system to another.',
+    'DEC2BIN|Engineering|number,places|Converts a decimal number to binary.'
+  ].map(x => { const a = x.split('|'); return { n: a[0], c: a[1], s: a[2], d: a[3] }; });
+  const FX_CATS = ['Most Recently Used', 'All', 'Financial', 'Date & Time', 'Math & Trig', 'Statistical', 'Lookup & Reference', 'Database', 'Text', 'Logical', 'Information', 'Engineering'];
+  const FX_MRU = ['AVERAGE', 'DAY', 'SUM', 'IF', 'HYPERLINK', 'COUNT', 'MAX'];
+  const FX_OK = ['SUM', 'AVERAGE', 'COUNT', 'MAX', 'MIN', 'IF', 'MOD'];
+  let fxCell = 'A1', fxCur = null;
+  const $id = i => document.getElementById(i);
+
+  function openFxDialog(cat) {
+    fxCell = activeCellId;
+    $id('fxCat').innerHTML = FX_CATS.map(c => `<option>${c}</option>`).join('');
+    $id('fxCat').value = cat || 'Most Recently Used';
+    $id('fxSearch').value = '';
+    fxFill();
+    openModal('fxModal');
+  }
+  function fxFill(q) {
+    const cat = $id('fxCat').value;
+    let l = q ? FXD.filter(f => (f.n + ' ' + f.d + ' ' + f.c).toLowerCase().includes(q.toLowerCase()))
+      : cat === 'Most Recently Used' ? FX_MRU.map(n => FXD.find(f => f.n === n))
+      : cat === 'All' ? FXD : FXD.filter(f => f.c === cat);
+    $id('fxList').innerHTML = l.map(f => `<option>${f.n}</option>`).join('');
+    $id('fxList').selectedIndex = 0;
+    fxDesc();
+  }
+  function fxDesc() {
+    const f = FXD.find(x => x.n === $id('fxList').value);
+    $id('fxDescBox').innerHTML = f ? `<b>${f.n}(${f.s.replace(/,/g, ', ')})</b><br>${f.d}` : 'No functions found.';
+  }
+  function fxFormula() {
+    const v = [...document.querySelectorAll('.fx-in')].map(i => normalizeDigits(i.value.trim()));
+    while (v.length && !v[v.length - 1]) v.pop();
+    return `=${fxCur.n}(${v.join(fxCur.n === 'IF' ? ';' : ',')})`;
+  }
+  function fxLive() {
+    const f = fxFormula(), r = evaluateFormula(f, '', new Set());
+    $id('fxArgRes').textContent = FX_OK.includes(fxCur.n) && r !== f ? r : '';
+  }
+  function fxOk() {
+    const f = FXD.find(x => x.n === $id('fxList').value);
+    if (!f) return;
+    closeModal('fxModal');
+    fxCur = f;
+    selectCell(fxCell);
+    pendingFormulaBeforeEdit = cellsData[fxCell].raw || '';
+    cellsData[fxCell].raw = '=';
+    $id('formulaInput').value = '=';
+    isWaitingConfirm = true;
+    $id('formulaBarContainer').classList.add('pending-confirm');
+    recalcAll();
+    const args = f.s ? f.s.split(',').filter(a => a !== '...').slice(0, 3) : [];
+    $id('fxArgName').textContent = f.n;
+    $id('fxArgRows').innerHTML = args.map((a, i) => `<div style="display:flex;gap:6px;align-items:center;margin:3px 0;"><b style="min-width:100px;">${a}</b><input class="dialog-input fx-in" oninput="fxLive()" style="flex:1" placeholder="${i === 0 ? 'e.g. A1:A6' : ''}"><span style="color:#64748b;">= number</span></div>`).join('');
+    $id('fxArgDesc').textContent = f.d;
+    fxLive();
+    openModal('fxArgModal');
+  }
+  function fxArgOk() {
+    closeModal('fxArgModal');
+    const f = fxFormula();
+    if (!FX_OK.includes(fxCur.n)) {
+      cancelFormulaEdit();
+      showToast(`الدالة ${fxCur.n} للتعريف فقط؛ المحاكي يحسب: SUM, AVERAGE, COUNT, MAX, MIN, IF, MOD`);
+      return;
+    }
+    cellsData[fxCell].raw = f;
+    $id('formulaInput').value = f;
+    isWaitingConfirm = true;
+    $id('formulaBarContainer').classList.add('pending-confirm');
+    clearTraceHighlights();
+    (f.match(/[A-Z]+\d+(?::[A-Z]+\d+)*/gi) || []).flatMap(x => expandRange(x.toUpperCase())).forEach(id => { if (cellsData[id]) cellsData[id].traceHighlight = true; });
+    recalcAll();
+    showToast(`ظهرت المعادلة ${f} في الخلية وشريط الصيغة — اضغط علامة الصح ✔ للتنفيذ أو ✕ للإلغاء`);
+  }
+  function evalFormulaAction() {
+    const c = cellsData[activeCellId];
+    showToast(String(c.raw).startsWith('=') ? `Evaluate Formula (${activeCellId}): ${c.raw}  ⟵  ${c.val}` : `الخلية ${activeCellId} ليست معادلة`);
+  }
+  function errorCheckAction() {
+    const bad = Object.keys(cellsData).filter(k => String(cellsData[k].val).startsWith('#'));
+    showToast(bad.length ? `Error Checking: أخطاء في ${bad.join(', ')}` : 'Error Checking: لا توجد أخطاء في الورقة ✔');
+  }
+  function watchWindowAction() {
+    const c = cellsData[activeCellId];
+    showToast(`Watch Window | ${activeCellId} | القيمة: ${c.val || '-'} | الصيغة: ${c.raw || '-'}`);
+  }
+
+  let siteZoom = 1;
+  function changeSiteZoom(d) {
+    siteZoom = d === 0 ? 1 : Math.min(1.8, Math.max(0.6, Math.round((siteZoom + d) * 100) / 100));
+    document.documentElement.style.setProperty('--site-zoom', siteZoom);
+    document.getElementById('zoomLbl').textContent = Math.round(siteZoom * 100) + '%';
+  }
+
+  window.onload = () => {
+    initAllSheetsStore();
+    renderExamTask();
+    applyLang();
+  };
+</script>
+</body>
+</html>
