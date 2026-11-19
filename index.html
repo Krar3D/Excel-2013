@@ -3594,5 +3594,2364 @@
     applyLang();
   };
 </script>
+
+<!-- ==================== إضافات المحاضرتين 1 و 2 (بدون المساس بالكود الأصلي) ==================== -->
+<style id="l12-addon-styles">
+  /* نافذة FILE Backstage View المطابقة لـ Excel 2013 */
+  .l12-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    z-index: 700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+  }
+  .l12-overlay.open { display: flex; }
+
+  .l12-backstage {
+    width: 98%;
+    max-width: 820px;
+    height: 88vh;
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    border: 2px solid #217346;
+    direction: rtl;
+  }
+  .l12-bs-sidebar {
+    width: 145px;
+    min-width: 120px;
+    background: #217346;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .l12-bs-back {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin: 4px 14px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .l12-bs-back:hover { background: rgba(255,255,255,0.2); }
+  .l12-bs-item {
+    padding: 8px 14px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #fff;
+    text-align: right;
+    font-family: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .l12-bs-item:hover { background: #1e6b41; }
+  .l12-bs-item.active { background: #14532d; border-right: 4px solid #fde047; }
+  .l12-bs-main {
+    flex: 1;
+    padding: 14px 16px;
+    overflow-y: auto;
+    background: #f8fafc;
+    font-size: 11.5px;
+    color: #1e293b;
+  }
+  .l12-bs-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #217346;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #dcfce7;
+    padding-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* شاشة البداية Excel 2013 Start Screen */
+  .l12-start-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .l12-tpl-card {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .l12-tpl-card:hover {
+    border-color: #217346;
+    box-shadow: 0 4px 12px rgba(33,115,70,0.18);
+    transform: translateY(-2px);
+  }
+  .l12-tpl-card.blank-card {
+    border: 2px solid #217346;
+    background: #f0fdf4;
+  }
+  .l12-tpl-thumb {
+    height: 46px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* بطاقة مقارنة Book1 و Doc1 + نافذة Save As */
+  .l12-saveas-box {
+    background: #fff;
+    border: 1px solid #94a3b8;
+    border-radius: 5px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .l12-compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .l12-cmp-card {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    font-size: 10.8px;
+  }
+
+  /* قوائم الزر الأيمن (Right-Click Context Menus) + شريط التنسيق المصغر */
+  .l12-ctx-menu {
+    position: fixed;
+    background: #ffffff;
+    border: 1px solid #94a3b8;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+    border-radius: 3px;
+    z-index: 850;
+    display: none;
+    min-width: 215px;
+    max-width: 92vw;
+    padding: 4px 0;
+    font-size: 11px;
+    direction: rtl;
+  }
+  .l12-mini-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 6px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+  }
+  .l12-ctx-item {
+    padding: 5px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #1e293b;
+  }
+  .l12-ctx-item:hover { background: #c7e0f4; }
+  .l12-ctx-item.disabled { opacity: 0.45; pointer-events: none; }
+  .l12-ctx-sep { height: 1px; background: #e2e8f0; margin: 3px 0; }
+  .l12-color-swatches {
+    display: flex;
+    gap: 4px;
+    padding: 4px 10px 6px;
+    flex-wrap: wrap;
+  }
+  .l12-swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid #64748b;
+    cursor: pointer;
+  }
+  .l12-swatch:hover { transform: scale(1.18); }
+
+  /* مربعات حوار Insert و Delete الأربع خيارات المطابقة لص 16-20 */
+  .l12-radio-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 8px 0 12px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  .l12-radio-opt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 11.5px;
+    padding: 4px 6px;
+    border-radius: 3px;
+  }
+  .l12-radio-opt:hover { background: #e0f2fe; }
+
+  /* أزرار النافذة وسهم الوصول السريع في الشريط الأحمر */
+  .l12-win-btns {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin-right: 4px;
+  }
+  .l12-win-btn {
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    border: none;
+    width: 20px;
+    height: 18px;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+  .l12-win-btn:hover { background: rgba(255,255,255,0.3); }
+  .l12-win-btn.close-btn:hover { background: #7f1d1d; }
+
+  /* مسطرة العرض الاختيارية */
+  .l12-ruler-bar {
+    display: none;
+    background: #f1f5f9;
+    border-bottom: 1px solid #cbd5e1;
+    font-size: 9px;
+    color: #475569;
+    padding: 1px 10px;
+    letter-spacing: 8px;
+    font-family: monospace;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .l12-ruler-bar.visible { display: block; }
+
+  /* تبويبات نافذة المحاضرة 1 و 2 */
+  .l12-modal-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .l12-mtab {
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    color: #1e293b;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .l12-mtab.active {
+    background: #217346;
+    color: #fff;
+    border-color: #14532d;
+  }
+  .l12-qa-card {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-right: 4px solid #217346;
+    border-radius: 4px;
+    padding: 7px 9px;
+    margin-bottom: 7px;
+    font-size: 10.8px;
+  }
+  .l12-qa-card b.q-head { color: #14532d; display: block; margin-bottom: 2px; }
+  .l12-mcq-opt {
+    display: block;
+    width: 100%;
+    text-align: right;
+    padding: 5px 8px;
+    margin: 3px 0;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 10.8px;
+  }
+  .l12-mcq-opt:hover { background: #eff6ff; border-color: #3b82f6; }
+  .l12-mcq-opt.correct { background: #dcfce7; border-color: #16a34a; color: #14532d; font-weight: 700; }
+  .l12-mcq-opt.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+
+  .l12-prac-item {
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 7px 9px;
+    margin-bottom: 7px;
+    background: #fff;
+    font-size: 10.8px;
+  }
+  .l12-prac-item.done { border-color: #16a34a; background: #f0fdf4; }
+  .l12-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 9.5px;
+    font-weight: 700;
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  /* تظليل الخلية النشطة بحد أسود واضح عند استدعائها بالاسم المعرّف (ص21) */
+  td.l12-named-focus {
+    outline: 2.5px solid #0f172a !important;
+    background-color: rgba(15, 23, 42, 0.12) !important;
+  }
+</style>
+
+<!-- 1. نافذة ملف (FILE Backstage View) + شاشة البداية (Start Screen) + Save As + SkyDrive + Options -->
+<div class="l12-overlay" id="l12BackstageOverlay" onclick="if(event.target===this) l12CloseBackstage()">
+  <div class="l12-backstage">
+    <div class="l12-bs-sidebar">
+      <button class="l12-bs-back" onclick="l12CloseBackstage()" title="العودة لورقة العمل">➜</button>
+      <button class="l12-bs-item active" data-bs="new" onclick="l12ShowBsPane('new')">جديد New <span>🏠</span></button>
+      <button class="l12-bs-item" data-bs="info" onclick="l12ShowBsPane('info')">معلومات Info <span>ℹ️</span></button>
+      <button class="l12-bs-item" data-bs="open" onclick="l12ShowBsPane('open')">فتح Open <span>📂</span></button>
+      <button class="l12-bs-item" data-bs="save" onclick="l12QuickSave()">حفظ Save <span>💾</span></button>
+      <button class="l12-bs-item" data-bs="saveas" onclick="l12ShowBsPane('saveas')">حفظ باسم Save As <span>📝</span></button>
+      <button class="l12-bs-item" data-bs="print" onclick="l12ShowBsPane('print')">طباعة Print <span>🖨️</span></button>
+      <button class="l12-bs-item" data-bs="share" onclick="l12ShowBsPane('share')">مشاركة Share <span>☁️</span></button>
+      <button class="l12-bs-item" data-bs="account" onclick="l12ShowBsPane('account')">حساب Account <span>👤</span></button>
+      <button class="l12-bs-item" data-bs="options" onclick="l12ShowBsPane('options')">خيارات Options <span>⚙️</span></button>
+      <button class="l12-bs-item" onclick="l12CloseBackstage()">إغلاق Close <span>✕</span></button>
+    </div>
+    <div class="l12-bs-main" id="l12BsMain"></div>
+  </div>
+</div>
+
+<!-- 2. قائمة تخصيص شريط أدوات الوصول السريع (Quick Access Toolbar Customize ▾) -->
+<div class="l12-ctx-menu" id="l12QatMenu" style="min-width:230px;">
+  <div class="xl-dropdown-header">تخصيص شريط الوصول السريع (Quick Access Toolbar)</div>
+  <div id="l12QatMenuItems"></div>
+  <div class="l12-ctx-sep"></div>
+  <div class="l12-ctx-item" onclick="l12HideAllCtx(); l12OpenBackstage('options');"><span>⚙️ <b>More Commands... (أوامر إضافية)</b></span></div>
+</div>
+
+<!-- 3. قائمة الزر الأيمن للخلايا (Right-Click Cell Menu + Mini Toolbar - ص15 إلى ص20) -->
+<div class="l12-ctx-menu" id="l12CellCtxMenu">
+  <div class="l12-mini-toolbar">
+    <button class="xl-icon-btn" onclick="toggleStyle('fontWeight','bold')"><b>B</b></button>
+    <button class="xl-icon-btn" onclick="toggleStyle('fontStyle','italic')"><i>I</i></button>
+    <button class="xl-icon-btn" onclick="applyAllBorders()" title="حدود">⊞</button>
+    <button class="xl-icon-btn" onclick="formatActive('backgroundColor','#fef08a')" title="تعبئة أصفر">🟨</button>
+    <button class="xl-icon-btn" onclick="formatActive('color','#dc2626')" title="خط أحمر">A</button>
+    <button class="xl-icon-btn" onclick="formatActive('textAlign','center')" title="توسيط">☰</button>
+  </div>
+  <div class="l12-ctx-item" onclick="copyCell(); l12HideAllCtx();"><span>📄 نسخ (Copy)</span><small>Ctrl+C</small></div>
+  <div class="l12-ctx-item" onclick="cutCell(); l12HideAllCtx();"><span>✂️ قص (Cut)</span><small>Ctrl+X</small></div>
+  <div class="l12-ctx-item" onclick="pasteCell(); l12HideAllCtx();"><span>📋 لصق (Paste Options)</span><small>Ctrl+V</small></div>
+  <div class="l12-ctx-sep"></div>
+  <div class="l12-ctx-item" style="font-weight:700;color:#15803d;" onclick="l12HideAllCtx(); l12OpenInsertDialog();"><span>➕ إدراج خلايا (Insert...)</span><span>▸</span></div>
+  <div class="l12-ctx-item" style="font-weight:700;color:#b91c1c;" onclick="l12HideAllCtx(); l12OpenDeleteDialog();"><span>➖ حذف خلايا (Delete...)</span><span>▸</span></div>
+  <div class="l12-ctx-item" onclick="clearActionType('contents'); l12HideAllCtx();"><span>🧹 مسح المحتويات (Clear Contents)</span><small>Del</small></div>
+  <div class="l12-ctx-sep"></div>
+  <div class="l12-ctx-item" onclick="l12HideAllCtx(); l12OpenRealDefineName();"><span>🏷️ تعريف اسم (Define Name...)</span></div>
+  <div class="l12-ctx-item" onclick="sortStudentsAsc(); l12HideAllCtx();"><span>🔼 ترتيب (Sort A→Z)</span></div>
+  <div class="l12-ctx-item" onclick="openSlicerModal(); l12HideAllCtx();"><span>🌪️ تصفية (Filter)</span></div>
+  <div class="l12-ctx-item" onclick="insertHyperlink(); l12HideAllCtx();"><span>🔗 ارتباط تشعبي (Hyperlink...)</span></div>
+</div>
+
+<!-- 4. قائمة الزر الأيمن لورقة العمل (Sheet Tab Right-Click Menu - ص14) -->
+<div class="l12-ctx-menu" id="l12SheetCtxMenu">
+  <div class="xl-dropdown-header" id="l12SheetCtxTitle">خيارات ورقة العمل (Right-Click Sheet)</div>
+  <div class="l12-ctx-item" onclick="addNewSheet(); l12HideAllCtx();"><span>➕ إدراج ورقة (Insert...)</span></div>
+  <div class="l12-ctx-item" onclick="deleteCurrentSheet(); l12HideAllCtx();"><span>🗑️ حذف الورقة (Delete)</span></div>
+  <div class="l12-ctx-item" style="font-weight:700;color:#217346;" onclick="l12HideAllCtx(); l12RenameTargetSheet();"><span>✏️ تغيير الاسم (Rename)</span></div>
+  <div class="l12-ctx-item" onclick="l12CopyCurrentSheet(); l12HideAllCtx();"><span>📑 نقل أو نسخ (Move or Copy...)</span></div>
+  <div class="l12-ctx-item" onclick="l12ToggleProtectSheet(); l12HideAllCtx();"><span id="l12ProtectLabel">🔒 حماية الورقة (Protect Sheet...)</span></div>
+  <div class="l12-ctx-sep"></div>
+  <div style="padding:3px 12px;font-size:10px;font-weight:700;color:#475569;">🎨 لون علامة التبويب (Tab Color):</div>
+  <div class="l12-color-swatches">
+    <div class="l12-swatch" style="background:#ef4444;" onclick="l12SetTabColor('#ef4444')" title="أحمر"></div>
+    <div class="l12-swatch" style="background:#f59e0b;" onclick="l12SetTabColor('#f59e0b')" title="برتقالي"></div>
+    <div class="l12-swatch" style="background:#22c55e;" onclick="l12SetTabColor('#22c55e')" title="أخضر"></div>
+    <div class="l12-swatch" style="background:#3b82f6;" onclick="l12SetTabColor('#3b82f6')" title="أزرق"></div>
+    <div class="l12-swatch" style="background:#a855f7;" onclick="l12SetTabColor('#a855f7')" title="بنفسجي"></div>
+    <div class="l12-swatch" style="background:#ffffff;" onclick="l12SetTabColor('')" title="بلا لون">✕</div>
+  </div>
+  <div class="l12-ctx-sep"></div>
+  <div class="l12-ctx-item" onclick="l12HideCurrentSheet(); l12HideAllCtx();"><span>👁️ إخفاء الورقة (Hide)</span></div>
+  <div class="l12-ctx-item" onclick="l12UnhideSheets(); l12HideAllCtx();"><span>🔓 إظهار الأوراق المخفية (Unhide...)</span></div>
+  <div class="l12-ctx-item" onclick="showToast('تم تحديد جميع أوراق العمل في المصنف (Select All Sheets)'); l12HideAllCtx();"><span>📚 تحديد كافة الأوراق (Select All Sheets)</span></div>
+</div>
+
+<!-- 5. مربع حوار Insert الخلايا بالأربع خيارات (ص16 و ص19) -->
+<div class="floating-panel" id="l12InsertDialog" style="max-width:350px;z-index:820;">
+  <div class="floating-header">
+    <span>➕ إدراج خلايا (Insert) — المحاضرة 2 ص16</span>
+    <button onclick="closeModal('l12InsertDialog')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
+  </div>
+  <div class="floating-body">
+    <div style="font-size:10.5px;color:#475569;">اختر طريقة الإدراج عند الخلية النشطة (<b id="l12InsCellLbl">A1</b>):</div>
+    <div class="l12-radio-list">
+      <label class="l12-radio-opt"><input type="radio" name="l12InsOpt" value="right"> <span><b>Shift cells right</b> — تحريك الخلايا إلى اليمين</span></label>
+      <label class="l12-radio-opt"><input type="radio" name="l12InsOpt" value="down" checked> <span><b>Shift cells down</b> — تحريك الخلايا إلى الأسفل</span></label>
+      <label class="l12-radio-opt"><input type="radio" name="l12InsOpt" value="row"> <span><b>Entire row</b> — إضافة صف كامل</span></label>
+      <label class="l12-radio-opt"><input type="radio" name="l12InsOpt" value="col"> <span><b>Entire column</b> — إضافة عمود كامل</span></label>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;">
+      <button class="ex-btn" style="background:#e2e8f0;color:#1e293b;padding:4px 12px;" onclick="closeModal('l12InsertDialog')">إلغاء Cancel</button>
+      <button class="ex-btn" style="background:#217346;color:#fff;padding:4px 16px;" onclick="l12ExecInsertDialog()">موافق OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- 6. مربع حوار Delete الخلايا بالأربع خيارات (ص18 و ص19) -->
+<div class="floating-panel" id="l12DeleteDialog" style="max-width:350px;z-index:820;">
+  <div class="floating-header" style="background:#b91c1c;">
+    <span>➖ حذف خلايا (Delete) — المحاضرة 2 ص18</span>
+    <button onclick="closeModal('l12DeleteDialog')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
+  </div>
+  <div class="floating-body">
+    <div style="font-size:10.5px;color:#475569;">اختر طريقة الحذف عند الخلية النشطة (<b id="l12DelCellLbl">A1</b>):</div>
+    <div class="l12-radio-list">
+      <label class="l12-radio-opt"><input type="radio" name="l12DelOpt" value="left" checked> <span><b>Shift cells left</b> — تحريك الخلايا إلى اليسار</span></label>
+      <label class="l12-radio-opt"><input type="radio" name="l12DelOpt" value="up"> <span><b>Shift cells up</b> — تحريك الخلايا إلى الأعلى</span></label>
+      <label class="l12-radio-opt"><input type="radio" name="l12DelOpt" value="row"> <span><b>Entire row</b> — حذف صف كامل</span></label>
+      <label class="l12-radio-opt"><input type="radio" name="l12DelOpt" value="col"> <span><b>Entire column</b> — حذف عمود كامل</span></label>
+    </div>
+    <div style="font-size:9.8px;color:#64748b;margin-bottom:8px;">💡 الطريقة 3 للحذف (ص19): يمكنك الضغط مباشرة على مفتاح <b>Delete</b> في لوحة المفاتيح.</div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;">
+      <button class="ex-btn" style="background:#e2e8f0;color:#1e293b;padding:4px 12px;" onclick="closeModal('l12DeleteDialog')">إلغاء Cancel</button>
+      <button class="ex-btn" style="background:#b91c1c;color:#fff;padding:4px 16px;" onclick="l12ExecDeleteDialog()">موافق OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- 7. نافذة تسمية الخلايا الحقيقية (Define Name & Name Manager - ص21 و ص22) -->
+<div class="floating-panel" id="l12DefineNameModal" style="max-width:400px;z-index:820;">
+  <div class="floating-header">
+    <span>🏷️ تسمية الخلايا (Cells Name / Define Name - ص21)</span>
+    <button onclick="closeModal('l12DefineNameModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
+  </div>
+  <div class="floating-body">
+    <p style="font-size:10.5px;margin-bottom:6px;background:#f0fdf4;padding:6px;border-right:3px solid #217346;">
+      <b>تسمية الخلايا (Cells Name):</b> إعطاء اسم للخلية أو النطاق (مثلاً تسمية خلية باسم <b>احمد</b>) للوصول إليها بسرعة بطريقتين: من <b>صندوق الاسم Name Box</b> أو من <b>Formulas ← Defined Names ← Define Name</b>.
+    </p>
+    <label style="font-weight:700;font-size:10.5px;">الاسم الجديد للخلية أو النطاق (مثل: احمد):</label>
+    <input type="text" id="l12DefNameInput" class="dialog-input" placeholder="مثال: احمد">
+    <label style="font-weight:700;font-size:10.5px;">المرجع / الخلية (Refers to):</label>
+    <input type="text" id="l12DefRefInput" class="dialog-input" style="direction:ltr;text-align:left;">
+    <button class="ex-btn" style="background:#217346;color:#fff;width:100%;padding:5px;margin-bottom:8px;" onclick="l12SaveDefinedName()">💾 حفظ وتسمية الخلية (Save Name)</button>
+    <div style="font-weight:700;font-size:10.5px;border-top:1px solid #e2e8f0;padding-top:6px;margin-bottom:4px;">الأسماء المعرّفة في Name Manager (اضغط للانتقال للخلية):</div>
+    <div id="l12NamesList" style="max-height:150px;overflow-y:auto;"></div>
+  </div>
+</div>
+
+<!-- 8. نافذة صندوق الاسم المتطورة (Name Box: الانتقال أو التسمية المباشرة - ص21) -->
+<div class="floating-panel" id="l12NameBoxModal" style="max-width:360px;z-index:820;">
+  <div class="floating-header">
+    <span>📍 صندوق الاسم (Name Box) — الانتقال أو التسمية</span>
+    <button onclick="closeModal('l12NameBoxModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
+  </div>
+  <div class="floating-body">
+    <div style="font-size:10.5px;margin-bottom:6px;">الخلية النشطة حالياً: <b id="l12NbCurCell">G4</b></div>
+    <label style="font-weight:700;font-size:10.5px;">اكتب عنوان خلية/نطاق (مثل A6 أو A1:E4) أو اسماً معرّفاً (مثل احمد):</label>
+    <input type="text" id="l12NbInput" class="dialog-input" onkeydown="if(event.key==='Enter') l12NbGoOrName('auto')">
+    <div style="display:flex;gap:5px;flex-wrap:wrap;">
+      <button class="ex-btn" style="background:#0284c7;color:#fff;flex:1;padding:5px;" onclick="l12NbGoOrName('goto')">➡️ انتقال إلى خلية/اسم</button>
+      <button class="ex-btn" style="background:#217346;color:#fff;flex:1;padding:5px;" onclick="l12NbGoOrName('rename')">🏷️ تسمية الخلية بهذا الاسم</button>
+    </div>
+    <div id="l12NbQuickNames" style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;"></div>
+  </div>
+</div>
+
+<!-- 9. نافذة دليل ومدرب امتحان المحاضرتين 1 و 2 (ملخص + عملي + MCQ) -->
+<div class="floating-panel" id="l12StudyModal" style="max-width:520px;z-index:810;">
+  <div class="floating-header">
+    <span>📘 المحاضرة 1 و 2 — الشرح الشامل ومدرب الامتحان (Excel 2013)</span>
+    <button onclick="closeModal('l12StudyModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer;">✕</button>
+  </div>
+  <div class="floating-body">
+    <div class="l12-modal-tabs">
+      <button class="l12-mtab active" id="l12TabBtn-summary" onclick="l12SwitchStudyTab('summary')">📖 ملخص وس/ج (ص1-22)</button>
+      <button class="l12-mtab" id="l12TabBtn-practice" onclick="l12SwitchStudyTab('practice')">🛠️ تدريب عملي (8 مهام)</button>
+      <button class="l12-mtab" id="l12TabBtn-mcq" onclick="l12SwitchStudyTab('mcq')">✅ اختبار سريع (12 سؤال)</button>
+    </div>
+    <div id="l12StudyBody"></div>
+  </div>
+</div>
+
+<script id="l12-addon-script">
+(function() {
+  'use strict';
+
+  // ================= حالة إضافات المحاضرتين 1 و 2 =================
+  const l12State = {
+    workbookName: 'Book1',
+    signedInEmail: '',
+    definedNames: {
+      'درجات_الاقتصاد': { sheet: 'main', ref: 'B4:D13' }
+    },
+    tabColors: {},
+    hiddenSheets: new Set(),
+    protectedSheets: new Set(),
+    ctxTargetSheetId: null,
+    qatEnabled: { new: false, open: false, print: false, sortAsc: false },
+    flags: {
+      savedAsBook: false,
+      hidFormulaBar: false,
+      usedInsertDialog: false,
+      usedDeleteDialog: false,
+      namedCell: false,
+      usedAutoSeries: false,
+      usedSheetCtx: false,
+      usedQatMore: false
+    }
+  };
+
+  // ================= 1. تهيئة واجهة المحاضرتين 1 و 2 بدون مساس بالكود الأصلي =================
+  function l12Init() {
+    // أ) إضافة زر شاشة البداية + زر المحاضرة 1 و 2 في الشريط الجامعي
+    const uniActions = document.querySelector('.uni-bar-actions');
+    if (uniActions && !document.getElementById('l12StartBtn')) {
+      const startBtn = document.createElement('button');
+      startBtn.id = 'l12StartBtn';
+      startBtn.className = 'uni-btn';
+      startBtn.style.cssText = 'background:#7c3aed;color:#fff;';
+      startBtn.textContent = '🏠 شاشة البداية / SkyDrive';
+      startBtn.onclick = () => l12OpenBackstage('new');
+
+      const studyBtn = document.createElement('button');
+      studyBtn.id = 'l12StudyBtn';
+      studyBtn.className = 'uni-btn';
+      studyBtn.style.cssText = 'background:#f97316;color:#fff;';
+      studyBtn.textContent = '📘 محاضرة 1 و 2 (امتحان)';
+      studyBtn.onclick = () => { l12SwitchStudyTab('summary'); openModal('l12StudyModal'); };
+
+      uniActions.insertBefore(studyBtn, uniActions.firstChild);
+      uniActions.insertBefore(startBtn, uniActions.firstChild);
+    }
+
+    // ب) إضافة تخصيص شريط الوصول السريع (QAT ▾) وأزرار النافذة (— ❐ ✕) للشريط الأحمر
+    const qatContainers = document.querySelectorAll('.activation-bar .qat-icons');
+    if (qatContainers.length >= 2) {
+      const leftQat = qatContainers[0];
+      const extraWrap = document.createElement('span');
+      extraWrap.id = 'l12QatDynamic';
+      extraWrap.style.cssText = 'display:inline-flex;align-items:center;gap:3px;';
+      leftQat.appendChild(extraWrap);
+
+      const qatDropBtn = document.createElement('button');
+      qatDropBtn.className = 'qat-btn';
+      qatDropBtn.title = 'تخصيص شريط أدوات الوصول السريع (Customize Quick Access Toolbar)';
+      qatDropBtn.textContent = '▾';
+      qatDropBtn.onclick = (e) => { e.stopPropagation(); l12OpenQatMenu(e); };
+      leftQat.appendChild(qatDropBtn);
+
+      const rightQat = qatContainers[1];
+      const winBtns = document.createElement('span');
+      winBtns.className = 'l12-win-btns';
+      winBtns.innerHTML = `
+        <button class="l12-win-btn" title="مساعدة Help" onclick="l12SwitchStudyTab('summary');openModal('l12StudyModal')">?</button>
+        <button class="l12-win-btn" title="تصغير Minimize" onclick="showToast('زر تصغير النافذة (Minimize) في شريط العنوان Address Bar')">—</button>
+        <button class="l12-win-btn" title="توسيط/تكبير Restore/Maximize" onclick="showToast('زر توسيط/تكبير النافذة في شريط العنوان Address Bar')">❐</button>
+        <button class="l12-win-btn close-btn" title="إغلاق Close" onclick="l12OpenBackstage('saveas')">✕</button>
+      `;
+      rightQat.appendChild(winBtns);
+    }
+
+    // ج) ربط تبويب ملف FILE بواجهة Backstage الحقيقية
+    const fileTab = document.querySelector('.ribbon-tab.file-tab');
+    if (fileTab) {
+      fileTab.onclick = () => l12OpenBackstage('saveas');
+    }
+
+    // د) إضافة Formula Bar و Ruler في تبويب عرض (VIEW -> Show) كما في ص11
+    const viewStack = document.querySelector('#pane-view .xl-col-stack');
+    if (viewStack && !document.getElementById('l12ChkFormulaBar')) {
+      const fbLabel = document.createElement('label');
+      fbLabel.style.cssText = 'font-size:9.5px;cursor:pointer;font-weight:700;color:#14532d;';
+      fbLabel.innerHTML = '<input type="checkbox" id="l12ChkFormulaBar" checked> Formula Bar شريط الصيغة';
+      fbLabel.querySelector('input').onchange = function() {
+        const fb = document.getElementById('formulaBarContainer');
+        if (fb) fb.style.display = this.checked ? 'flex' : 'none';
+        l12State.flags.hidFormulaBar = true;
+        showToast(this.checked ? 'تم إظهار شريط الصيغة (Formula Bar ☑) من View -> Show' : 'تم إخفاء شريط الصيغة (Formula Bar ☐) من View -> Show (ص11)');
+      };
+
+      const rulerLabel = document.createElement('label');
+      rulerLabel.style.cssText = 'font-size:9.5px;cursor:pointer;';
+      rulerLabel.innerHTML = '<input type="checkbox" id="l12ChkRuler"> Ruler المسطرة';
+      rulerLabel.querySelector('input').onchange = function() {
+        const rb = document.getElementById('l12RulerBar');
+        if (rb) rb.classList.toggle('visible', this.checked);
+        showToast(this.checked ? 'تم إظهار المسطرة (Ruler ☑)' : 'تم إخفاء المسطرة (Ruler ☐)');
+      };
+
+      viewStack.insertBefore(fbLabel, viewStack.firstChild);
+      viewStack.insertBefore(rulerLabel, viewStack.firstChild);
+    }
+
+    // إضافة شريط المسطرة الاختياري فوق الشبكة
+    const gridWrapper = document.getElementById('gridWrapper');
+    if (gridWrapper && !document.getElementById('l12RulerBar')) {
+      const ruler = document.createElement('div');
+      ruler.id = 'l12RulerBar';
+      ruler.className = 'l12-ruler-bar';
+      ruler.textContent = '| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 |';
+      gridWrapper.parentNode.insertBefore(ruler, gridWrapper);
+    }
+
+    // هـ) ربط Insert Cells... و Delete Cells... بمربعي الحوار الأصليين ذوي الـ 4 خيارات (ص16-20)
+    const insItems = document.querySelectorAll('#menu-cells-insert .xl-dropdown-item');
+    if (insItems[0]) {
+      insItems[0].onclick = (e) => { e.stopPropagation(); closeAllDropdowns(); l12OpenInsertDialog(); };
+    }
+    const delItems = document.querySelectorAll('#menu-cells-delete .xl-dropdown-item');
+    if (delItems[0]) {
+      delItems[0].onclick = (e) => { e.stopPropagation(); closeAllDropdowns(); l12OpenDeleteDialog(); };
+    }
+
+    // إضافة أوامر Format المفقودة من ص14 (Move or Copy, Tab Color, Protect Sheet)
+    const fmtMenu = document.getElementById('menu-cells-format');
+    if (fmtMenu && !document.getElementById('l12FmtExtra')) {
+      const sep = document.createElement('div');
+      sep.id = 'l12FmtExtra';
+      sep.innerHTML = `
+        <div class="xl-dropdown-sep"></div>
+        <div class="xl-dropdown-item" onclick="l12CopyCurrentSheet(); closeAllDropdowns();"><span>📑 Move or Copy Sheet... (نقل أو نسخ ورقة)</span></div>
+        <div class="xl-dropdown-item" onclick="event.stopPropagation(); closeAllDropdowns(); l12OpenSheetCtxFromButton(event);"><span>🎨 Tab Color (لون علامة التبويب)</span></div>
+        <div class="xl-dropdown-item" onclick="l12ToggleProtectSheet(); closeAllDropdowns();"><span>🔒 Protect Sheet... (حماية الورقة)</span></div>
+      `;
+      fmtMenu.appendChild(sep);
+    }
+
+    // و) إضافة أزرار مساعدة سريعة للهاتف في mobile-helper: الزر الأيمن + التعبئة المتسلسلة (+) + تسمية الخلية
+    const mobHelper = document.querySelector('.mobile-helper');
+    if (mobHelper && !document.getElementById('l12AutoSeriesBtn')) {
+      const autoBtn = document.createElement('button');
+      autoBtn.id = 'l12AutoSeriesBtn';
+      autoBtn.className = 'm-chip';
+      autoBtn.style.cssText = 'background:#fef3c7;color:#92400e;border-color:#f59e0b;';
+      autoBtn.textContent = '➕ تعبئة متسلسلة (+ أرقام/أيام)';
+      autoBtn.onclick = l12AutoFillSeries;
+
+      const rClickBtn = document.createElement('button');
+      rClickBtn.className = 'm-chip';
+      rClickBtn.style.cssText = 'background:#ede9fe;color:#5b21b6;border-color:#a78bfa;';
+      rClickBtn.textContent = '🖱️ زر أيمن للخلية';
+      rClickBtn.onclick = (e) => { e.stopPropagation(); l12OpenCellCtxAtActive(); };
+
+      const nameBtn = document.createElement('button');
+      nameBtn.className = 'm-chip';
+      nameBtn.style.cssText = 'background:#e0f2fe;color:#0369a1;border-color:#38bdf8;';
+      nameBtn.textContent = '🏷️ تسمية الخلية';
+      nameBtn.onclick = l12OpenRealDefineName;
+
+      mobHelper.insertBefore(nameBtn, mobHelper.firstChild);
+      mobHelper.insertBefore(rClickBtn, mobHelper.firstChild);
+      mobHelper.insertBefore(autoBtn, mobHelper.firstChild);
+    }
+
+    // ز) إضافة زر خيارات الورقة (زر أيمن للورقة على الهاتف) بجوار زر (+)
+    const sheetTabsWrap = document.querySelector('.sheet-tabs-wrapper');
+    if (sheetTabsWrap && !document.getElementById('l12SheetMenuBtn')) {
+      const sBtn = document.createElement('button');
+      sBtn.id = 'l12SheetMenuBtn';
+      sBtn.className = 'm-chip';
+      sBtn.style.cssText = 'font-size:9px;padding:1px 6px;flex-shrink:0;';
+      sBtn.textContent = '📑 زر أيمن للورقة ▾';
+      sBtn.onclick = (e) => { e.stopPropagation(); l12OpenSheetCtxFromButton(e); };
+      sheetTabsWrap.appendChild(sBtn);
+    }
+
+    // ح) ربط القائمة السياقية بالزر الأيمن على الخلايا وأوراق العمل
+    const gridBody = document.getElementById('gridBody');
+    if (gridBody) {
+      gridBody.addEventListener('contextmenu', function(e) {
+        const td = e.target.closest('td[id^="cell-"]');
+        if (!td) return;
+        e.preventDefault();
+        const cid = td.id.replace('cell-', '');
+        if (typeof selectCell === 'function') selectCell(cid);
+        l12ShowCtxMenu('l12CellCtxMenu', e.clientX, e.clientY);
+      });
+    }
+
+    const sheetTabsList = document.getElementById('sheetTabsList');
+    if (sheetTabsList) {
+      sheetTabsList.addEventListener('contextmenu', function(e) {
+        const tab = e.target.closest('.sheet-tab');
+        if (!tab) return;
+        e.preventDefault();
+        const sid = tab.dataset.sheetId || currentSheetId;
+        l12State.ctxTargetSheetId = sid;
+        if (sid && sid !== currentSheetId) switchSheet(sid);
+        l12ShowSheetCtx(e.clientX, e.clientY);
+      });
+    }
+
+    // إغلاق القوائم السياقية عند الضغط خارجها
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.l12-ctx-menu')) l12HideAllCtx();
+    });
+
+    // ط) تفعيل التنقل بالأسهم ومفتاح Enter ومفتاح Delete من لوحة المفاتيح (ص6 و ص19)
+    document.addEventListener('keydown', l12HandleKeydown);
+
+    // ي) لفّ دوال محددة برمجياً (Runtime Wrapping) بدون تعديل السورس الأصلي
+    l12WrapOriginalHooks();
+    l12RenderQatExtras();
+    l12EnhanceSheetTabsDOM();
+  }
+
+  function l12WrapOriginalHooks() {
+    // 1. لفّ selectCell لإظهار الاسم المعرف في صندوق الاسم Name Box عند اختيار خلية مسماة
+    if (typeof window.selectCell === 'function') {
+      const origSelectCell = window.selectCell;
+      window.selectCell = function(id) {
+        origSelectCell(id);
+        l12SyncNameBoxDisplay();
+      };
+    }
+
+    // 2. لفّ renderSheetTabsBar لتطبيق لون التبويب (Tab Color) وإخفاء الأوراق المخفية وعلامة القفل
+    if (typeof window.renderSheetTabsBar === 'function') {
+      const origRenderTabs = window.renderSheetTabsBar;
+      window.renderSheetTabsBar = function() {
+        origRenderTabs();
+        l12EnhanceSheetTabsDOM();
+      };
+    }
+
+    // 3. لفّ goToCellPrompt (صندوق الاسم Name Box) لدعم التسمية والانتقال بالأسماء المعرفة
+    window.goToCellPrompt = function() {
+      l12OpenNameBoxModal();
+    };
+
+    // 4. لفّ openDefinedNamesModal لفتح نافذة Define Name & Name Manager الحقيقية
+    window.openDefinedNamesModal = function() {
+      l12OpenRealDefineName();
+    };
+
+    // 5. حماية الورقة (Protect Sheet) + التحقق من حد 32000 حرف للخلية (ص6)
+    if (typeof window.commitFormulaEdit === 'function') {
+      const origCommit = window.commitFormulaEdit;
+      window.commitFormulaEdit = function() {
+        if (l12State.protectedSheets.has(currentSheetId)) {
+          cancelFormulaEdit();
+          showToast('🔒 هذه الورقة محمية (Protect Sheet)! ألغِ الحماية من زر أيمن على الورقة للتعديل.');
+          return;
+        }
+        const inp = document.getElementById('formulaInput');
+        if (inp && inp.value.length > 32000) {
+          inp.value = inp.value.slice(0, 32000);
+          showToast('⚠️ الحد الأعلى لمحتوى الخلية في Excel 2013 هو 32,000 حرف (ص6)');
+        }
+        origCommit();
+      };
+    }
+
+    // 6. عداد الأحرف المباشر عند الكتابة في شريط الصيغة (للتذكير بحد 32000 حرف)
+    const fInp = document.getElementById('formulaInput');
+    if (fInp) {
+      fInp.addEventListener('input', function() {
+        if (l12State.protectedSheets.has(currentSheetId)) {
+          this.value = cellsData[activeCellId]?.raw || '';
+          showToast('🔒 الورقة محمية (Protect Sheet)');
+          return;
+        }
+        const st = document.getElementById('statusCellInfo');
+        if (st && this.value.length > 0) {
+          st.textContent = `تحرير (${activeCellId}) | الأحرف: ${this.value.length} / 32,000 كحد أعلى`;
+        }
+      });
+    }
+  }
+
+  // ================= 2. التنقل بلوحة المفاتيح ومفتاح Delete (ص6 و ص19) =================
+  function l12HandleKeydown(e) {
+    const tag = document.activeElement?.tagName;
+    const isEditing = (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT');
+    const anyModalOpen = document.querySelector('.l12-overlay.open') ||
+      Array.from(document.querySelectorAll('.floating-panel')).some(p => p.style.display === 'block');
+    if (anyModalOpen) {
+      if (e.key === 'Escape') {
+        l12CloseBackstage();
+        l12HideAllCtx();
+        ['l12InsertDialog','l12DeleteDialog','l12DefineNameModal','l12NameBoxModal','l12StudyModal'].forEach(id => closeModal(id));
+      }
+      return;
+    }
+
+    if (isEditing) return;
+
+    const colIdx = COLS.indexOf(activeCellId.charAt(0));
+    const rowNum = parseInt(activeCellId.slice(1));
+    if (colIdx === -1 || isNaN(rowNum)) return;
+
+    const isLtr = document.getElementById('appWrapper').classList.contains('ltr-sheet');
+    let nextC = colIdx, nextR = rowNum;
+
+    if (e.key === 'ArrowUp') { nextR = Math.max(1, rowNum - 1); }
+    else if (e.key === 'ArrowDown' || e.key === 'Enter') { nextR = Math.min(totalRows, rowNum + 1); }
+    else if (e.key === 'ArrowLeft') { nextC = isLtr ? Math.max(0, colIdx - 1) : Math.min(COLS.length - 1, colIdx + 1); }
+    else if (e.key === 'ArrowRight') { nextC = isLtr ? Math.min(COLS.length - 1, colIdx + 1) : Math.max(0, colIdx - 1); }
+    else if (e.key === 'Delete' || e.key === 'Backspace') {
+      e.preventDefault();
+      if (l12State.protectedSheets.has(currentSheetId)) {
+        showToast('🔒 الورقة محمية ولا يمكن المسح');
+        return;
+      }
+      clearActionType('contents');
+      showToast('تم مسح محتوى الخلايا المحددة بمفتاح Delete من لوحة المفاتيح (ص19)');
+      return;
+    } else {
+      return;
+    }
+
+    e.preventDefault();
+    selectCell(COLS[nextC] + nextR);
+  }
+
+  // ================= 3. قائمة FILE Backstage + شاشة البداية + Save As + SkyDrive + Options =================
+  window.l12OpenBackstage = function(pane) {
+    l12HideAllCtx();
+    document.getElementById('l12BackstageOverlay').classList.add('open');
+    l12ShowBsPane(pane || 'new');
+  };
+
+  window.l12CloseBackstage = function() {
+    document.getElementById('l12BackstageOverlay').classList.remove('open');
+  };
+
+  window.l12QuickSave = function() {
+    saveCurrentSheetToStore();
+    l12State.flags.savedAsBook = true;
+    showToast(`💾 تم حفظ المصنف (${l12State.workbookName}.xlsx) بنجاح`);
+    l12CloseBackstage();
+  };
+
+  window.l12ShowBsPane = function(pane) {
+    document.querySelectorAll('.l12-bs-item[data-bs]').forEach(b => {
+      b.classList.toggle('active', b.dataset.bs === pane);
+    });
+    const main = document.getElementById('l12BsMain');
+
+    if (pane === 'new') {
+      main.innerHTML = `
+        <div class="l12-bs-title">
+          <span>🏠 شاشة البداية (Excel 2013 Start Screen / New)</span>
+          <button class="ex-btn" style="background:#217346;color:#fff;" onclick="l12ShowBsPane('account')">
+            👤 ${l12State.signedInEmail ? l12State.signedInEmail : 'Sign in (SkyDrive 7 GB)'}
+          </button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px;align-items:start;">
+          <div style="background:#14532d;color:#fff;padding:10px;border-radius:5px;">
+            <div style="font-size:13px;font-weight:700;color:#fde047;margin-bottom:6px;">📂 Recent (الملفات المفتوحة مؤخراً)</div>
+            <div style="font-size:10.5px;margin-bottom:6px;padding:5px;background:rgba(255,255,255,0.12);border-radius:3px;cursor:pointer;" onclick="l12CloseBackstage();switchSheet('main');">📗 ${l12State.workbookName}.xlsx<br><small style="color:#cbd5e1;">Desktop &gt; Excel 2013</small></div>
+            <div style="font-size:10.5px;margin-bottom:8px;padding:5px;background:rgba(255,255,255,0.12);border-radius:3px;cursor:pointer;" onclick="l12CloseBackstage();switchSheet('q1');">📗 واجب_الرواتب_س1.xlsx</div>
+            <button class="ex-btn" style="background:#fff;color:#14532d;width:100%;" onclick="l12ShowBsPane('open')">📁 Open Other Workbooks</button>
+            <div style="margin-top:8px;font-size:9.8px;color:#bbf7d0;line-height:1.4;">
+              💡 في Excel 2013: اليسار يعرض <b>Recent</b>، الوسط يعرض <b>Blank workbook</b> و<b>Templates</b>، واليمين يعرض حساب <b>SkyDrive (7 GB)</b> (ص3-5).
+            </div>
+          </div>
+          <div>
+            <div style="font-weight:700;color:#1e293b;">ورقة عمل فارغة (Blank workbook) والقوالب الجاهزة (Templates):</div>
+            <div class="l12-start-grid">
+              <div class="l12-tpl-card blank-card" onclick="l12CreateFromTemplate('blank')">
+                <div class="l12-tpl-thumb" style="background:#dcfce7;">📄</div>
+                <b>Blank workbook</b><div style="font-size:9.5px;color:#15803d;">ورقة عمل فارغة (Sheet1)</div>
+              </div>
+              <div class="l12-tpl-card" onclick="l12CreateFromTemplate('budget')">
+                <div class="l12-tpl-thumb">💰</div>
+                <b>Monthly budget</b><div style="font-size:9.5px;color:#64748b;">قالب ميزانية شهرية</div>
+              </div>
+              <div class="l12-tpl-card" onclick="l12CreateFromTemplate('schedule')">
+                <div class="l12-tpl-thumb">📅</div>
+                <b>Student schedule</b><div style="font-size:9.5px;color:#64748b;">قالب جدول دراسي</div>
+              </div>
+              <div class="l12-tpl-card" onclick="l12CreateFromTemplate('invoice')">
+                <div class="l12-tpl-thumb">🧾</div>
+                <b>Simple invoice</b><div style="font-size:9.5px;color:#64748b;">قالب فاتورة جاهز</div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    } else if (pane === 'saveas') {
+      main.innerHTML = `
+        <div class="l12-bs-title"><span>📝 حفظ باسم (Save As) — مقارنة Excel مع Word (ص1-2)</span></div>
+        <div class="l12-saveas-box">
+          <div style="font-size:10.5px;color:#475569;margin-bottom:6px;">المسار: <code>This PC &gt; Desktop</code></div>
+          <label style="font-weight:700;">اسم الملف (File name):</label>
+          <input type="text" id="l12SaveNameInp" class="dialog-input" value="${l12State.workbookName}">
+          <label style="font-weight:700;">نوع الحفظ (Save as type):</label>
+          <select class="dialog-input" id="l12SaveTypeSel">
+            <option value="xlsx">Excel Workbook (*.xlsx) — مصنف إكسل</option>
+            <option value="xls">Excel 97-2003 Workbook (*.xls)</option>
+            <option value="pdf">PDF (*.pdf)</option>
+          </select>
+          <div style="display:flex;justify-content:flex-end;gap:6px;">
+            <button class="ex-btn" style="background:#e2e8f0;color:#1e293b;padding:5px 14px;" onclick="l12CloseBackstage()">إلغاء Cancel</button>
+            <button class="ex-btn" style="background:#217346;color:#fff;padding:5px 18px;" onclick="l12ApplySaveAs()">💾 حفظ Save</button>
+          </div>
+        </div>
+        <div class="l12-compare-grid">
+          <div class="l12-cmp-card" style="background:#f0fdf4;border-color:#16a34a;">
+            <b style="color:#15803d;">📗 Microsoft Excel 2013</b><br>
+            • اسم الخزن الافتراضي: <b>Book1</b><br>
+            • النوع: <b>Excel Workbook</b><br>
+            • يعامل البيانات كـ <b>أوراق عمل</b> (ص1).
+          </div>
+          <div class="l12-cmp-card" style="background:#eff6ff;border-color:#2563eb;">
+            <b style="color:#1d4ed8;">📘 Microsoft Word 2013</b><br>
+            • اسم الخزن الافتراضي: <b>Document1 / Doc1</b><br>
+            • النوع: <b>Word Document</b><br>
+            • يعامل البيانات كـ <b>مستندات نصية</b> (ص1-2).
+          </div>
+        </div>`;
+    } else if (pane === 'account' || pane === 'share') {
+      main.innerHTML = `
+        <div class="l12-bs-title"><span>☁️ التسجيل في SkyDrive (مساحة مجانية 7 GB) — ص4 و ص5</span></div>
+        <div class="l12-saveas-box">
+          <p style="margin-bottom:8px;">توفر نسخ <b>Office 2013</b> (غير موجودة بالنسخ القديمة) خدمة التخزين السحابي <b>SkyDrive</b> بمساحة <b>7 GB</b> مجاناً لخزن أوراق العمل ومشاركتها عبر الإنترنت.</p>
+          <div style="background:#eff6ff;padding:7px;border-right:3px solid #2563eb;margin-bottom:8px;font-size:10.5px;">
+            <b>طرق الوصول إلى SkyDrive (ص5):</b><br>
+            1- عبر بريدك الإلكتروني (Gmail أو Hotmail) وكلمة السر من زر <b>Sign in</b>.<br>
+            2- عبر الرابط المباشر: <code style="direction:ltr;">https://skydrive.live.com</code>
+          </div>
+          <label style="font-weight:700;">Sign in — البريد الإلكتروني (Gmail / Hotmail):</label>
+          <input type="text" id="l12EmailInp" class="dialog-input" placeholder="example@gmail.com" value="${l12State.signedInEmail}">
+          <label style="font-weight:700;">كلمة السر (Password):</label>
+          <input type="password" id="l12PassInp" class="dialog-input" placeholder="••••••••">
+          <button class="ex-btn" style="background:#217346;color:#fff;padding:6px 18px;" onclick="l12SignInSkyDrive()">Next / تسجيل الدخول Sign in</button>
+          ${l12State.signedInEmail ? `<div style="margin-top:8px;color:#15803d;font-weight:700;">✔ تم تسجيل الدخول بحساب: ${l12State.signedInEmail} — المساحة المتاحة: 7 GB على SkyDrive</div>` : ''}
+        </div>`;
+    } else if (pane === 'options') {
+      l12State.flags.usedQatMore = true;
+      main.innerHTML = `
+        <div class="l12-bs-title"><span>⚙️ خيارات إكسل (Excel Options → Quick Access Toolbar) — ص9</span></div>
+        <div class="l12-saveas-box">
+          <p style="margin-bottom:8px;">يمكن إضافة أوامر إلى <b>شريط أدوات الوصول السريع (Quick Access Toolbar)</b> إما من السهم <b>▾</b> في الشريط العلوي واختيار <b>More Commands</b>، أو من <b>File ← Options ← Quick Access Toolbar</b>.</p>
+          <div style="font-weight:700;margin-bottom:6px;">اختر الأوامر التي تريد إظهارها في الشريط العلوي (QAT):</div>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" ${l12State.qatEnabled.new ? 'checked' : ''} onchange="l12ToggleQatCmd('new', this.checked)"> 📄 جديد (New)</label>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" ${l12State.qatEnabled.open ? 'checked' : ''} onchange="l12ToggleQatCmd('open', this.checked)"> 📂 فتح (Open)</label>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" ${l12State.qatEnabled.print ? 'checked' : ''} onchange="l12ToggleQatCmd('print', this.checked)"> 🖨️ طباعة سريعة (Quick Print)</label>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" ${l12State.qatEnabled.sortAsc ? 'checked' : ''} onchange="l12ToggleQatCmd('sortAsc', this.checked)"> 🔼 فرز تصاعدي (Sort Ascending)</label>
+          <div style="margin-top:10px;text-align:left;">
+            <button class="ex-btn" style="background:#217346;color:#fff;padding:5px 16px;" onclick="l12CloseBackstage();showToast('✔ تم حفظ إعدادات Quick Access Toolbar');">موافق OK</button>
+          </div>
+        </div>`;
+    } else if (pane === 'info') {
+      main.innerHTML = `
+        <div class="l12-bs-title"><span>ℹ️ معلومات المصنف (Info)</span></div>
+        <div class="l12-saveas-box">
+          <div><b>اسم المصنف الحالي:</b> ${l12State.workbookName}.xlsx</div>
+          <div><b>عدد أوراق العمل المفتوحة:</b> ${sheetsStore.length} (في Excel 2013 يفتح افتراضياً بـ <b>ورقة واحدة Sheet1</b> مع علامة + بعكس النسخ القديمة التي تفتح بـ 3 أوراق)</div>
+          <div><b>الحد الأعلى لأحرف الخلية الواحدة:</b> 32,000 حرف</div>
+          <div><b>طريقة فتح البرنامج (ص1):</b> Start ← All Programs ← Microsoft Office 2013 ← Excel 2013</div>
+          <div style="margin-top:8px;">
+            <button class="ex-btn" style="background:#217346;color:#fff;padding:5px 12px;" onclick="l12ToggleProtectSheet(); l12CloseBackstage();">🔒 تبديل حماية الورقة الحالية (Protect Sheet)</button>
+          </div>
+        </div>`;
+    } else if (pane === 'open') {
+      main.innerHTML = `
+        <div class="l12-bs-title"><span>📂 فتح مصنف (Open)</span></div>
+        <div class="l12-saveas-box">
+          <div style="margin-bottom:6px;font-weight:700;">أوراق العمل المتاحة في المصنف الحالي:</div>
+          ${sheetsStore.map(s => `<button class="l12-mcq-opt" onclick="switchSheet('${s.id}');l12CloseBackstage();">📗 ${s.name}</button>`).join('')}
+        </div>`;
+    } else if (pane === 'print') {
+      main.innerHTML = `
+        <div class="l12-bs-title"><span>🖨️ طباعة (Print)</span></div>
+        <div class="l12-saveas-box">
+          <p>معاينة الطباعة للورقة الحالية (حجم A4، اتجاه أفقي/عمودي).</p>
+          <button class="ex-btn" style="background:#217346;color:#fff;margin-top:8px;padding:6px 16px;" onclick="l12CloseBackstage();window.print();">🖨️ إرسال للطباعة Print</button>
+        </div>`;
+    }
+  };
+
+  window.l12ApplySaveAs = function() {
+    const inp = document.getElementById('l12SaveNameInp');
+    const name = (inp?.value || 'Book1').trim() || 'Book1';
+    l12State.workbookName = name;
+    l12State.flags.savedAsBook = true;
+    const titleBar = document.getElementById('bookTitleBar');
+    if (titleBar) titleBar.textContent = `${name} - Excel (Product Activation Failed) | ${name}`;
+    saveCurrentSheetToStore();
+    l12CloseBackstage();
+    showToast(`💾 تم الحفظ باسم: ${name} (Excel Workbook) ✔`);
+  };
+
+  window.l12SignInSkyDrive = function() {
+    const em = (document.getElementById('l12EmailInp')?.value || '').trim();
+    if (!em) { showToast('يرجى كتابة بريدك الإلكتروني (Gmail أو Hotmail)'); return; }
+    l12State.signedInEmail = em;
+    l12ShowBsPane('account');
+    showToast(`☁️ تم تسجيل الدخول إلى SkyDrive (7 GB) بحساب ${em}`);
+  };
+
+  window.l12CreateFromTemplate = function(tpl) {
+    l12CloseBackstage();
+    addNewSheet();
+    const sh = sheetsStore.find(s => s.id === currentSheetId);
+    if (tpl === 'blank') {
+      cellsData['A1'].raw = '';
+      recalcAll();
+      selectCell('A1');
+      showToast('📄 تم إنشاء ورقة عمل فارغة (Blank workbook)');
+    } else if (tpl === 'budget') {
+      if (sh) sh.name = 'قالب الميزانية (Template)';
+      [['A1','البند'],['B1','المخطط'],['C1','الفعلي'],['D1','الفرق'],
+       ['A2','الإيجار'],['B2','500'],['C2','500'],['D2','=B2-C2'],
+       ['A3','الطعام'],['B3','300'],['C3','260'],['D3','=B3-C3'],
+       ['A4','المجموع'],['B4','=SUM(B2:B3)'],['C4','=SUM(C2:C3)'],['D4','=SUM(D2:D3)']
+      ].forEach(([id, v]) => { cellsData[id].raw = v; });
+      renderSheetTabsBar(); recalcAll(); selectCell('A1');
+      showToast('💰 تم إنشاء جدول من قالب جاهز (Monthly Budget Template)');
+    } else if (tpl === 'schedule') {
+      if (sh) sh.name = 'قالب الجدول (Template)';
+      [['A1','اليوم'],['B1','المحاضرة 1'],['C1','المحاضرة 2'],
+       ['A2','الأحد'],['B2','اقتصاد جزئي'],['C2','حاسوب Excel'],
+       ['A3','الاثنين'],['B3','مبادئ إحصاء'],['C3','رياضيات']
+      ].forEach(([id, v]) => { cellsData[id].raw = v; });
+      renderSheetTabsBar(); recalcAll(); selectCell('A1');
+      showToast('📅 تم إنشاء جدول من قالب جاهز (Student Schedule Template)');
+    } else if (tpl === 'invoice') {
+      if (sh) sh.name = 'قالب فاتورة (Template)';
+      [['A1','المادة'],['B1','الكمية'],['C1','السعر'],['D1','الإجمالي'],
+       ['A2','حاسوب محمول'],['B2','2'],['C2','450'],['D2','=B2*C2'],
+       ['A3','طابعة'],['B3','1'],['C3','180'],['D3','=B3*C3'],
+       ['A4','المجموع الكلي'],['D4','=SUM(D2:D3)']
+      ].forEach(([id, v]) => { cellsData[id].raw = v; });
+      renderSheetTabsBar(); recalcAll(); selectCell('A1');
+      showToast('🧾 تم إنشاء جدول من قالب جاهز (Simple Invoice Template)');
+    }
+  };
+
+  // ================= 4. تخصيص شريط الوصول السريع (QAT) =================
+  window.l12OpenQatMenu = function(e) {
+    const itemsEl = document.getElementById('l12QatMenuItems');
+    const defs = [
+      ['new', '📄 جديد (New)'],
+      ['open', '📂 فتح (Open)'],
+      ['print', '🖨️ طباعة سريعة (Quick Print)'],
+      ['sortAsc', '🔼 فرز تصاعدي (Sort A→Z)']
+    ];
+    itemsEl.innerHTML = defs.map(([k, lbl]) => `
+      <div class="l12-ctx-item" onclick="event.stopPropagation(); l12FlipQatCmd('${k}', event);">
+        <span>${lbl}</span><span>${l12State.qatEnabled[k] ? '✔' : ''}</span>
+      </div>`).join('');
+    l12ShowCtxMenu('l12QatMenu', e.clientX || 120, (e.clientY || 24) + 8);
+  };
+
+  window.l12ToggleQatCmd = function(key, val) {
+    l12State.qatEnabled[key] = !!val;
+    l12State.flags.usedQatMore = true;
+    l12RenderQatExtras();
+  };
+
+  window.l12FlipQatCmd = function(key, ev) {
+    l12ToggleQatCmd(key, !l12State.qatEnabled[key]);
+    l12OpenQatMenu(ev || {});
+  };
+
+  function l12RenderQatExtras() {
+    const wrap = document.getElementById('l12QatDynamic');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    if (l12State.qatEnabled.new) wrap.insertAdjacentHTML('beforeend', `<button class="qat-btn" title="جديد New" onclick="addNewSheet()">📄</button>`);
+    if (l12State.qatEnabled.open) wrap.insertAdjacentHTML('beforeend', `<button class="qat-btn" title="فتح Open" onclick="l12OpenBackstage('open')">📂</button>`);
+    if (l12State.qatEnabled.print) wrap.insertAdjacentHTML('beforeend', `<button class="qat-btn" title="طباعة Quick Print" onclick="window.print()">🖨️</button>`);
+    if (l12State.qatEnabled.sortAsc) wrap.insertAdjacentHTML('beforeend', `<button class="qat-btn" title="فرز تصاعدي" onclick="sortStudentsAsc()">🔼</button>`);
+  }
+
+  // ================= 5. مربعا حوار Insert و Delete الأربع خيارات (ص16-20) =================
+  window.l12OpenInsertDialog = function() {
+    document.getElementById('l12InsCellLbl').textContent = activeCellId;
+    openModal('l12InsertDialog');
+  };
+
+  window.l12ExecInsertDialog = function() {
+    if (l12State.protectedSheets.has(currentSheetId)) {
+      closeModal('l12InsertDialog');
+      showToast('🔒 الورقة محمية (Protect Sheet)');
+      return;
+    }
+    const opt = document.querySelector('input[name="l12InsOpt"]:checked')?.value || 'down';
+    closeModal('l12InsertDialog');
+    l12State.flags.usedInsertDialog = true;
+
+    const cIdx = COLS.indexOf(activeCellId.charAt(0));
+    const rNum = parseInt(activeCellId.slice(1));
+
+    if (opt === 'right') {
+      for (let c = COLS.length - 1; c > cIdx; c--) {
+        cellsData[COLS[c] + rNum].raw = cellsData[COLS[c - 1] + rNum].raw;
+      }
+      cellsData[activeCellId].raw = '';
+      recalcAll();
+      showToast(`✔ Insert → Shift cells right (تحريك الخلايا إلى اليمين عند ${activeCellId})`);
+    } else if (opt === 'down') {
+      insertCellsShiftDown();
+    } else if (opt === 'row') {
+      insertRowAtActive();
+    } else if (opt === 'col') {
+      insertColAtActive();
+    }
+  };
+
+  window.l12OpenDeleteDialog = function() {
+    document.getElementById('l12DelCellLbl').textContent = activeCellId;
+    openModal('l12DeleteDialog');
+  };
+
+  window.l12ExecDeleteDialog = function() {
+    if (l12State.protectedSheets.has(currentSheetId)) {
+      closeModal('l12DeleteDialog');
+      showToast('🔒 الورقة محمية (Protect Sheet)');
+      return;
+    }
+    const opt = document.querySelector('input[name="l12DelOpt"]:checked')?.value || 'left';
+    closeModal('l12DeleteDialog');
+    l12State.flags.usedDeleteDialog = true;
+
+    const cIdx = COLS.indexOf(activeCellId.charAt(0));
+    const rNum = parseInt(activeCellId.slice(1));
+
+    if (opt === 'left') {
+      for (let c = cIdx; c < COLS.length - 1; c++) {
+        cellsData[COLS[c] + rNum].raw = cellsData[COLS[c + 1] + rNum].raw;
+      }
+      cellsData[COLS[COLS.length - 1] + rNum].raw = '';
+      recalcAll();
+      showToast(`✔ Delete → Shift cells left (تحريك الخلايا إلى اليسار عند ${activeCellId})`);
+    } else if (opt === 'up') {
+      for (let r = rNum; r < totalRows; r++) {
+        cellsData[COLS[cIdx] + r].raw = cellsData[COLS[cIdx] + (r + 1)].raw;
+      }
+      cellsData[COLS[cIdx] + totalRows].raw = '';
+      recalcAll();
+      showToast(`✔ Delete → Shift cells up (تحريك الخلايا إلى الأعلى عند ${activeCellId})`);
+    } else if (opt === 'row') {
+      deleteRowAtActive();
+    } else if (opt === 'col') {
+      deleteColAtActive();
+    }
+  };
+
+  // ================= 6. القوائم السياقية للخلية وورقة العمل (Right-Click) =================
+  function l12ShowCtxMenu(menuId, x, y) {
+    l12HideAllCtx();
+    const m = document.getElementById(menuId);
+    if (!m) return;
+    m.style.display = 'block';
+    const mw = m.offsetWidth || 220;
+    const mh = m.offsetHeight || 260;
+    const left = Math.max(6, Math.min(window.innerWidth - mw - 6, x));
+    const top = Math.max(6, Math.min(window.innerHeight - mh - 6, y));
+    m.style.left = left + 'px';
+    m.style.top = top + 'px';
+  }
+
+  window.l12HideAllCtx = function() {
+    document.querySelectorAll('.l12-ctx-menu').forEach(m => m.style.display = 'none');
+  };
+
+  window.l12OpenCellCtxAtActive = function() {
+    const td = document.getElementById('cell-' + activeCellId);
+    const rect = td ? td.getBoundingClientRect() : { left: 80, bottom: 180 };
+    l12ShowCtxMenu('l12CellCtxMenu', rect.left, rect.bottom + 4);
+  };
+
+  function l12ShowSheetCtx(x, y) {
+    const sh = sheetsStore.find(s => s.id === (l12State.ctxTargetSheetId || currentSheetId));
+    document.getElementById('l12SheetCtxTitle').textContent = `خيارات: ${sh ? sh.name : 'الورقة'}`;
+    const isProt = l12State.protectedSheets.has(currentSheetId);
+    document.getElementById('l12ProtectLabel').textContent = isProt ? '🔓 إلغاء حماية الورقة (Unprotect Sheet)' : '🔒 حماية الورقة (Protect Sheet...)';
+    l12State.flags.usedSheetCtx = true;
+    l12ShowCtxMenu('l12SheetCtxMenu', x, y - 240);
+  }
+
+  window.l12OpenSheetCtxFromButton = function(e) {
+    l12State.ctxTargetSheetId = currentSheetId;
+    const rect = e.currentTarget?.getBoundingClientRect?.() || { left: 80, top: window.innerHeight - 60 };
+    l12ShowSheetCtx(rect.left, rect.top);
+  };
+
+  window.l12RenameTargetSheet = function() {
+    l12State.flags.usedSheetCtx = true;
+    renameActiveSheetPrompt();
+  };
+
+  window.l12SetTabColor = function(color) {
+    l12State.tabColors[currentSheetId] = color;
+    l12State.flags.usedSheetCtx = true;
+    l12HideAllCtx();
+    l12EnhanceSheetTabsDOM();
+    showToast(color ? '🎨 تم تغيير لون تبويب ورقة العمل (Tab Color)' : 'تمت إزالة لون التبويب');
+  };
+
+  window.l12CopyCurrentSheet = function() {
+    saveCurrentSheetToStore();
+    const cur = sheetsStore.find(s => s.id === currentSheetId);
+    if (!cur) return;
+    const clonedCells = JSON.parse(JSON.stringify(cur.cellsData));
+    const newId = 'copy_' + Date.now();
+    sheetsStore.push({
+      id: newId,
+      name: cur.name + ' (نسخة)',
+      cellsData: clonedCells,
+      hiddenRows: [...(cur.hiddenRows || [])],
+      activeCellId: cur.activeCellId,
+      ltr: cur.ltr,
+      gridlines: cur.gridlines,
+      headings: cur.headings
+    });
+    loadSheetFromStore(newId);
+    showToast('📑 تم إنشاء نسخة من ورقة العمل (Move or Copy Sheet)');
+  };
+
+  window.l12ToggleProtectSheet = function() {
+    if (l12State.protectedSheets.has(currentSheetId)) {
+      l12State.protectedSheets.delete(currentSheetId);
+      showToast('🔓 تم إلغاء حماية الورقة (Unprotect Sheet)');
+    } else {
+      l12State.protectedSheets.add(currentSheetId);
+      showToast('🔒 تمت حماية الورقة الحالية (Protect Sheet) — لا يمكن تعديل خلاياها');
+    }
+    l12EnhanceSheetTabsDOM();
+  };
+
+  window.l12HideCurrentSheet = function() {
+    const visibleSheets = sheetsStore.filter(s => !l12State.hiddenSheets.has(s.id));
+    if (visibleSheets.length <= 1) {
+      showToast('⚠️ يجب بقاء ورقة عمل واحدة ظاهرة على الأقل في المصنف!');
+      return;
+    }
+    l12State.hiddenSheets.add(currentSheetId);
+    const nextVis = sheetsStore.find(s => !l12State.hiddenSheets.has(s.id));
+    if (nextVis) loadSheetFromStore(nextVis.id);
+    showToast('👁️ تم إخفاء ورقة العمل (Hide Sheet) — لإظهارها اختر Unhide');
+  };
+
+  window.l12UnhideSheets = function() {
+    if (l12State.hiddenSheets.size === 0) {
+      showToast('لا توجد أوراق عمل مخفية حالياً');
+      return;
+    }
+    l12State.hiddenSheets.clear();
+    renderSheetTabsBar();
+    showToast('🔓 تم إظهار جميع أوراق العمل المخفية (Unhide Sheets)');
+  };
+
+  function l12EnhanceSheetTabsDOM() {
+    const tabs = document.querySelectorAll('#sheetTabsList .sheet-tab');
+    tabs.forEach((tab, idx) => {
+      const sh = sheetsStore[idx];
+      if (!sh) return;
+      tab.dataset.sheetId = sh.id;
+      tab.style.display = l12State.hiddenSheets.has(sh.id) ? 'none' : 'inline-flex';
+      const clr = l12State.tabColors[sh.id];
+      if (clr) {
+        tab.style.borderBottom = `3px solid ${clr}`;
+        tab.style.boxShadow = `inset 0 -2px 0 ${clr}`;
+      }
+      if (l12State.protectedSheets.has(sh.id) && !tab.textContent.startsWith('🔒')) {
+        tab.textContent = '🔒 ' + sh.name;
+      }
+    });
+  }
+
+  // ================= 7. تسمية الخلايا الحقيقية (Name Box & Define Name - ص21 و ص22) =================
+  function l12FindNameForCell(sheetId, ref) {
+    for (const [nm, info] of Object.entries(l12State.definedNames)) {
+      if (info.sheet === sheetId && info.ref.toUpperCase() === ref.toUpperCase()) return nm;
+    }
+    return null;
+  }
+
+  function l12SyncNameBoxDisplay() {
+    const nb = document.getElementById('nameBox');
+    if (!nb) return;
+    const custom = l12FindNameForCell(currentSheetId, activeCellId);
+    if (custom) {
+      nb.textContent = custom;
+      nb.title = `الاسم المعرّف: ${custom} (${activeCellId}) — اضغط للانتقال أو التسمية`;
+    } else {
+      nb.title = `صندوق الاسم Name Box (${activeCellId}) — اضغط للانتقال أو لتسمية الخلية`;
+    }
+  }
+
+  window.l12OpenNameBoxModal = function() {
+    document.getElementById('l12NbCurCell').textContent = selectedRangeIds.length > 1
+      ? `${selectedRangeIds[0]}:${selectedRangeIds[selectedRangeIds.length - 1]}`
+      : activeCellId;
+    const inp = document.getElementById('l12NbInput');
+    inp.value = l12FindNameForCell(currentSheetId, activeCellId) || '';
+    const qWrap = document.getElementById('l12NbQuickNames');
+    qWrap.innerHTML = Object.entries(l12State.definedNames).map(([nm, info]) =>
+      `<button class="m-chip" onclick="l12JumpToDefinedName('${nm.replace(/'/g,"\\'")}')">🏷️ ${nm} (${info.ref})</button>`
+    ).join('');
+    openModal('l12NameBoxModal');
+    setTimeout(() => inp.focus(), 60);
+  };
+
+  window.l12NbGoOrName = function(mode) {
+    const raw = (document.getElementById('l12NbInput')?.value || '').trim();
+    if (!raw) return;
+    closeModal('l12NameBoxModal');
+
+    // إذا كان اسماً معرفاً موجوداً -> الانتقال إليه
+    if (l12State.definedNames[raw] && mode !== 'rename') {
+      l12JumpToDefinedName(raw);
+      return;
+    }
+
+    const up = raw.toUpperCase();
+    // إذا كان نطاق خلايا مثل A1:E4
+    if (up.includes(':') && mode !== 'rename') {
+      const [p1, p2] = up.split(':');
+      if (cellsData[p1] && cellsData[p2]) {
+        activeCellId = p1; rangeStartId = p1;
+        selectRangeBetween(p1, p2);
+        showToast('تم تحديد النطاق ' + up);
+        return;
+      }
+    }
+    // إذا كان عنوان خلية مثل G4 أو A6
+    if (/^[A-H]([1-9]|1[0-8])$/.test(up) && cellsData[up] && mode !== 'rename') {
+      selectCell(up);
+      showToast('تم الانتقال إلى الخلية ' + up);
+      return;
+    }
+
+    // تسمية الخلية النشطة بهذا الاسم (الطريقة 1 بالملزمة ص21)
+    const ref = selectedRangeIds.length > 1
+      ? `${selectedRangeIds[0]}:${selectedRangeIds[selectedRangeIds.length - 1]}`
+      : activeCellId;
+    l12State.definedNames[raw] = { sheet: currentSheetId, ref };
+    l12State.flags.namedCell = true;
+    l12SyncNameBoxDisplay();
+    showToast(`🏷️ تم تغيير اسم الخلية (${ref}) في صندوق الاسم إلى "${raw}" ✔ (ص21)`);
+  };
+
+  window.l12JumpToDefinedName = function(nm) {
+    const info = l12State.definedNames[nm];
+    if (!info) return;
+    closeModal('l12NameBoxModal');
+    closeModal('l12DefineNameModal');
+    if (info.sheet !== currentSheetId && sheetsStore.some(s => s.id === info.sheet)) {
+      switchSheet(info.sheet);
+    }
+    if (info.ref.includes(':')) {
+      const [p1, p2] = info.ref.split(':');
+      activeCellId = p1; rangeStartId = p1;
+      selectRangeBetween(p1, p2);
+      document.getElementById('nameBox').textContent = nm;
+    } else if (cellsData[info.ref]) {
+      selectCell(info.ref);
+      const td = document.getElementById('cell-' + info.ref);
+      if (td) td.classList.add('l12-named-focus');
+    }
+    showToast(`📍 تم الانتقال إلى الخلية المسماة "${nm}" (${info.ref}) وأصبحت هي الخلية النشطة ✔`);
+  };
+
+  window.l12OpenRealDefineName = function() {
+    const ref = selectedRangeIds.length > 1
+      ? `${selectedRangeIds[0]}:${selectedRangeIds[selectedRangeIds.length - 1]}`
+      : activeCellId;
+    document.getElementById('l12DefRefInput').value = ref;
+    document.getElementById('l12DefNameInput').value = l12FindNameForCell(currentSheetId, ref) || '';
+    l12RenderDefinedNamesList();
+    openModal('l12DefineNameModal');
+    setTimeout(() => document.getElementById('l12DefNameInput').focus(), 60);
+  };
+
+  window.l12SaveDefinedName = function() {
+    const nm = (document.getElementById('l12DefNameInput')?.value || '').trim();
+    const ref = (document.getElementById('l12DefRefInput')?.value || activeCellId).trim().toUpperCase();
+    if (!nm) { showToast('اكتب اسماً للخلية مثل: احمد'); return; }
+    l12State.definedNames[nm] = { sheet: currentSheetId, ref };
+    l12State.flags.namedCell = true;
+    l12RenderDefinedNamesList();
+    l12SyncNameBoxDisplay();
+    showToast(`✔ تم تعريف الاسم "${nm}" للمرجع ${ref} عبر Define Name (ص21-22)`);
+  };
+
+  window.l12DeleteDefinedName = function(nm) {
+    delete l12State.definedNames[nm];
+    l12RenderDefinedNamesList();
+    l12SyncNameBoxDisplay();
+    showToast(`تم حذف الاسم المعرّف "${nm}"`);
+  };
+
+  function l12RenderDefinedNamesList() {
+    const box = document.getElementById('l12NamesList');
+    if (!box) return;
+    const entries = Object.entries(l12State.definedNames);
+    if (!entries.length) {
+      box.innerHTML = '<div style="color:#64748b;font-size:10px;">لا توجد أسماء معرّفة حالياً.</div>';
+      return;
+    }
+    box.innerHTML = entries.map(([nm, info]) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 6px;border:1px solid #e2e8f0;border-radius:3px;margin-bottom:4px;background:#f8fafc;">
+        <span style="cursor:pointer;font-weight:700;color:#217346;" onclick="l12JumpToDefinedName('${nm.replace(/'/g,"\\'")}')">🏷️ ${nm} <small style="color:#64748b;">(${info.ref})</small></span>
+        <button class="ex-btn" style="background:#fee2e2;color:#991b1b;padding:1px 6px;" onclick="l12DeleteDefinedName('${nm.replace(/'/g,"\\'")}')">حذف</button>
+      </div>`).join('');
+  }
+
+  // ================= 8. التعبئة التلقائية المتسلسلة (+) للأرقام وأيام الأسبوع (ص7) =================
+  window.l12AutoFillSeries = function() {
+    if (l12State.protectedSheets.has(currentSheetId)) {
+      showToast('🔒 الورقة محمية (Protect Sheet)');
+      return;
+    }
+    if (isWaitingConfirm) commitFormulaEdit();
+
+    const col = activeCellId.charAt(0);
+    const startR = parseInt(activeCellId.slice(1));
+    const raw = String(cellsData[activeCellId]?.raw || '').trim();
+    if (!raw) {
+      showToast('اكتب رقماً (مثل 1) أو يوماً (مثل السبت) في الخلية النشطة أولاً ثم اضغط تعبئة متسلسلة (+)');
+      return;
+    }
+
+    const arDays = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+    const arDaysNorm = arDays.map(d => d.replace(/[أإآ]/g, 'ا'));
+    const enDays = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+    const normRaw = raw.replace(/[أإآ]/g, 'ا');
+    const arIdx = arDaysNorm.indexOf(normRaw);
+    const enIdx = enDays.findIndex(d => d.toLowerCase() === raw.toLowerCase());
+
+    l12State.flags.usedAutoSeries = true;
+
+    if (arIdx !== -1) {
+      let filled = 0;
+      for (let i = 1; i <= 6 && (startR + i) <= totalRows; i++) {
+        cellsData[col + (startR + i)].raw = arDays[(arIdx + i) % 7];
+        filled++;
+      }
+      recalcAll();
+      showToast(`➕ تم ملء أيام الأسبوع تلقائياً بمؤشر التعبئة (+) لـ ${filled} خلايا (ص7) ✔`);
+      return;
+    }
+
+    if (enIdx !== -1) {
+      let filled = 0;
+      for (let i = 1; i <= 6 && (startR + i) <= totalRows; i++) {
+        cellsData[col + (startR + i)].raw = enDays[(enIdx + i) % 7];
+        filled++;
+      }
+      recalcAll();
+      showToast(`➕ تم ملء أيام الأسبوع بالإنجليزية تلقائياً (+) ✔`);
+      return;
+    }
+
+    if (/^-?\d+(\.\d+)?$/.test(normalizeDigits(raw))) {
+      const base = parseFloat(normalizeDigits(raw));
+      let step = 1;
+      if (startR > 1) {
+        const above = normalizeDigits(String(cellsData[col + (startR - 1)]?.raw || '').trim());
+        if (/^-?\d+(\.\d+)?$/.test(above)) step = base - parseFloat(above);
+      }
+      let filled = 0;
+      for (let i = 1; i <= 5 && (startR + i) <= totalRows; i++) {
+        cellsData[col + (startR + i)].raw = String(Number((base + step * i).toFixed(2)));
+        filled++;
+      }
+      recalcAll();
+      showToast(`➕ تم ملء السلسلة الرقمية المتسلسلة (بزيادة ${step}) لـ ${filled} خلايا (ص7) ✔`);
+      return;
+    }
+
+    fillDirection('down');
+  };
+
+  // ================= 9. دليل ومدرب امتحان المحاضرتين 1 و 2 (ملخص + عملي + MCQ) =================
+  const l12QA = [
+    ['1. ما هو برنامج Excel 2013 وكيف نفتح البرنامج؟ (ص1)',
+     'أحد برامج Microsoft Office 2013 يساعد على العمل الإحصائي وإجراء المعادلات الرياضية والحسابات. طريقة الفتح: <b>Start ← All Programs ← Microsoft Office 2013 ← Excel 2013</b> (نفس طريقة Word و PowerPoint).'],
+    ['2. ما الفرق بين اسم الخزن الافتراضي في Excel 2013 و Word 2013؟ (ص1-2)',
+     'في Excel 2013 يكون الاسم الافتراضي <b>Book1</b> (نوع <b>Excel Workbook</b>) لأنه يعامل البيانات كـ <b>أوراق عمل</b>، بينما في Word 2013 يكون <b>Document1 / Doc1</b> (نوع <b>Word Document</b>).'],
+    ['3. ما هي أقسام شاشة البداية في Excel 2013؟ وما هي SkyDrive؟ (ص3-5)',
+     '• <b>اليسار:</b> الملفات المفتوحة مؤخراً <b>Recent</b>.<br>• <b>الوسط:</b> ورقة عمل فارغة <b>Blank workbook</b> والقوالب الجاهزة <b>Templates</b>.<br>• <b>اليمين:</b> حساب <b>SkyDrive</b> (مساحته المجانية <b>7 GB</b>، غير موجود بالنسخ القديمة، يتيح الخزن والمشاركة عبر Gmail/Hotmail أو الرابط <code>https://skydrive.live.com</code>).'],
+    ['4. عرّف الخلية (Cell) والخلية النشطة (Active Cell)، وما الفرق بينها وبين غير النشطة؟ (ص6-7)',
+     '<b>الخلية:</b> المربع الناتج من تقاطع عمود مع سطر ويظهر اسمها في <b>Name Box</b> وتستوعب حتى <b>32,000 حرف</b> كحد أعلى.<br><b>الفرق (3 نقاط):</b> الخلية النشطة يكون مؤشر الماوس عليها، يمكن إدخال المعلومات فيها، ويظهر اسمها في صندوق الاسم <b>Name Box</b> (بعكس غير النشطة).'],
+    ['5. ما الفرق بين مؤشر التعبئة (+) والمؤشر الاعتيادي؟ (ص6-7)',
+     '<b>مؤشر (+):</b> يظهر عند المربع الصغير أسفل يسار/يمين الخلية لعمل <b>تكرار أو ملء متسلسل</b> مثل (1، 2، 3، 4، 5) أو (السبت، الأحد، الاثنين...).<br><b>المؤشر الاعتيادي:</b> لتحديد الخلايا المراد العمل عليها.'],
+    ['6. عدّد أشرطة واجهة Excel 2013 بالتسلسل (المحاضرة 2 ص8-12):',
+     '1- شريط العنوان (<b>Address Bar</b> + أزرار الإغلاق والتصغير + <b>Quick Access Toolbar</b>).<br>2- شريط التبويبات (<b>Tabs Bar</b>: Home, Insert, Page Layout, Formulas, Data, Review, View).<br>3- شريط المجموعات/الأدوات.<br>4- شريط الصيغ (<b>Formula Bar</b>: يُخفى ويُظهر من <b>View ← Show ← Formula Bar</b>).<br>5- أشرطة التمرير (الأفقي والعمودي).<br>6- ورقة العمل (<b>Workbook</b>: في Excel 2013 تفتح بـ <b>ورقة واحدة Sheet1 + علامة +</b>، بعكس النسخ القديمة 3 أوراق).<br>7- شريط الحالة (<b>Status Bar</b>).'],
+    ['7. عدّد طرق إضافة أوراق عمل إضافية وتسمية ورقة العمل (ص12-15):',
+     '<b>إضافة ورقة:</b> (1) علامة <b>+</b> في شريط الحالة، (2) <b>Home ← Cells ← Insert ← Insert Sheet</b>.<br><b>تسمية ورقة:</b> (1) <b>Home ← Cells ← Format ← Rename Sheet</b>، (2) <b>الضغط بالزر الأيمن</b> على اسم الورقة واختيار <b>Rename</b>.'],
+    ['8. طرق إضافة وحذف الخلايا والفرق بينهما (ص16-20):',
+     '<b>طرق الإضافة:</b> (1) الزر الأيمن ← <b>Insert</b>، (2) <b>Home ← Cells ← Insert ← Insert Cells</b>.<br><b>طرق الحذف:</b> (1) الزر الأيمن ← <b>Delete</b>، (2) <b>Home ← Cells ← Delete ← Delete Cells</b>، (3) مفتاح <b>Delete</b> من الكيبورد.<br><b>الفرق:</b> الإضافة (Shift cells right لليمين، Shift cells down للأسفل، إضافة صف/عمود) — الحذف (Shift cells left لليسار، Shift cells up للأعلى، حذف صف/عمود).'],
+    ['9. كيف نسمّي الخلايا (Cells Name)؟ (ص21-22)',
+     '(1) عن طريق <b>صندوق الاسم Name Box</b> (مثلاً نكتب <b>احمد</b> فتتسمى الخلية وتصبح النشطة عند البحث عنها).<br>(2) عن طريق <b>Formulas ← Defined Names ← Define Name</b>.']
+  ];
+
+  const l12PracticeTasks = [
+    { key: 'savedAsBook', title: '1. افتح FILE ← Save As واحفظ المصنف باسم Book1 (أو اسمك)', btn: 'افتح Save As', act: () => { closeModal('l12StudyModal'); l12OpenBackstage('saveas'); } },
+    { key: 'hidFormulaBar', title: '2. اذهب إلى تبويب VIEW وأخفِ/أظهر شريط الصيغة (Formula Bar)', btn: 'افتح VIEW', act: () => { closeModal('l12StudyModal'); switchRibbon('view'); showToast('أزل علامة الصح من Formula Bar ثم أعدها ✔'); } },
+    { key: 'usedQatMore', title: '3. افتح تخصيص شريط الوصول السريع (▾ أو FILE ← Options) وأضف أمراً', btn: 'افتح Options', act: () => { closeModal('l12StudyModal'); l12OpenBackstage('options'); } },
+    { key: 'usedAutoSeries', title: '4. اكتب «السبت» أو «1» في خلية فارغة ثم اضغط «➕ تعبئة متسلسلة (+)»', btn: 'جرّب الآن', act: () => { closeModal('l12StudyModal'); addNewSheet(); cellsData['A2'].raw = 'السبت'; recalcAll(); selectCell('A2'); showToast('اضغط الآن على زر «➕ تعبئة متسلسلة (+ أرقام/أيام)»'); } },
+    { key: 'usedSheetCtx', title: '5. افتح قائمة الزر الأيمن لورقة العمل ولوّن التبويب (Tab Color) أو أعد التسمية', btn: 'خيارات الورقة', act: () => { closeModal('l12StudyModal'); setTimeout(() => l12ShowSheetCtx(120, window.innerHeight - 60), 30); } },
+    { key: 'usedInsertDialog', title: '6. افتح مربع حوار Insert الخلايا (بالزر الأيمن أو Home ← Insert) واختر Shift cells right/down', btn: 'افتح Insert', act: () => { closeModal('l12StudyModal'); l12OpenInsertDialog(); } },
+    { key: 'usedDeleteDialog', title: '7. افتح مربع حوار Delete الخلايا واختر Shift cells left/up', btn: 'افتح Delete', act: () => { closeModal('l12StudyModal'); l12OpenDeleteDialog(); } },
+    { key: 'namedCell', title: '8. سمِّ خلية باسم «احمد» من Name Box أو Formulas ← Define Name', btn: 'تسمية خلية', act: () => { closeModal('l12StudyModal'); l12OpenRealDefineName(); } }
+  ];
+
+  const l12Mcqs = [
+    { q: '1. الاسم الافتراضي عند الخزن في برنامج Excel 2013 هو:', opts: ['Document1', 'Book1', 'Presentation1', 'Sheet1'], ans: 1, exp: 'في Excel الاسم الافتراضي Book1 (أوراق عمل)، أما في Word فهو Document1 (ص1).' },
+    { q: '2. ما هي المساحة المجانية لوحدة الخزن السحابي SkyDrive في Office 2013؟', opts: ['2 GB', '5 GB', '7 GB', '15 GB'], ans: 2, exp: 'تبلغ مساحة SkyDrive المجانية 7 GB ولا توجد في النسخ القديمة (ص4).' },
+    { q: '3. الحد الأعلى لعدد الأحرف التي يمكن إدخالها داخل الخلية الواحدة في Excel 2013:', opts: ['255 حرفاً', '1000 حرف', '32,000 حرف', '64,000 حرف'], ans: 2, exp: 'تستوعب الخلية معلومات بحدود 32,000 حرف كحد أعلى (ص6).' },
+    { q: '4. عند فتح ملف جديد في Excel 2013 تظهر افتراضياً:', opts: ['ورقة عمل واحدة (Sheet1) مع علامة +', 'ثلاث أوراق عمل (Sheet1, Sheet2, Sheet3)', 'خمس أوراق عمل', 'لا تظهر أي ورقة'], ans: 0, exp: 'Excel 2013 يفتح بورقة عمل واحدة Sheet1 مع علامة + بعكس النسخ السابقة التي كانت 3 أوراق (ص12).' },
+    { q: '5. لإخفاء أو إظهار شريط الصيغة (Formula Bar) نذهب إلى تبويب:', opts: ['Home ← Font', 'Insert ← Text', 'View ← Show ← Formula Bar', 'Data ← Show'], ans: 2, exp: 'يتم إخفاء وإظهار Formula Bar من تبويب عرض View ← مجموعة Show (ص11).' },
+    { q: '6. المؤشر (+) الذي يظهر أسفل زاوية الخلية النشطة وظيفته:', opts: ['حذف الخلية نهائياً', 'تكرار المحتويات أو الملء المتسلسل (أرقام/أيام الأسبوع)', 'تغيير لون الخط فقط', 'إغلاق البرنامج'], ans: 1, exp: 'مؤشر (+) يعمل ملء وتكرار متسلسل مثل (1,2,3...) أو (السبت، الأحد...) (ص7).' },
+    { q: '7. أين تقع أوامر إضافة أوامر إضافية (More Commands) لشريط الوصول السريع؟', opts: ['السهم في شريط الوصول السريع أو File ← Options', 'تبويب Data فقط', 'شريط الحالة فقط', 'تبويب Review'], ans: 0, exp: 'من سهم Quick Access Toolbar ← More Commands أو File ← Options ← Quick Access Toolbar (ص9).' },
+    { q: '8. لإضافة ورقة عمل جديدة من تبويب Home نختار:', opts: ['Home ← Font ← Insert Sheet', 'Home ← Cells ← Insert ← Insert Sheet', 'Home ← Styles ← Insert Sheet', 'Home ← Editing ← Clear'], ans: 1, exp: 'المسار الصحيح: Home ← Cells ← Insert ← Insert Sheet (ص13).' },
+    { q: '9. لتغيير اسم ورقة العمل (Rename Sheet) يمكننا:', opts: ['Home ← Cells ← Format ← Rename Sheet', 'الضغط بالزر الأيمن على اسم الورقة ← Rename', 'كلاهما صحيح', 'لا يمكن تغيير الاسم'], ans: 2, exp: 'كلا الطريقتين صحيحتان ومذكورتان في المحاضرة 2 (ص13-15).' },
+    { q: '10. في مربع حوار إدراج الخلايا (Insert) تكون اتجاهات تحريك الخلايا:', opts: ['لليسار وللأعلى', 'لليمين (Shift cells right) وللأسفل (Shift cells down)', 'لليسار فقط', 'لا توجد إزاحة'], ans: 1, exp: 'في Insert: تحريك لليمين وللأسفل؛ أما في Delete: تحريك لليسار وللأعلى (ص16-20).' },
+    { q: '11. في مربع حوار حذف الخلايا (Delete) تكون اتجاهات تحريك الخلايا:', opts: ['Shift cells left و Shift cells up', 'Shift cells right و Shift cells down', 'لليمين فقط', 'للأسفل فقط'], ans: 0, exp: 'عند الحذف تتحرك الخلايا لليسار (left) أو للأعلى (up) لسد الفراغ (ص18-20).' },
+    { q: '12. لتسمية خلية باسم مخصص مثل «احمد» نستخدم:', opts: ['Name Box أو Formulas ← Defined Names ← Define Name', 'Page Layout ← Themes', 'View ← Gridlines', 'Review ← Spelling'], ans: 0, exp: 'تُسمّى الخلية بطريقتين: صندوق الاسم Name Box أو Formulas ← Defined Names ← Define Name (ص21-22).' }
+  ];
+
+  let l12McqScore = {};
+
+  window.l12SwitchStudyTab = function(tab) {
+    ['summary', 'practice', 'mcq'].forEach(t => {
+      document.getElementById('l12TabBtn-' + t)?.classList.toggle('active', t === tab);
+    });
+    const body = document.getElementById('l12StudyBody');
+    if (!body) return;
+
+    if (tab === 'summary') {
+      body.innerHTML = l12QA.map(([q, a]) => `<div class="l12-qa-card"><b class="q-head">${q}</b><div>${a}</div></div>`).join('');
+    } else if (tab === 'practice') {
+      const doneCount = l12PracticeTasks.filter(t => l12State.flags[t.key]).length;
+      body.innerHTML = `
+        <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+          <b>التقدم العملي لمحاضرتي 1 و 2:</b>
+          <span class="l12-badge">${doneCount} / ${l12PracticeTasks.length} مكتمل</span>
+        </div>` +
+        l12PracticeTasks.map((t, i) => `
+          <div class="l12-prac-item ${l12State.flags[t.key] ? 'done' : ''}">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+              <span>${l12State.flags[t.key] ? '✅' : '⬜'} <b>${t.title}</b></span>
+              <button class="ex-btn" style="background:#217346;color:#fff;flex-shrink:0;" onclick="l12RunPrac(${i})">${t.btn}</button>
+            </div>
+          </div>`).join('');
+    } else if (tab === 'mcq') {
+      const answered = Object.keys(l12McqScore).length;
+      const correct = Object.values(l12McqScore).filter(Boolean).length;
+      body.innerHTML = `
+        <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+          <b>نتيجتك السريعة: <span style="color:#15803d;">${correct} / ${l12Mcqs.length}</span> (أجبت ${answered})</b>
+          <button class="ex-btn" style="background:#e2e8f0;color:#1e293b;" onclick="l12ResetMcq()">إعادة الاختبار</button>
+        </div>` +
+        l12Mcqs.map((m, qi) => `
+          <div class="l12-qa-card" id="l12McqCard-${qi}">
+            <b class="q-head">${m.q}</b>
+            ${m.opts.map((o, oi) => `<button class="l12-mcq-opt" id="l12Opt-${qi}-${oi}" onclick="l12AnswerMcq(${qi},${oi})">${o}</button>`).join('')}
+            <div id="l12Exp-${qi}" style="display:none;font-size:10px;margin-top:4px;color:#1e3a8a;background:#eff6ff;padding:4px 6px;border-radius:3px;"></div>
+          </div>`).join('');
+    }
+  };
+
+  window.l12RunPrac = function(i) {
+    if (l12PracticeTasks[i]) l12PracticeTasks[i].act();
+  };
+
+  window.l12AnswerMcq = function(qi, oi) {
+    const m = l12Mcqs[qi];
+    m.opts.forEach((_, idx) => {
+      const btn = document.getElementById(`l12Opt-${qi}-${idx}`);
+      if (!btn) return;
+      btn.classList.remove('correct', 'wrong');
+      if (idx === m.ans) btn.classList.add('correct');
+      else if (idx === oi) btn.classList.add('wrong');
+    });
+    l12McqScore[qi] = (oi === m.ans);
+    const exp = document.getElementById(`l12Exp-${qi}`);
+    if (exp) {
+      exp.style.display = 'block';
+      exp.innerHTML = (oi === m.ans ? '✅ إجابة صحيحة! ' : '❌ إجابة خاطئة. ') + m.exp;
+    }
+  };
+
+  window.l12ResetMcq = function() {
+    l12McqScore = {};
+    l12SwitchStudyTab('mcq');
+  };
+
+  // تشغيل التهيئة بعد تحميل الصفحة (بدون المساس بـ window.onload الأصلي)
+  window.addEventListener('load', function() {
+    setTimeout(l12Init, 30);
+  });
+})();
+</script>
+<!-- ==================== إضافات المحاضرات 1 و 2 و 3 و 4 (بدون المساس بالكود الأصلي) ==================== -->
+<style id="xl-all-addon-css">
+.xl-ov{position:fixed;inset:0;background:rgba(15,23,42,.58);z-index:700;display:none;align-items:center;justify-content:center;padding:8px}
+.xl-ov.open{display:flex}
+.xl-bs{width:98%;max-width:800px;height:86vh;background:#fff;border-radius:6px;overflow:hidden;display:flex;box-shadow:0 20px 50px rgba(0,0,0,.4);border:2px solid #217346;direction:rtl}
+.xl-bs-side{width:138px;min-width:115px;background:#217346;color:#fff;display:flex;flex-direction:column;overflow-y:auto;padding:8px 0}
+.xl-bs-back{background:0 0;border:2px solid #fff;color:#fff;width:30px;height:30px;border-radius:50%;margin:4px 12px 8px;cursor:pointer;font-size:13px;font-weight:700}
+.xl-bs-it{padding:7px 12px;font-size:11px;font-weight:600;cursor:pointer;border:none;background:0 0;color:#fff;text-align:right;font-family:inherit;display:flex;justify-content:space-between}
+.xl-bs-it:hover{background:#1e6b41}
+.xl-bs-it.active{background:#14532d;border-right:4px solid #fde047}
+.xl-bs-main{flex:1;padding:12px 14px;overflow-y:auto;background:#f8fafc;font-size:11px;color:#1e293b}
+.xl-bs-h{font-size:15px;font-weight:700;color:#217346;margin-bottom:8px;border-bottom:2px solid #dcfce7;padding-bottom:5px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.xl-box{background:#fff;border:1px solid #94a3b8;border-radius:5px;padding:10px;margin-bottom:8px}
+.xl-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.xl-tpls{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:7px;margin-top:7px}
+.xl-tpl{background:#fff;border:1px solid #cbd5e1;border-radius:4px;padding:7px;cursor:pointer;text-align:center}
+.xl-tpl:hover,.xl-tpl.blank{border:2px solid #217346;background:#f0fdf4}
+.xl-ctx{position:fixed;background:#fff;border:1px solid #94a3b8;box-shadow:0 10px 26px rgba(0,0,0,.28);border-radius:3px;z-index:850;display:none;min-width:210px;max-width:92vw;padding:4px 0;font-size:10.8px;direction:rtl}
+.xl-mini{display:flex;align-items:center;gap:3px;padding:4px 6px;background:#f8fafc;border-bottom:1px solid #e2e8f0;flex-wrap:wrap}
+.xl-ci{padding:5px 11px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#1e293b}
+.xl-ci:hover{background:#c7e0f4}
+.xl-sep{height:1px;background:#e2e8f0;margin:3px 0}
+.xl-sws{display:flex;gap:4px;padding:4px 10px 6px;flex-wrap:wrap}
+.xl-sw{width:18px;height:18px;border-radius:3px;border:1px solid #64748b;cursor:pointer}
+.xl-rlist{display:flex;flex-direction:column;gap:6px;margin:8px 0 10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;padding:8px}
+.xl-ropt{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:11px;padding:3px 5px;border-radius:3px}
+.xl-ropt:hover{background:#e0f2fe}
+.xl-wbtns{display:inline-flex;align-items:center;gap:2px;margin-right:4px}
+.xl-wb{background:rgba(255,255,255,.15);color:#fff;border:none;width:19px;height:17px;font-size:10px;cursor:pointer;border-radius:2px;font-weight:700}
+.xl-wb:hover{background:rgba(255,255,255,.32)}
+.xl-ruler{display:none;background:#f1f5f9;border-bottom:1px solid #cbd5e1;font-size:9px;color:#475569;padding:1px 10px;letter-spacing:8px;font-family:monospace;overflow:hidden;white-space:nowrap}
+.xl-ruler.on{display:block}
+.xl-mtabs{display:flex;gap:4px;margin-bottom:8px;border-bottom:2px solid #e2e8f0;padding-bottom:5px;flex-wrap:wrap}
+.xl-mtab{border:1px solid #cbd5e1;background:#f1f5f9;color:#1e293b;padding:3px 9px;border-radius:4px;font-family:inherit;font-size:10.3px;font-weight:700;cursor:pointer}
+.xl-mtab.active{background:#217346;color:#fff;border-color:#14532d}
+.xl-card{background:#f8fafc;border:1px solid #cbd5e1;border-right:4px solid #217346;border-radius:4px;padding:6px 8px;margin-bottom:6px;font-size:10.5px}
+.xl-card.blue{border-right-color:#0284c7}
+.xl-card.hw{background:#fffbeb;border-color:#fcd34d;border-right-color:#d97706}
+.xl-card.math{background:#f0fdf4;border-color:#86efac;border-right-color:#16a34a}
+.xl-card b.qh{color:#14532d;display:block;margin-bottom:2px}
+.xl-card.blue b.qh{color:#0369a1}
+.xl-card.hw b.qh{color:#b45309}
+.xl-fbox{direction:ltr;text-align:center;font-family:Consolas,monospace;background:#1e293b;color:#fde047;padding:4px 7px;border-radius:4px;margin:4px 0;font-size:10.8px;font-weight:700}
+.xl-opt{display:block;width:100%;text-align:right;padding:4px 7px;margin:3px 0;border:1px solid #cbd5e1;background:#fff;border-radius:4px;cursor:pointer;font-family:inherit;font-size:10.5px}
+.xl-opt.ok{background:#dcfce7;border-color:#16a34a;color:#14532d;font-weight:700}
+.xl-opt.no{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+.xl-prac{border:1px solid #cbd5e1;border-radius:4px;padding:6px 8px;margin-bottom:6px;background:#fff;font-size:10.5px}
+.xl-prac.done{border-color:#16a34a;background:#f0fdf4}
+.xl-tbl{width:100%;border-collapse:collapse;margin-top:4px;font-size:10px}
+.xl-tbl th,.xl-tbl td{border:1px solid #cbd5e1;padding:3px 5px;text-align:right}
+.xl-tbl th{background:#0284c7;color:#fff}
+td.xl-named{outline:2.5px solid #0f172a!important;background-color:rgba(15,23,42,.12)!important}
+</style>
+
+<!-- 1. نافذة ملف FILE Backstage + شاشة البداية + Save As + SkyDrive + Options -->
+<div class="xl-ov" id="xlBsOv" onclick="if(event.target===this)xlCloseBs()">
+  <div class="xl-bs">
+    <div class="xl-bs-side">
+      <button class="xl-bs-back" onclick="xlCloseBs()" title="رجوع">➜</button>
+      <button class="xl-bs-it active" data-p="new" onclick="xlBsPane('new')">جديد New <span>🏠</span></button>
+      <button class="xl-bs-it" data-p="info" onclick="xlBsPane('info')">معلومات Info <span>ℹ️</span></button>
+      <button class="xl-bs-it" data-p="open" onclick="xlBsPane('open')">فتح Open <span>📂</span></button>
+      <button class="xl-bs-it" data-p="save" onclick="xlQuickSave()">حفظ Save <span>💾</span></button>
+      <button class="xl-bs-it" data-p="saveas" onclick="xlBsPane('saveas')">حفظ باسم Save As <span>📝</span></button>
+      <button class="xl-bs-it" data-p="print" onclick="xlBsPane('print')">طباعة Print <span>🖨️</span></button>
+      <button class="xl-bs-it" data-p="account" onclick="xlBsPane('account')">SkyDrive / Account <span>☁️</span></button>
+      <button class="xl-bs-it" data-p="options" onclick="xlBsPane('options')">خيارات Options <span>⚙️</span></button>
+      <button class="xl-bs-it" onclick="xlCloseBs()">إغلاق Close <span>✕</span></button>
+    </div>
+    <div class="xl-bs-main" id="xlBsMain"></div>
+  </div>
+</div>
+
+<!-- 2. قائمة تخصيص شريط الوصول السريع QAT -->
+<div class="xl-ctx" id="xlQatMenu" style="min-width:225px">
+  <div class="xl-dropdown-header">تخصيص Quick Access Toolbar</div>
+  <div id="xlQatItems"></div>
+  <div class="xl-sep"></div>
+  <div class="xl-ci" onclick="xlHideCtx();xlOpenBs('options')"><span>⚙️ <b>More Commands... (أوامر إضافية)</b></span></div>
+</div>
+
+<!-- 3. قائمة الزر الأيمن للخلية + Mini Toolbar -->
+<div class="xl-ctx" id="xlCellCtx">
+  <div class="xl-mini">
+    <button class="xl-icon-btn" onclick="toggleStyle('fontWeight','bold')"><b>B</b></button>
+    <button class="xl-icon-btn" onclick="toggleStyle('fontStyle','italic')"><i>I</i></button>
+    <button class="xl-icon-btn" onclick="applyAllBorders()">⊞</button>
+    <button class="xl-icon-btn" onclick="formatActive('backgroundColor','#fef08a')">🟨</button>
+    <button class="xl-icon-btn" onclick="formatActive('color','#dc2626')">A</button>
+    <button class="xl-icon-btn" onclick="formatActive('textAlign','center')">☰</button>
+  </div>
+  <div class="xl-ci" onclick="copyCell();xlHideCtx()"><span>📄 نسخ (Copy)</span><small>Ctrl+C</small></div>
+  <div class="xl-ci" onclick="cutCell();xlHideCtx()"><span>✂️ قص (Cut)</span><small>Ctrl+X</small></div>
+  <div class="xl-ci" onclick="pasteCell();xlHideCtx()"><span>📋 لصق (Paste)</span><small>Ctrl+V</small></div>
+  <div class="xl-sep"></div>
+  <div class="xl-ci" style="font-weight:700;color:#15803d" onclick="xlHideCtx();xlOpenInsDlg()"><span>➕ إدراج خلايا (Insert...)</span><span>▸</span></div>
+  <div class="xl-ci" style="font-weight:700;color:#b91c1c" onclick="xlHideCtx();xlOpenDelDlg()"><span>➖ حذف خلايا (Delete...)</span><span>▸</span></div>
+  <div class="xl-ci" onclick="clearActionType('contents');xlHideCtx()"><span>🧹 مسح المحتويات (Clear Contents)</span><small>Del</small></div>
+  <div class="xl-sep"></div>
+  <div class="xl-ci" onclick="xlHideCtx();xlOpenDefName()"><span>🏷️ تعريف اسم (Define Name...)</span></div>
+  <div class="xl-ci" onclick="sortStudentsAsc();xlHideCtx()"><span>🔼 ترتيب تصاعدي (Sort A→Z)</span></div>
+  <div class="xl-ci" onclick="openSlicerModal();xlHideCtx()"><span>🌪️ تصفية (Filter)</span></div>
+  <div class="xl-ci" onclick="insertHyperlink();xlHideCtx()"><span>🔗 ارتباط تشعبي (Hyperlink)</span></div>
+</div>
+
+<!-- 4. قائمة الزر الأيمن لورقة العمل -->
+<div class="xl-ctx" id="xlSheetCtx">
+  <div class="xl-dropdown-header" id="xlSheetCtxH">خيارات ورقة العمل</div>
+  <div class="xl-ci" onclick="addNewSheet();xlHideCtx()"><span>➕ إدراج ورقة (Insert...)</span></div>
+  <div class="xl-ci" onclick="deleteCurrentSheet();xlHideCtx()"><span>🗑️ حذف الورقة (Delete)</span></div>
+  <div class="xl-ci" style="font-weight:700;color:#217346" onclick="xlHideCtx();xlRenameSheet()"><span>✏️ تغيير الاسم (Rename)</span></div>
+  <div class="xl-ci" onclick="xlCopySheet();xlHideCtx()"><span>📑 نقل أو نسخ (Move or Copy...)</span></div>
+  <div class="xl-ci" onclick="xlToggleProtect();xlHideCtx()"><span id="xlProtLbl">🔒 حماية الورقة (Protect Sheet)</span></div>
+  <div class="xl-sep"></div>
+  <div style="padding:2px 11px;font-size:9.8px;font-weight:700;color:#475569">🎨 لون التبويب (Tab Color):</div>
+  <div class="xl-sws">
+    <div class="xl-sw" style="background:#ef4444" onclick="xlSetTabClr('#ef4444')"></div>
+    <div class="xl-sw" style="background:#f59e0b" onclick="xlSetTabClr('#f59e0b')"></div>
+    <div class="xl-sw" style="background:#22c55e" onclick="xlSetTabClr('#22c55e')"></div>
+    <div class="xl-sw" style="background:#3b82f6" onclick="xlSetTabClr('#3b82f6')"></div>
+    <div class="xl-sw" style="background:#a855f7" onclick="xlSetTabClr('#a855f7')"></div>
+    <div class="xl-sw" style="background:#fff;text-align:center;line-height:15px" onclick="xlSetTabClr('')">✕</div>
+  </div>
+  <div class="xl-sep"></div>
+  <div class="xl-ci" onclick="xlHideSheet();xlHideCtx()"><span>👁️ إخفاء الورقة (Hide)</span></div>
+  <div class="xl-ci" onclick="xlUnhideSheets();xlHideCtx()"><span>🔓 إظهار المخفية (Unhide...)</span></div>
+</div>
+
+<!-- 5. مربعا حوار Insert و Delete الأربع خيارات -->
+<div class="floating-panel" id="xlInsDlg" style="max-width:340px;z-index:820">
+  <div class="floating-header"><span>➕ إدراج خلايا (Insert) — م2 ص16</span><button onclick="closeModal('xlInsDlg')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer">✕</button></div>
+  <div class="floating-body">
+    <div>اختر طريقة الإدراج عند (<b id="xlInsLbl">A1</b>):</div>
+    <div class="xl-rlist">
+      <label class="xl-ropt"><input type="radio" name="xlInsR" value="right"><span><b>Shift cells right</b> — تحريك لليمين</span></label>
+      <label class="xl-ropt"><input type="radio" name="xlInsR" value="down" checked><span><b>Shift cells down</b> — تحريك للأسفل</span></label>
+      <label class="xl-ropt"><input type="radio" name="xlInsR" value="row"><span><b>Entire row</b> — إضافة صف كامل</span></label>
+      <label class="xl-ropt"><input type="radio" name="xlInsR" value="col"><span><b>Entire column</b> — إضافة عمود كامل</span></label>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:6px">
+      <button class="ex-btn" style="background:#e2e8f0;color:#1e293b;padding:4px 12px" onclick="closeModal('xlInsDlg')">Cancel</button>
+      <button class="ex-btn" style="background:#217346;color:#fff;padding:4px 16px" onclick="xlExecIns()">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="floating-panel" id="xlDelDlg" style="max-width:340px;z-index:820">
+  <div class="floating-header" style="background:#b91c1c"><span>➖ حذف خلايا (Delete) — م2 ص18</span><button onclick="closeModal('xlDelDlg')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer">✕</button></div>
+  <div class="floating-body">
+    <div>اختر طريقة الحذف عند (<b id="xlDelLbl">A1</b>):</div>
+    <div class="xl-rlist">
+      <label class="xl-ropt"><input type="radio" name="xlDelR" value="left" checked><span><b>Shift cells left</b> — تحريك لليسار</span></label>
+      <label class="xl-ropt"><input type="radio" name="xlDelR" value="up"><span><b>Shift cells up</b> — تحريك للأعلى</span></label>
+      <label class="xl-ropt"><input type="radio" name="xlDelR" value="row"><span><b>Entire row</b> — حذف صف كامل</span></label>
+      <label class="xl-ropt"><input type="radio" name="xlDelR" value="col"><span><b>Entire column</b> — حذف عمود كامل</span></label>
+    </div>
+    <div style="font-size:9.6px;color:#64748b;margin-bottom:7px">💡 الطريقة 3 للحذف: مفتاح <b>Delete</b> من الكيبورد.</div>
+    <div style="display:flex;justify-content:flex-end;gap:6px">
+      <button class="ex-btn" style="background:#e2e8f0;color:#1e293b;padding:4px 12px" onclick="closeModal('xlDelDlg')">Cancel</button>
+      <button class="ex-btn" style="background:#b91c1c;color:#fff;padding:4px 16px" onclick="xlExecDel()">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- 6. نافذة تسمية الخلايا الحقيقية + صندوق الاسم Name Box -->
+<div class="floating-panel" id="xlDefDlg" style="max-width:380px;z-index:820">
+  <div class="floating-header"><span>🏷️ تسمية الخلايا (Define Name / Name Manager)</span><button onclick="closeModal('xlDefDlg')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer">✕</button></div>
+  <div class="floating-body">
+    <label style="font-weight:700">اسم الخلية/النطاق (مثل: احمد):</label>
+    <input id="xlDefNm" class="dialog-input" placeholder="مثال: احمد">
+    <label style="font-weight:700">المرجع (Refers to):</label>
+    <input id="xlDefRf" class="dialog-input" style="direction:ltr;text-align:left">
+    <button class="ex-btn" style="background:#217346;color:#fff;width:100%;padding:5px;margin-bottom:7px" onclick="xlSaveName()">💾 حفظ الاسم (Save)</button>
+    <div id="xlNamesBox" style="max-height:140px;overflow-y:auto"></div>
+  </div>
+</div>
+
+<div class="floating-panel" id="xlNbDlg" style="max-width:350px;z-index:820">
+  <div class="floating-header"><span>📍 صندوق الاسم (Name Box)</span><button onclick="closeModal('xlNbDlg')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer">✕</button></div>
+  <div class="floating-body">
+    <div>الخلية الحالية: <b id="xlNbCur">G4</b></div>
+    <label style="font-weight:700;display:block;margin-top:4px">اكتب عنوان خلية/نطاق (A1:E4) أو اسماً (احمد):</label>
+    <input id="xlNbIn" class="dialog-input" onkeydown="if(event.key==='Enter')xlNbAct('auto')">
+    <div style="display:flex;gap:5px">
+      <button class="ex-btn" style="background:#0284c7;color:#fff;flex:1;padding:5px" onclick="xlNbAct('goto')">➡️ انتقال</button>
+      <button class="ex-btn" style="background:#217346;color:#fff;flex:1;padding:5px" onclick="xlNbAct('name')">🏷️ تسمية الخلية</button>
+    </div>
+    <div id="xlNbChips" style="margin-top:7px;display:flex;gap:4px;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- 7. نافذة دليل ومدرب واختبار المحاضرات 1 إلى 4 -->
+<div class="floating-panel" id="xlExamModal" style="max-width:560px;z-index:815">
+  <div class="floating-header" id="xlExamHdr" style="background:#217346">
+    <span id="xlExamTitle">📘 دليل ومدرب الامتحان الشامل</span>
+    <button onclick="closeModal('xlExamModal')" style="background:none;border:none;color:#fff;font-size:14px;cursor:pointer">✕</button>
+  </div>
+  <div class="floating-body">
+    <div class="xl-mtabs" id="xlExamTabs"></div>
+    <div id="xlExamBody"></div>
+  </div>
+</div>
+
+<script id="xl-all-addon-js">
+(function(){
+'use strict';
+const S={
+  wb:'Book1',email:'',names:{'درجات_الاقتصاد':{sh:'main',ref:'B4:D13'}},
+  tabClr:{},hidSh:new Set(),protSh:new Set(),
+  qat:{new:0,open:0,print:0,sort:0},
+  done:{},mcq12:{},mcq34:{},curMod:'12'
+};
+const L34_IDS=['l34_sum5','l34_shapes','l34_y12','l34_hw'];
+
+function addNote(g,r,txt){
+  const id='A'+r;
+  g[id].raw=txt;
+  g[id].style={fontSize:'9.6px',color:'#0c4a6e',textAlign:'right',fontWeight:'bold',backgroundColor:'#e0f2fe',whiteSpace:'normal',height:'auto',lineHeight:'1.5'};
+  g[id].colspan=8;
+  COLS.slice(1).forEach(c=>g[c+r].hiddenByMerge=true);
+}
+function mkL34(id){
+  const g=createEmptyGrid();
+  if(id==='l34_sum5'){
+    [1,2,3,4,5].forEach((n,i)=>g['A'+(i+1)].raw=String(n));
+    addNote(g,8,'مثال م3 (ص26-29): جد مجموع A1:A5 في A6 (=SUM(A1:A5) = 15) والمعدل في A7 (=AVERAGE(A1:A5) = 3).');
+  }else if(id==='l34_shapes'){
+    [['A1','10'],['B1','20'],['C1','30'],['A2','15'],['B2','25'],['A3','25'],['B3','35'],['C3','40'],['B4','10'],['D4','50'],['A5','5'],['B5','15'],['E5','60'],['A6','10'],['B6','20']].forEach(([k,v])=>g[k].raw=v);
+    ['A1','B2','C3','D4','E5'].forEach(k=>g[k].style.backgroundColor='#fef9c3');
+    g.A4.style={backgroundColor:'#dbeafe',border:'1.5px dashed #2563eb'};
+    g.D1.style={backgroundColor:'#dcfce7',border:'1.5px dashed #16a34a'};
+    g.F7.style={backgroundColor:'#fee2e2',border:'1.5px dashed #dc2626'};
+    g.D6.style={backgroundColor:'#ede9fe',border:'1.5px dashed #7c3aed'};
+    addNote(g,9,'م4 ص39-41: عمودي A4=SUM(A1:A3)[50] | أفقي D1=SUM(A1:C1)[60] | مبعثر F7=SUM(A1:B2:C3:D4:E5)[185] | مصفوفة D6=SUM(A1:B6)[240]');
+  }else if(id==='l34_y12'){
+    for(let i=1;i<=10;i++){g['A'+i].raw=String(i);g['A'+i].style={backgroundColor:'#f8fafc',fontWeight:'bold'};}
+    g.A11.raw='المجموع ∑';g.A11.style={fontWeight:'bold',backgroundColor:'#dcfce7'};
+    g.A12.raw='ناتج Y1 (/10)';g.A12.style={fontWeight:'bold',backgroundColor:'#fef08a'};
+    addNote(g,14,'سؤال مهم ص42-43: B1 =(A1-3)^2 واسحب لـB10 ثم B11=SUM(B1:B10)[145] و B12=B11/10[14.5] | فرع ب: C1 =((A1*3)-(A1/2))*A1 واسحب لـC10 ثم C11=SUM(C1:C10)[962.5]');
+  }else if(id==='l34_hw'){
+    for(let i=1;i<=6;i++){g['A'+i].raw=String(i);g['A'+i].style={backgroundColor:'#fffbeb',fontWeight:'bold'};}
+    g.A7.raw='المجموع ∑';g.A7.style={fontWeight:'bold',backgroundColor:'#dcfce7'};
+    g.A8.raw='ناتج Y1 (/6)';g.A8.style={fontWeight:'bold',backgroundColor:'#fef08a'};
+    addNote(g,10,'واجب ص44: B1 =(A1-5)^2 لـB6 ثم B7=SUM(B1:B6)[31] و B8=B7/6[5.17] | C1 =((A1*5)-(A1/2))*A1 لـC6 ثم C7=SUM(C1:C6)[409.5]');
+  }
+  return g;
+}
+
+function initAll(){
+  [['l34_sum5','م3: جمع A1:A5','A6'],['l34_shapes','م4: أشكال الجمع','A4'],['l34_y12','م4: سؤال Y1 و Y2','B1'],['l34_hw','واجب م4: 1-6','B1']].forEach(([id,name,ac])=>{
+    if(!sheetsStore.some(s=>s.id===id)) sheetsStore.push({id,name,cellsData:mkL34(id),hiddenRows:[],activeCellId:ac,ltr:false,gridlines:true,headings:true});
+  });
+
+  const ua=document.querySelector('.uni-bar-actions');
+  if(ua&&!document.getElementById('xlBtn12')){
+    const addB=(id,txt,bg,fn)=>{const b=document.createElement('button');b.id=id;b.className='uni-btn';b.style.cssText=`background:${bg};color:#fff`;b.textContent=txt;b.onclick=fn;ua.insertBefore(b,ua.firstChild);};
+    addB('xlBtn34','📗 م3 و م4 (Y1/Y2 + امتحان)','#0284c7',()=>xlOpenStudy('34','sum'));
+    addB('xlBtn12','📘 م1 و م2 (امتحان)','#f97316',()=>xlOpenStudy('12','sum'));
+    addB('xlBtnSt','🏠 شاشة البداية / SkyDrive','#7c3aed',()=>xlOpenBs('new'));
+  }
+
+  const qats=document.querySelectorAll('.activation-bar .qat-icons');
+  if(qats.length>=2&&!document.getElementById('xlQatDyn')){
+    const sp=document.createElement('span');sp.id='xlQatDyn';sp.style.cssText='display:inline-flex;gap:3px';qats[0].appendChild(sp);
+    const db=document.createElement('button');db.className='qat-btn';db.textContent='▾';db.title='تخصيص Quick Access Toolbar';
+    db.onclick=e=>{e.stopPropagation();xlOpenQat(e);};qats[0].appendChild(db);
+    const wb=document.createElement('span');wb.className='xl-wbtns';
+    wb.innerHTML=`<button class="xl-wb" onclick="xlOpenStudy('12','sum')" title="Help">?</button><button class="xl-wb" onclick="showToast('Minimize تصغير النافذة')">—</button><button class="xl-wb" onclick="showToast('Restore/Maximize توسيط النافذة')">❐</button><button class="xl-wb" onclick="xlOpenBs('saveas')">✕</button>`;
+    qats[1].appendChild(wb);
+  }
+
+  const ft=document.querySelector('.ribbon-tab.file-tab');
+  if(ft) ft.onclick=()=>xlOpenBs('saveas');
+
+  const vs=document.querySelector('#pane-view .xl-col-stack');
+  if(vs&&!document.getElementById('xlChkFb')){
+    const l1=document.createElement('label');l1.style.cssText='font-size:9.5px;font-weight:700;color:#14532d;cursor:pointer';
+    l1.innerHTML='<input type="checkbox" id="xlChkFb" checked> Formula Bar شريط الصيغة';
+    l1.querySelector('input').onchange=function(){document.getElementById('formulaBarContainer').style.display=this.checked?'flex':'none';S.done.fb=1;showToast(this.checked?'إظهار شريط الصيغة (Formula Bar ☑)':'إخفاء شريط الصيغة (Formula Bar ☐) من View');};
+    const l2=document.createElement('label');l2.style.cssText='font-size:9.5px;cursor:pointer';
+    l2.innerHTML='<input type="checkbox" id="xlChkRl"> Ruler المسطرة';
+    l2.querySelector('input').onchange=function(){document.getElementById('xlRuler').classList.toggle('on',this.checked);showToast(this.checked?'إظهار المسطرة Ruler':'إخفاء المسطرة');};
+    vs.prepend(l1);vs.prepend(l2);
+  }
+  const gw=document.getElementById('gridWrapper');
+  if(gw&&!document.getElementById('xlRuler')){
+    const r=document.createElement('div');r.id='xlRuler';r.className='xl-ruler';
+    r.textContent='| 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |';
+    gw.parentNode.insertBefore(r,gw);
+  }
+
+  const i0=document.querySelector('#menu-cells-insert .xl-dropdown-item');
+  if(i0) i0.onclick=e=>{e.stopPropagation();closeAllDropdowns();xlOpenInsDlg();};
+  const d0=document.querySelector('#menu-cells-delete .xl-dropdown-item');
+  if(d0) d0.onclick=e=>{e.stopPropagation();closeAllDropdowns();xlOpenDelDlg();};
+  const fm=document.getElementById('menu-cells-format');
+  if(fm&&!document.getElementById('xlFmEx')){
+    fm.insertAdjacentHTML('beforeend',`<div id="xlFmEx"><div class="xl-dropdown-sep"></div><div class="xl-dropdown-item" onclick="xlCopySheet();closeAllDropdowns()"><span>📑 Move or Copy Sheet...</span></div><div class="xl-dropdown-item" onclick="event.stopPropagation();closeAllDropdowns();xlSheetCtxBtn(event)"><span>🎨 Tab Color (لون التبويب)</span></div><div class="xl-dropdown-item" onclick="xlToggleProtect();closeAllDropdowns()"><span>🔒 Protect Sheet... (حماية الورقة)</span></div></div>`);
+  }
+  const mf=document.getElementById('menu-find');
+  if(mf&&!document.getElementById('xlFnEx')){
+    mf.insertAdjacentHTML('beforeend',`<div id="xlFnEx"><div class="xl-dropdown-sep"></div><div class="xl-dropdown-item" onclick="showToast('Select Objects تحديد الكائنات (م3 ص32)');closeAllDropdowns()"><span>↖️ <b>Select Objects</b></span></div><div class="xl-dropdown-item" onclick="showToast('Selection Pane جزء التحديد (م3 ص32)');closeAllDropdowns()"><span>📋 <b>Selection Pane...</b></span></div></div>`);
+  }
+  const lgs=document.querySelectorAll('#pane-layout .r-group');
+  if(lgs[1]&&!document.getElementById('xlPsEx')) lgs[1].querySelector('.r-group-content')?.insertAdjacentHTML('beforeend',`<div id="xlPsEx" class="xl-col-stack"><button class="xl-btn-sm" onclick="showToast('Breaks فواصل الصفحات')">✂️ Breaks</button><button class="xl-btn-sm" onclick="showToast('Background خلفية الورقة')">🖼️ Background</button><button class="xl-btn-sm" onclick="showToast('Print Titles طباعة العناوين')">📑 Print Titles</button></div>`);
+  if(lgs[4]&&!document.getElementById('xlArEx')) lgs[4].querySelector('.r-group-content')?.insertAdjacentHTML('beforeend',`<div id="xlArEx" class="xl-col-stack"><button class="xl-btn-sm" onclick="showToast('Selection Pane')">📋 Selection Pane</button><button class="xl-btn-sm" onclick="showToast('Align محاذاة')">📐 Align</button><button class="xl-btn-sm" onclick="showToast('Group & Rotate')">🔄 Group/Rotate</button></div>`);
+
+  const mh=document.querySelector('.mobile-helper');
+  if(mh&&!document.getElementById('xlMobSer')){
+    const mkC=(id,t,css,fn)=>{const b=document.createElement('button');if(id)b.id=id;b.className='m-chip';b.style.cssText=css;b.textContent=t;b.onclick=fn;return b;};
+    mh.prepend(mkC('','🏷️ تسمية الخلية','background:#e0f2fe;color:#0369a1;border-color:#38bdf8',xlOpenDefName));
+    mh.prepend(mkC('','🖱️ زر أيمن للخلية','background:#ede9fe;color:#5b21b6;border-color:#a78bfa',e=>{e.stopPropagation();xlCellCtxAtActive();}));
+    mh.prepend(mkC('xlMobSer','➕ تعبئة متسلسلة (+ أرقام/أيام)','background:#fef3c7;color:#92400e;border-color:#f59e0b',xlAutoSeries));
+    ['^','(',')','*','/','-',','].forEach(s=>mh.appendChild(mkC('',s,'background:#f0f9ff;color:#0369a1;border-color:#7dd3fc',()=>appendFormulaText(s))));
+  }
+  const stw=document.querySelector('.sheet-tabs-wrapper');
+  if(stw&&!document.getElementById('xlShBtn')){
+    const b=document.createElement('button');b.id='xlShBtn';b.className='m-chip';b.style.cssText='font-size:9px;padding:1px 6px;flex-shrink:0';
+    b.textContent='📑 زر أيمن للورقة ▾';b.onclick=e=>{e.stopPropagation();xlSheetCtxBtn(e);};stw.appendChild(b);
+  }
+  const fxR=document.getElementById('fxArgRes');
+  if(fxR&&!document.getElementById('xlShHint')){
+    fxR.parentNode.insertAdjacentHTML('afterbegin','<div id="xlShHint" style="font-size:9.5px;color:#0369a1;background:#e0f2fe;padding:4px 6px;border-radius:3px;margin-bottom:4px;direction:rtl;text-align:right">💡 لكتابة النقطتين <code>:</code> اضغط <b>Shift + حرف (ك)</b> (ص36).</div>');
+  }
+
+  document.getElementById('gridBody')?.addEventListener('contextmenu',e=>{
+    const td=e.target.closest('td[id^="cell-"]');if(!td)return;e.preventDefault();
+    selectCell(td.id.slice(5));xlShowCtx('xlCellCtx',e.clientX,e.clientY);
+  });
+  document.getElementById('sheetTabsList')?.addEventListener('contextmenu',e=>{
+    const tab=e.target.closest('.sheet-tab');if(!tab)return;e.preventDefault();
+    if(tab.dataset.sid&&tab.dataset.sid!==currentSheetId) switchSheet(tab.dataset.sid);
+    xlShowSheetCtx(e.clientX,e.clientY);
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest('.xl-ctx')) xlHideCtx();});
+  document.addEventListener('keydown',xlKeyNav);
+
+  wrapHooks();
+  renderSheetTabsBar();
+  xlRenderQat();
+}
+
+function wrapHooks(){
+  const oSel=window.selectCell;
+  window.selectCell=function(id){oSel(id);xlSyncNb();};
+
+  const oTabs=window.renderSheetTabsBar;
+  window.renderSheetTabsBar=function(){oTabs();xlStyleTabs();};
+
+  window.goToCellPrompt=()=>xlOpenNb();
+  window.openDefinedNamesModal=()=>xlOpenDefName();
+
+  const oCom=window.commitFormulaEdit;
+  window.commitFormulaEdit=function(){
+    if(S.protSh.has(currentSheetId)){cancelFormulaEdit();showToast('🔒 الورقة محمية (Protect Sheet)');return;}
+    const inp=document.getElementById('formulaInput');
+    if(inp&&inp.value.length>32000){inp.value=inp.value.slice(0,32000);showToast('⚠️ الحد الأعلى للخلية 32,000 حرف');}
+    oCom();
+  };
+  document.getElementById('formulaInput')?.addEventListener('input',function(){
+    if(S.protSh.has(currentSheetId)){this.value=cellsData[activeCellId]?.raw||'';showToast('🔒 الورقة محمية');return;}
+    if(this.value.length) document.getElementById('statusCellInfo').textContent=`تحرير (${activeCellId}) | الأحرف: ${this.value.length} / 32,000`;
+  });
+
+  const oFxOk=window.fxOk;
+  window.fxOk=function(){
+    const nm=document.getElementById('fxList')?.value;oFxOk();
+    if(nm&&document.getElementById('fxArgModal')?.style.display==='block') document.getElementById('nameBox').textContent=nm;
+  };
+
+  const oFill=window.fillDirection;
+  window.fillDirection=function(dir){
+    if(dir==='down'&&currentSheetId!=='main'){
+      if(isWaitingConfirm) commitFormulaEdit();
+      const col=activeCellId[0],sr=+activeCellId.slice(1),src=cellsData[activeCellId]?.raw||'';
+      if(!src){showToast('اكتب المعادلة أولاً (مثل =(A1-3)^2) ثم اضغط سحب التعبئة');return;}
+      let er=sr+1;
+      const sc=selectedRangeIds.filter(x=>x[0]===col).map(x=>+x.slice(1));
+      if(sc.length>1) er=Math.max(...sc);
+      else if(currentSheetId==='l34_y12'&&sr===1&&(col==='B'||col==='C')) er=10;
+      else if(currentSheetId==='l34_hw'&&sr===1&&(col==='B'||col==='C')) er=6;
+      else{let k=sr;while(k<totalRows&&String(cellsData['A'+(k+1)]?.raw||'').trim()!==''&&isFinite(normalizeDigits(cellsData['A'+(k+1)].raw)))k++;if(k>sr)er=k;}
+      for(let r=sr+1;r<=er&&r<=totalRows;r++){
+        cellsData[col+r].raw=String(src).replace(/([A-Z]+)(\d+)/g,(m,cl,rn)=>+rn===sr?cl+r:m);
+      }
+      recalcAll();saveCurrentSheetToStore();
+      showToast(`✚ تم سحب المعادلة من ${col}${sr} إلى ${col}${er} تلقائياً ✔`);return;
+    }
+    oFill(dir);
+  };
+
+  const oAsc=window.sortStudentsAsc,oDesc=window.sortStudentsDesc;
+  const sortAny=asc=>{
+    const col=activeCellId[0],rs=[],vs=[];
+    for(let r=1;r<=totalRows;r++){const v=String(cellsData[col+r]?.raw||'').trim();if(v&&!v.startsWith('=')&&!cellsData[col+r].hiddenByMerge&&(cellsData[col+r].colspan||1)===1){rs.push(r);vs.push(v);}}
+    if(vs.length<2){showToast('لا توجد قيم كافية للفرز');return;}
+    const num=vs.every(v=>isFinite(normalizeDigits(v)));
+    vs.sort((a,b)=>num?(asc?normalizeDigits(a)-normalizeDigits(b):normalizeDigits(b)-normalizeDigits(a)):(asc?a.localeCompare(b,'ar'):b.localeCompare(a,'ar')));
+    rs.forEach((r,i)=>cellsData[col+r].raw=vs[i]);recalcAll();
+    showToast(asc?`🔼 فرز تصاعدي للعمود ${col}`:`🔽 فرز تنازلي للعمود ${col}`);
+  };
+  window.sortStudentsAsc=()=>currentSheetId==='main'?oAsc():sortAny(1);
+  window.sortStudentsDesc=()=>currentSheetId==='main'?oDesc():sortAny(0);
+
+  const oSolve=window.solveAllTable,oReset=window.resetTableData,oClr=window.clearFormulasForPractice;
+  window.solveAllTable=function(){
+    if(currentSheetId==='l34_sum5'){cellsData.A6.raw='=SUM(A1:A5)';cellsData.A7.raw='=AVERAGE(A1:A5)';resetPendingState();recalcAll();selectCell('A6');showToast('✔ A6=15 | A7=3');return;}
+    if(currentSheetId==='l34_shapes'){cellsData.A4.raw='=SUM(A1:A3)';cellsData.D1.raw='=SUM(A1:C1)';cellsData.F7.raw='=SUM(A1:B2:C3:D4:E5)';cellsData.D6.raw='=SUM(A1:B6)';resetPendingState();recalcAll();selectCell('D6');showToast('✔ A4=50 | D1=60 | F7=185 | D6=240');return;}
+    if(currentSheetId==='l34_y12'){for(let i=1;i<=10;i++){cellsData['B'+i].raw=`=(A${i}-3)^2`;cellsData['C'+i].raw=`=((A${i}*3)-(A${i}/2))*A${i}`;}cellsData.B11.raw='=SUM(B1:B10)';cellsData.B12.raw='=B11/10';cellsData.C11.raw='=SUM(C1:C10)';resetPendingState();recalcAll();selectCell('B12');showToast('✔ Y1=14.5 (145/10) | Y2=962.5');return;}
+    if(currentSheetId==='l34_hw'){for(let i=1;i<=6;i++){cellsData['B'+i].raw=`=(A${i}-5)^2`;cellsData['C'+i].raw=`=((A${i}*5)-(A${i}/2))*A${i}`;}cellsData.B7.raw='=SUM(B1:B6)';cellsData.B8.raw='=B7/6';cellsData.C7.raw='=SUM(C1:C6)';resetPendingState();recalcAll();selectCell('B8');showToast('✔ Y1=5.17 (31/6) | Y2=409.5');return;}
+    oSolve();
+  };
+  const rstL34=()=>{cellsData=mkL34(currentSheetId);hiddenRows.clear();resetPendingState();saveCurrentSheetToStore();recalcAll();showToast('تمت إعادة ضبط الورقة');};
+  window.resetTableData=()=>L34_IDS.includes(currentSheetId)?rstL34():oReset();
+  window.clearFormulasForPractice=()=>L34_IDS.includes(currentSheetId)?rstL34():oClr();
+}
+
+function xlKeyNav(e){
+  const t=document.activeElement?.tagName;
+  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT') return;
+  if(document.getElementById('xlBsOv').classList.contains('open')||[...document.querySelectorAll('.floating-panel')].some(p=>p.style.display==='block')){
+    if(e.key==='Escape'){xlCloseBs();xlHideCtx();['xlInsDlg','xlDelDlg','xlDefDlg','xlNbDlg','xlExamModal'].forEach(closeModal);}
+    return;
+  }
+  const ci=COLS.indexOf(activeCellId[0]),rn=+activeCellId.slice(1);if(ci<0||isNaN(rn))return;
+  const ltr=document.getElementById('appWrapper').classList.contains('ltr-sheet');
+  let nc=ci,nr=rn;
+  if(e.key==='ArrowUp') nr=Math.max(1,rn-1);
+  else if(e.key==='ArrowDown'||e.key==='Enter') nr=Math.min(totalRows,rn+1);
+  else if(e.key==='ArrowLeft') nc=ltr?Math.max(0,ci-1):Math.min(COLS.length-1,ci+1);
+  else if(e.key==='ArrowRight') nc=ltr?Math.min(COLS.length-1,ci+1):Math.max(0,ci-1);
+  else if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();if(S.protSh.has(currentSheetId)){showToast('🔒 الورقة محمية');return;}clearActionType('contents');showToast('تم المسح بمفتاح Delete (م2 ص19)');return;}
+  else return;
+  e.preventDefault();selectCell(COLS[nc]+nr);
+}
+
+// FILE Backstage
+window.xlOpenBs=p=>{xlHideCtx();document.getElementById('xlBsOv').classList.add('open');xlBsPane(p||'new');};
+window.xlCloseBs=()=>document.getElementById('xlBsOv').classList.remove('open');
+window.xlQuickSave=()=>{saveCurrentSheetToStore();S.done.sv=1;showToast(`💾 تم حفظ ${S.wb}.xlsx`);xlCloseBs();};
+window.xlBsPane=function(p){
+  document.querySelectorAll('.xl-bs-it[data-p]').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+  const m=document.getElementById('xlBsMain');
+  if(p==='new'){
+    m.innerHTML=`<div class="xl-bs-h"><span>🏠 شاشة البداية (Excel 2013 Start Screen)</span><button class="ex-btn" style="background:#217346;color:#fff" onclick="xlBsPane('account')">👤 ${S.email||'Sign in (SkyDrive 7 GB)'}</button></div>
+    <div class="xl-grid2" style="grid-template-columns:1fr 1.8fr">
+      <div style="background:#14532d;color:#fff;padding:9px;border-radius:5px">
+        <b style="color:#fde047">📂 Recent (المفتوحة مؤخراً)</b>
+        <div style="margin:6px 0;padding:5px;background:rgba(255,255,255,.12);border-radius:3px;cursor:pointer" onclick="xlCloseBs();switchSheet('main')">📗 ${S.wb}.xlsx</div>
+        <div style="margin-bottom:7px;padding:5px;background:rgba(255,255,255,.12);border-radius:3px;cursor:pointer" onclick="xlCloseBs();switchSheet('q1')">📗 واجب_الرواتب_س1.xlsx</div>
+        <button class="ex-btn" style="background:#fff;color:#14532d;width:100%" onclick="xlBsPane('open')">📁 Open Other Workbooks</button>
+      </div>
+      <div><b>Blank workbook و القوالب الجاهزة Templates:</b>
+        <div class="xl-tpls">
+          <div class="xl-tpl blank" onclick="xlTpl('blank')">📄<br><b>Blank workbook</b></div>
+          <div class="xl-tpl" onclick="xlTpl('budget')">💰<br><b>Monthly budget</b></div>
+          <div class="xl-tpl" onclick="xlTpl('sched')">📅<br><b>Student schedule</b></div>
+          <div class="xl-tpl" onclick="xlTpl('inv')">🧾<br><b>Simple invoice</b></div>
+        </div>
+      </div>
+    </div>`;
+  }else if(p==='saveas'){
+    m.innerHTML=`<div class="xl-bs-h"><span>📝 حفظ باسم Save As (Book1 مقابل Doc1)</span></div>
+    <div class="xl-box"><label><b>File name:</b></label><input id="xlSvNm" class="dialog-input" value="${S.wb}">
+    <label><b>Save as type:</b></label><select class="dialog-input"><option>Excel Workbook (*.xlsx)</option><option>Excel 97-2003 (*.xls)</option><option>PDF (*.pdf)</option></select>
+    <button class="ex-btn" style="background:#217346;color:#fff;padding:5px 16px" onclick="xlDoSaveAs()">💾 حفظ Save</button></div>
+    <div class="xl-grid2">
+      <div class="xl-box" style="background:#f0fdf4;border-color:#16a34a"><b style="color:#15803d">📗 Excel 2013</b><br>الاسم: <b>Book1</b> | النوع: <b>Excel Workbook</b> (أوراق عمل).</div>
+      <div class="xl-box" style="background:#eff6ff;border-color:#2563eb"><b style="color:#1d4ed8">📘 Word 2013</b><br>الاسم: <b>Document1 / Doc1</b> | النوع: <b>Word Document</b>.</div>
+    </div>`;
+  }else if(p==='account'){
+    m.innerHTML=`<div class="xl-bs-h"><span>☁️ SkyDrive (مساحة مجانية 7 GB — م1 ص4-5)</span></div>
+    <div class="xl-box"><p>خدمة خزن ومشاركة سحابية بمساحة <b>7 GB</b> (غير موجودة بالنسخ القديمة). الوصول عبر بريد <b>Gmail/Hotmail</b> أو الرابط <code style="direction:ltr">https://skydrive.live.com</code></p>
+    <label><b>Sign in (البريد الإلكتروني):</b></label><input id="xlEmIn" class="dialog-input" placeholder="example@gmail.com" value="${S.email}">
+    <button class="ex-btn" style="background:#217346;color:#fff;padding:5px 16px" onclick="xlSignIn()">Next / Sign in</button>
+    ${S.email?`<div style="margin-top:6px;color:#15803d;font-weight:700">✔ متصل بحساب ${S.email} — 7 GB SkyDrive</div>`:''}</div>`;
+  }else if(p==='options'){
+    S.done.qat=1;
+    m.innerHTML=`<div class="xl-bs-h"><span>⚙️ Excel Options → Quick Access Toolbar (م2 ص9)</span></div>
+    <div class="xl-box"><p style="margin-bottom:6px">إضافة أوامر إضافية (<b>More Commands</b>) لشريط الوصول السريع:</p>
+    ${[['new','📄 جديد New'],['open','📂 فتح Open'],['print','🖨️ طباعة Print'],['sort','🔼 فرز A→Z']].map(([k,l])=>`<label style="display:block;margin:4px 0"><input type="checkbox" ${S.qat[k]?'checked':''} onchange="xlTogQat('${k}',this.checked)"> ${l}</label>`).join('')}
+    <button class="ex-btn" style="background:#217346;color:#fff;margin-top:8px;padding:5px 16px" onclick="xlCloseBs();showToast('✔ تم حفظ Quick Access Toolbar')">OK</button></div>`;
+  }else if(p==='info'){
+    m.innerHTML=`<div class="xl-bs-h"><span>ℹ️ معلومات المصنف Info</span></div><div class="xl-box">
+    <b>المصنف:</b> ${S.wb}.xlsx<br><b>الأوراق:</b> ${sheetsStore.length} (Excel 2013 يفتح افتراضياً بورقة واحدة <b>Sheet1 +</b> بعكس النسخ القديمة 3 أوراق)<br><b>حد الخلية:</b> 32,000 حرف<br><b>فتح البرنامج:</b> Start ← All Programs ← Microsoft Office 2013 ← Excel 2013</div>`;
+  }else if(p==='open'){
+    m.innerHTML=`<div class="xl-bs-h"><span>📂 فتح ورقة Open</span></div><div class="xl-box">${sheetsStore.map(s=>`<button class="xl-opt" onclick="switchSheet('${s.id}');xlCloseBs()">📗 ${s.name}</button>`).join('')}</div>`;
+  }else if(p==='print'){
+    m.innerHTML=`<div class="xl-bs-h"><span>🖨️ طباعة Print</span></div><div class="xl-box"><button class="ex-btn" style="background:#217346;color:#fff;padding:6px 16px" onclick="xlCloseBs();window.print()">🖨️ طباعة الورقة</button></div>`;
+  }
+};
+window.xlDoSaveAs=()=>{const n=(document.getElementById('xlSvNm')?.value||'Book1').trim()||'Book1';S.wb=n;S.done.sv=1;document.getElementById('bookTitleBar').textContent=`${n} - Excel (Product Activation Failed) | ${n}`;xlCloseBs();showToast(`💾 تم الحفظ باسم ${n} (Excel Workbook)`);};
+window.xlSignIn=()=>{const e=(document.getElementById('xlEmIn')?.value||'').trim();if(!e){showToast('اكتب البريد الإلكتروني');return;}S.email=e;xlBsPane('account');showToast('☁️ تم تسجيل الدخول لـ SkyDrive (7 GB)');};
+window.xlTpl=t=>{
+  xlCloseBs();addNewSheet();const sh=sheetsStore.find(s=>s.id===currentSheetId);
+  if(t==='blank'){cellsData.A1.raw='';}
+  else if(t==='budget'){sh.name='قالب الميزانية';[['A1','البند'],['B1','المخطط'],['C1','الفعلي'],['D1','الفرق'],['A2','إيجار'],['B2','500'],['C2','500'],['D2','=B2-C2'],['A3','طعام'],['B3','300'],['C3','260'],['D3','=B3-C3'],['A4','المجموع'],['B4','=SUM(B2:B3)'],['C4','=SUM(C2:C3)'],['D4','=SUM(D2:D3)']].forEach(([k,v])=>cellsData[k].raw=v);}
+  else if(t==='sched'){sh.name='قالب الجدول';[['A1','اليوم'],['B1','المحاضرة 1'],['C1','المحاضرة 2'],['A2','الأحد'],['B2','اقتصاد'],['C2','Excel'],['A3','الاثنين'],['B3','إحصاء'],['C3','رياضيات']].forEach(([k,v])=>cellsData[k].raw=v);}
+  else{sh.name='قالب فاتورة';[['A1','المادة'],['B1','العدد'],['C1','السعر'],['D1','الإجمالي'],['A2','حاسوب'],['B2','2'],['C2','450'],['D2','=B2*C2'],['A3','المجموع'],['D3','=SUM(D2:D2)']].forEach(([k,v])=>cellsData[k].raw=v);}
+  renderSheetTabsBar();recalcAll();selectCell('A1');
+};
+
+// QAT
+window.xlOpenQat=e=>{
+  document.getElementById('xlQatItems').innerHTML=[['new','📄 جديد New'],['open','📂 فتح Open'],['print','🖨️ طباعة Print'],['sort','🔼 فرز A→Z']].map(([k,l])=>`<div class="xl-ci" onclick="event.stopPropagation();xlFlipQat('${k}',event)"><span>${l}</span><span>${S.qat[k]?'✔':''}</span></div>`).join('');
+  xlShowCtx('xlQatMenu',e.clientX||100,(e.clientY||24)+8);
+};
+window.xlTogQat=(k,v)=>{S.qat[k]=v?1:0;S.done.qat=1;xlRenderQat();};
+window.xlFlipQat=(k,e)=>{xlTogQat(k,!S.qat[k]);xlOpenQat(e||{});};
+function xlRenderQat(){
+  const w=document.getElementById('xlQatDyn');if(!w)return;w.innerHTML='';
+  if(S.qat.new) w.insertAdjacentHTML('beforeend','<button class="qat-btn" onclick="addNewSheet()">📄</button>');
+  if(S.qat.open) w.insertAdjacentHTML('beforeend','<button class="qat-btn" onclick="xlOpenBs(\'open\')">📂</button>');
+  if(S.qat.print) w.insertAdjacentHTML('beforeend','<button class="qat-btn" onclick="window.print()">🖨️</button>');
+  if(S.qat.sort) w.insertAdjacentHTML('beforeend','<button class="qat-btn" onclick="sortStudentsAsc()">🔼</button>');
+}
+
+// Insert / Delete 4-option dialogs
+window.xlOpenInsDlg=()=>{document.getElementById('xlInsLbl').textContent=activeCellId;openModal('xlInsDlg');};
+window.xlExecIns=()=>{
+  closeModal('xlInsDlg');if(S.protSh.has(currentSheetId)){showToast('🔒 الورقة محمية');return;}
+  S.done.ins=1;const o=document.querySelector('input[name="xlInsR"]:checked')?.value||'down',ci=COLS.indexOf(activeCellId[0]),rn=+activeCellId.slice(1);
+  if(o==='right'){for(let c=COLS.length-1;c>ci;c--)cellsData[COLS[c]+rn].raw=cellsData[COLS[c-1]+rn].raw;cellsData[activeCellId].raw='';recalcAll();showToast('✔ Shift cells right');}
+  else if(o==='down') insertCellsShiftDown();
+  else if(o==='row') insertRowAtActive();
+  else insertColAtActive();
+};
+window.xlOpenDelDlg=()=>{document.getElementById('xlDelLbl').textContent=activeCellId;openModal('xlDelDlg');};
+window.xlExecDel=()=>{
+  closeModal('xlDelDlg');if(S.protSh.has(currentSheetId)){showToast('🔒 الورقة محمية');return;}
+  S.done.del=1;const o=document.querySelector('input[name="xlDelR"]:checked')?.value||'left',ci=COLS.indexOf(activeCellId[0]),rn=+activeCellId.slice(1);
+  if(o==='left'){for(let c=ci;c<COLS.length-1;c++)cellsData[COLS[c]+rn].raw=cellsData[COLS[c+1]+rn].raw;cellsData[COLS[COLS.length-1]+rn].raw='';recalcAll();showToast('✔ Shift cells left');}
+  else if(o==='up'){for(let r=rn;r<totalRows;r++)cellsData[COLS[ci]+r].raw=cellsData[COLS[ci]+(r+1)].raw;cellsData[COLS[ci]+totalRows].raw='';recalcAll();showToast('✔ Shift cells up');}
+  else if(o==='row') deleteRowAtActive();
+  else deleteColAtActive();
+};
+
+// Context Menus & Sheet Options
+function xlShowCtx(id,x,y){
+  xlHideCtx();const m=document.getElementById(id);if(!m)return;m.style.display='block';
+  m.style.left=Math.max(6,Math.min(window.innerWidth-(m.offsetWidth||215)-6,x))+'px';
+  m.style.top=Math.max(6,Math.min(window.innerHeight-(m.offsetHeight||240)-6,y))+'px';
+}
+window.xlHideCtx=()=>document.querySelectorAll('.xl-ctx').forEach(m=>m.style.display='none');
+window.xlCellCtxAtActive=()=>{const r=document.getElementById('cell-'+activeCellId)?.getBoundingClientRect()||{left:80,bottom:180};xlShowCtx('xlCellCtx',r.left,r.bottom+4);};
+function xlShowSheetCtx(x,y){
+  const sh=sheetsStore.find(s=>s.id===currentSheetId);
+  document.getElementById('xlSheetCtxH').textContent='خيارات: '+(sh?sh.name:'');
+  document.getElementById('xlProtLbl').textContent=S.protSh.has(currentSheetId)?'🔓 إلغاء حماية الورقة (Unprotect)':'🔒 حماية الورقة (Protect Sheet)';
+  S.done.sh=1;xlShowCtx('xlSheetCtx',x,y-220);
+}
+window.xlSheetCtxBtn=e=>{const r=e.currentTarget?.getBoundingClientRect?.()||{left:80,top:window.innerHeight-50};xlShowSheetCtx(r.left,r.top);};
+window.xlRenameSheet=()=>{S.done.sh=1;renameActiveSheetPrompt();};
+window.xlSetTabClr=c=>{S.tabClr[currentSheetId]=c;S.done.sh=1;xlHideCtx();xlStyleTabs();showToast(c?'🎨 تم تلوين التبويب':'تمت إزالة اللون');};
+window.xlCopySheet=()=>{
+  saveCurrentSheetToStore();const c=sheetsStore.find(s=>s.id===currentSheetId);if(!c)return;
+  const nid='cp_'+Date.now();sheetsStore.push({id:nid,name:c.name+' (نسخة)',cellsData:JSON.parse(JSON.stringify(c.cellsData)),hiddenRows:[...(c.hiddenRows||[])],activeCellId:c.activeCellId,ltr:c.ltr,gridlines:c.gridlines,headings:c.headings});
+  loadSheetFromStore(nid);showToast('📑 تم نسخ الورقة (Move or Copy)');
+};
+window.xlToggleProtect=()=>{S.protSh.has(currentSheetId)?(S.protSh.delete(currentSheetId),showToast('🔓 تم إلغاء الحماية')):(S.protSh.add(currentSheetId),showToast('🔒 تمت حماية الورقة'));xlStyleTabs();};
+window.xlHideSheet=()=>{
+  const vis=sheetsStore.filter(s=>!S.hidSh.has(s.id));if(vis.length<=1){showToast('⚠️ يجب بقاء ورقة واحدة ظاهرة');return;}
+  S.hidSh.add(currentSheetId);loadSheetFromStore(sheetsStore.find(s=>!S.hidSh.has(s.id)).id);showToast('👁️ تم إخفاء الورقة (Hide)');
+};
+window.xlUnhideSheets=()=>{if(!S.hidSh.size){showToast('لا توجد أوراق مخفية');return;}S.hidSh.clear();renderSheetTabsBar();showToast('🔓 تم إظهار الأوراق المخفية');};
+function xlStyleTabs(){
+  document.querySelectorAll('#sheetTabsList .sheet-tab').forEach((t,i)=>{
+    const sh=sheetsStore[i];if(!sh)return;t.dataset.sid=sh.id;
+    t.style.display=S.hidSh.has(sh.id)?'none':'inline-flex';
+    if(S.tabClr[sh.id]) t.style.borderBottom=`3px solid ${S.tabClr[sh.id]}`;
+    if(S.protSh.has(sh.id)&&!t.textContent.startsWith('🔒')) t.textContent='🔒 '+sh.name;
+  });
+}
+
+// Cells Name & Name Box
+function findNm(sh,rf){for(const [k,v] of Object.entries(S.names))if(v.sh===sh&&v.ref.toUpperCase()===rf.toUpperCase())return k;return '';}
+function xlSyncNb(){const nm=findNm(currentSheetId,activeCellId);if(nm)document.getElementById('nameBox').textContent=nm;}
+window.xlOpenNb=()=>{
+  document.getElementById('xlNbCur').textContent=selectedRangeIds.length>1?`${selectedRangeIds[0]}:${selectedRangeIds[selectedRangeIds.length-1]}`:activeCellId;
+  document.getElementById('xlNbIn').value=findNm(currentSheetId,activeCellId);
+  document.getElementById('xlNbChips').innerHTML=Object.entries(S.names).map(([k,v])=>`<button class="m-chip" onclick="xlJumpNm('${k.replace(/'/g,"\\'")}')">🏷️ ${k} (${v.ref})</button>`).join('');
+  openModal('xlNbDlg');setTimeout(()=>document.getElementById('xlNbIn').focus(),50);
+};
+window.xlNbAct=mode=>{
+  const r=(document.getElementById('xlNbIn')?.value||'').trim();if(!r)return;closeModal('xlNbDlg');
+  if(S.names[r]&&mode!=='name'){xlJumpNm(r);return;}
+  const up=r.toUpperCase();
+  if(up.includes(':')&&mode!=='name'){const [a,b]=up.split(':');if(cellsData[a]&&cellsData[b]){activeCellId=a;rangeStartId=a;selectRangeBetween(a,b);return;}}
+  if(/^[A-H]([1-9]|1[0-8])$/.test(up)&&cellsData[up]&&mode!=='name'){selectCell(up);return;}
+  const rf=selectedRangeIds.length>1?`${selectedRangeIds[0]}:${selectedRangeIds[selectedRangeIds.length-1]}`:activeCellId;
+  S.names[r]={sh:currentSheetId,ref:rf};S.done.nm=1;xlSyncNb();showToast(`🏷️ تم تسمية (${rf}) باسم "${r}" ✔`);
+};
+window.xlJumpNm=nm=>{
+  const v=S.names[nm];if(!v)return;closeModal('xlNbDlg');closeModal('xlDefDlg');
+  if(v.sh!==currentSheetId&&sheetsStore.some(s=>s.id===v.sh)) switchSheet(v.sh);
+  if(v.ref.includes(':')){const [a,b]=v.ref.split(':');activeCellId=a;rangeStartId=a;selectRangeBetween(a,b);document.getElementById('nameBox').textContent=nm;}
+  else if(cellsData[v.ref]){selectCell(v.ref);document.getElementById('cell-'+v.ref)?.classList.add('xl-named');}
+  showToast(`📍 تم الانتقال إلى "${nm}" (${v.ref})`);
+};
+window.xlOpenDefName=()=>{
+  const rf=selectedRangeIds.length>1?`${selectedRangeIds[0]}:${selectedRangeIds[selectedRangeIds.length-1]}`:activeCellId;
+  document.getElementById('xlDefRf').value=rf;document.getElementById('xlDefNm').value=findNm(currentSheetId,rf);
+  xlRenderNames();openModal('xlDefDlg');
+};
+window.xlSaveName=()=>{
+  const nm=(document.getElementById('xlDefNm')?.value||'').trim(),rf=(document.getElementById('xlDefRf')?.value||activeCellId).trim().toUpperCase();
+  if(!nm){showToast('اكتب اسماً للخلية مثل: احمد');return;}
+  S.names[nm]={sh:currentSheetId,ref:rf};S.done.nm=1;xlRenderNames();xlSyncNb();showToast(`✔ تم حفظ الاسم "${nm}" للمرجع ${rf}`);
+};
+window.xlDelName=nm=>{delete S.names[nm];xlRenderNames();xlSyncNb();};
+function xlRenderNames(){
+  document.getElementById('xlNamesBox').innerHTML=Object.entries(S.names).map(([k,v])=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 6px;border:1px solid #e2e8f0;border-radius:3px;margin-bottom:3px"><span style="cursor:pointer;font-weight:700;color:#217346" onclick="xlJumpNm('${k.replace(/'/g,"\\'")}')">🏷️ ${k} (${v.ref})</span><button class="ex-btn" style="background:#fee2e2;color:#991b1b" onclick="xlDelName('${k.replace(/'/g,"\\'")}')">حذف</button></div>`).join('');
+}
+
+// Auto-Fill Series (+)
+window.xlAutoSeries=()=>{
+  if(S.protSh.has(currentSheetId)){showToast('🔒 الورقة محمية');return;}
+  if(isWaitingConfirm) commitFormulaEdit();
+  const c=activeCellId[0],sr=+activeCellId.slice(1),raw=String(cellsData[activeCellId]?.raw||'').trim();
+  if(!raw){showToast('اكتب رقماً (1) أو يوماً (السبت) أولاً ثم اضغط تعبئة متسلسلة');return;}
+  const ar=['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'],en=['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'];
+  const ai=ar.map(d=>d.replace(/[أإآ]/g,'ا')).indexOf(raw.replace(/[أإآ]/g,'ا')),ei=en.findIndex(d=>d.toLowerCase()===raw.toLowerCase());
+  S.done.ser=1;
+  if(ai>=0){for(let i=1;i<=6&&sr+i<=totalRows;i++)cellsData[c+(sr+i)].raw=ar[(ai+i)%7];recalcAll();showToast('➕ تم ملء أيام الأسبوع متسلسلاً ✔');return;}
+  if(ei>=0){for(let i=1;i<=6&&sr+i<=totalRows;i++)cellsData[c+(sr+i)].raw=en[(ei+i)%7];recalcAll();showToast('➕ تم ملء الأيام بالإنجليزية ✔');return;}
+  if(/^-?\d+(\.\d+)?$/.test(normalizeDigits(raw))){
+    const b=+normalizeDigits(raw);let st=1;
+    if(sr>1){const ab=normalizeDigits(String(cellsData[c+(sr-1)]?.raw||'').trim());if(/^-?\d+(\.\d+)?$/.test(ab))st=b-+ab;}
+    for(let i=1;i<=5&&sr+i<=totalRows;i++)cellsData[c+(sr+i)].raw=String(Number((b+st*i).toFixed(2)));
+    recalcAll();showToast(`➕ تم ملء السلسلة الرقمية (+${st}) ✔`);return;
+  }
+  fillDirection('down');
+};
+
+// محتوى الامتحانات (م1-2 و م3-4)
+const QA12=[
+  ['1. فتح Excel 2013 والفرق بالخزن مع Word (ص1-2)','الفتح: <b>Start ← All Programs ← Microsoft Office 2013 ← Excel 2013</b>. اسم الخزن الافتراضي في Excel هو <b>Book1</b> (أوراق عمل)، وفي Word هو <b>Document1 / Doc1</b>.'],
+  ['2. شاشة البداية و SkyDrive (ص3-5)','اليسار: <b>Recent</b> | الوسط: <b>Blank workbook</b> و<b>Templates</b> | اليمين: <b>SkyDrive</b> بمساحة مجانية <b>7 GB</b> (غير موجود بالنسخ القديمة، عبر Gmail/Hotmail أو <code>https://skydrive.live.com</code>).'],
+  ['3. الخلية Cell والخلية النشطة Active Cell ومؤشر (+) (ص6-7)','الخلية تستوعب <b>32,000 حرف</b> كحد أعلى. <b>الفرق عن غير النشطة (3 نقاط):</b> عليها مؤشر الماوس، يمكن إدخال المعلومات فيها، ويظهر اسمها في <b>Name Box</b>. <b>مؤشر (+):</b> للتكرار والملء المتسلسل (1,2,3 أو السبت، الأحد...)؛ والمؤشر الاعتيادي للتحديد.'],
+  ['4. أشرطة الواجهة وعدد الأوراق (ص8-12)','1- شريط العنوان + <b>Quick Access Toolbar</b> (إضافة أوامر من ▾ ← More Commands أو File ← Options). 2- التبويبات. 3- المجموعات. 4- <b>Formula Bar</b> (إخفاء/إظهار من <b>View ← Show ← Formula Bar</b>). 5- التمرير. 6- <b>Workbook</b> (يفتح بـ <b>ورقة واحدة Sheet1 +</b> بعكس النسخ القديمة 3 أوراق). 7- الحالة.'],
+  ['5. إضافة وتسمية أوراق العمل (ص12-15)','<b>الإضافة:</b> (1) علامة <b>+</b>، (2) <b>Home ← Cells ← Insert ← Insert Sheet</b>.<br><b>التسمية:</b> (1) <b>Home ← Cells ← Format ← Rename Sheet</b>، (2) <b>زر أيمن</b> على الورقة ← <b>Rename</b>.'],
+  ['6. إضافة وحذف الخلايا والفرق بينهما (ص16-20)','<b>الإضافة:</b> زر أيمن أو Home←Cells←Insert (<b>Shift cells right</b> لليمين، <b>Shift cells down</b> للأسفل، صف/عمود).<br><b>الحذف:</b> زر أيمن أو Home←Cells←Delete أو مفتاح <b>Delete</b> (<b>Shift cells left</b> لليسار، <b>Shift cells up</b> للأعلى، صف/عمود).'],
+  ['7. تسمية الخلايا Cells Name (ص21-22)','(1) عبر <b>صندوق الاسم Name Box</b> (مثلاً كتابة <b>احمد</b>). (2) عبر <b>Formulas ← Defined Names ← Define Name</b>.']
+];
+const PR12=[
+  ['sv','1. افتح FILE ← Save As واحفظ المصنف باسم Book1',()=>{closeModal('xlExamModal');xlOpenBs('saveas');}],
+  ['fb','2. أخفِ وأظهر Formula Bar من تبويب VIEW',()=>{closeModal('xlExamModal');switchRibbon('view');showToast('أزل الصح من Formula Bar ثم أعده');}],
+  ['qat','3. أضف أمراً لـ Quick Access Toolbar من Options',()=>{closeModal('xlExamModal');xlOpenBs('options');}],
+  ['ser','4. اكتب السبت واضغط «➕ تعبئة متسلسلة (+)»',()=>{closeModal('xlExamModal');addNewSheet();cellsData.A2.raw='السبت';recalcAll();selectCell('A2');}],
+  ['sh','5. افتح الزر الأيمن للورقة ولوّن التبويب Tab Color',()=>{closeModal('xlExamModal');setTimeout(()=>xlShowSheetCtx(110,window.innerHeight-50),30);}],
+  ['ins','6. افتح مربع حوار Insert الخلايا وجرب Shift right/down',()=>{closeModal('xlExamModal');xlOpenInsDlg();}],
+  ['del','7. افتح مربع حوار Delete الخلايا وجرب Shift left/up',()=>{closeModal('xlExamModal');xlOpenDelDlg();}],
+  ['nm','8. سمّ خلية باسم «احمد» من Name Box أو Define Name',()=>{closeModal('xlExamModal');xlOpenDefName();}]
+];
+const MCQ12=[
+  ['1. الاسم الافتراضي عند الخزن في Excel 2013:',['Document1','Book1','Sheet1','Slide1'],1,'Book1 لأن Excel يتعامل مع أوراق عمل (ص1).'],
+  ['2. المساحة المجانية لـ SkyDrive في Office 2013:',['2 GB','5 GB','7 GB','15 GB'],2,'مساحة SkyDrive هي 7 GB (ص4).'],
+  ['3. الحد الأعلى لأحرف الخلية الواحدة في Excel 2013:',['255','1000','32,000','64,000'],2,'بحدود 32,000 حرف كحد أعلى (ص6).'],
+  ['4. يفتح Excel 2013 افتراضياً بـ:',['ورقة واحدة Sheet1 مع علامة +','3 أوراق عمل','5 أوراق','لا شيء'],0,'ورقة واحدة Sheet1 + بعكس النسخ القديمة (ص12).'],
+  ['5. لإخفاء وإظهار Formula Bar نذهب إلى:',['Home←Font','View←Show←Formula Bar','Data←Filter','Insert←Links'],1,'من تبويب View ← مجموعة Show (ص11).'],
+  ['6. وظيفة مؤشر (+) في زاوية الخلية النشطة:',['حذف الخلية','ملء وتكرار متسلسل (أرقام/أيام)','إغلاق الملف','تغيير الخط'],1,'يعمل ملء متسلسل مثل 1,2,3 أو السبت، الأحد... (ص7).'],
+  ['7. في مربع Insert اتجاهات تحريك الخلايا:',['لليسار وللأعلى','لليمين وللأسفل (right/down)','لليسار فقط','لا توجد'],1,'Insert يحرك لليمين وللأسفل، أما Delete فلليسار وللأعلى (ص16-20).'],
+  ['8. لتسمية خلية باسم «احمد» نستخدم:',['Name Box أو Formulas←Define Name','Page Layout','View','Review'],0,'بطريقتين: Name Box أو Formulas ← Defined Names ← Define Name (ص21-22).']
+];
+
+const SUM34=`
+  <div class="xl-card blue"><b class="qh">📌 المحاضرة 3 — Home و Page Layout (ص22-33):</b>
+  • <b>Number:</b> عام، أرقام، عملة، نسبة مئوية، تأريخ. • <b>Styles:</b> Conditional Formatting (Highlight, Top/Bottom, Data Bars, Color Scales, Icon Sets)، Format as Table، أنماط Normal/Bad/Good/Neutral.<br>
+  • <b>Cells:</b> Insert, Delete, Format. • <b>Editing:</b> AutoSum ∑ (Sum, Average, Count, Max, Min), Fill, Clear, Sort & Filter, Find & Select.<br>
+  • <b>Page Layout:</b> <b>Scale to Fit</b> (Width/Height/Scale للطباعة) و<b>Sheet Options</b> (<b>Sheet Right-to-Left</b> و Gridlines و Headings).</div>
+  <div class="xl-card hw"><b class="qh">📝 حل واجبي المحاضرة 3 (ص31):</b>
+  <table class="xl-tbl"><tr><th>Fill (ملئ)</th><th>Clear (مسح)</th></tr><tr><td>نسخ المحتوى/التنسيق بالاتجاه (Down, Right, Up, Left, Series, Flash Fill).</td><td>إزالة الكل (All) أو التنسيق فقط (Formats) أو المحتوى فقط (Contents) أو التعليقات/الروابط.</td></tr></table>
+  <table class="xl-tbl"><tr><th>Sort Ascending (تصاعدي)</th><th>Sort Descending (تنازلي)</th></tr><tr><td>أسماء: أ←ي (A←Z) | أرقام: الأصغر←الأكبر.</td><td>أسماء: ي←أ (Z←A) | أرقام: الأكبر←الأصغر.</td></tr></table></div>
+  <div class="xl-card blue"><b class="qh">📌 المحاضرة 4 — تبويب Formulas وأشكال الجمع (ص34-41):</b>
+  • أكثر من <b>300 عملية</b> في Function Library. • لكتابة النقطتين <code>:</code> نضغط <b>Shift + حرف (ك)</b>.<br>
+  • <b>أشكال الجمع/المعدل:</b> عمودي <code>=SUM(A1:A3)</code> | أفقي <code>=SUM(A1:C1)</code> | مبعثر <code>=SUM(A1:B2:C3:D4:E5)</code> | مصفوفة <code>=SUM(A1:B6)</code>.<br>
+  • <b>مهم للامتحان:</b> Excel يتعامل مع <b>الخلايا لا الأرقام</b>، وكتابة المعادلة التي تظهر بشريط الصيغة تعطيك الدرجة الكاملة.</div>
+  <div class="xl-card math"><b class="qh">⭐ السؤال المهم جداً (ص41-43): Xi = 1..10 في A1:A10</b>
+  <div class="xl-fbox">Y1: B1 =(A1-3)^2 → سحب لـB10 → B11 =SUM(B1:B10) [145] → B12 =B11/10 [14.5]</div>
+  <div class="xl-fbox">Y2: C1 =((A1*3)-(A1/2))*A1 → سحب لـC10 → C11 =SUM(C1:C10) [962.5]</div></div>
+  <div class="xl-card hw"><b class="qh">📝 حل الواجب البيتي (ص44): Xi = 1..6 في A1:A6</b>
+  <div class="xl-fbox">Y1: B1 =(A1-5)^2 → سحب لـB6 → B7 =SUM(B1:B6) [31] → B8 =B7/6 [5.17]</div>
+  <div class="xl-fbox">Y2: C1 =((A1*5)-(A1/2))*A1 → سحب لـC6 → C7 =SUM(C1:C6) [409.5]</div></div>`;
+
+const PR34=[
+  {id:'p1',sh:'l34_sum5',t:'1. مثال م3: جمع A1:A5 في A6 [15] ومعدلها في A7 [3]',op:()=>{switchSheet('l34_sum5');selectCell('A6');},ap:()=>{switchSheet('l34_sum5');solveAllTable();},ck:g=>+g.A6?.val===15&&+g.A7?.val===3?null:'ضع =SUM(A1:A5) في A6 و =AVERAGE(A1:A5) في A7'},
+  {id:'p2',sh:'l34_shapes',t:'2. أشكال الجمع الـ4: A4[50]، D1[60]، F7[185]، D6[240]',op:()=>{switchSheet('l34_shapes');selectCell('A4');},ap:()=>{switchSheet('l34_shapes');solveAllTable();},ck:g=>+g.A4?.val===50&&+g.D1?.val===60&&+g.F7?.val===185&&+g.D6?.val===240?null:'طبّق عمودي A4 وأفقي D1 ومبعثر F7 ومصفوفة D6'},
+  {id:'p3',sh:'l34_y12',t:'3. السؤال المهم (ص42): Y1 في B12 [14.5] و Y2 في C11 [962.5]',op:()=>{switchSheet('l34_y12');selectCell('B1');},ap:()=>{switchSheet('l34_y12');solveAllTable();},ck:g=>+g.B12?.val===14.5&&+g.C11?.val===962.5?null:'اكتب المعادلتين في B1 و C1 واسحب لـ10 ثم اجمع واقسم B11/10'},
+  {id:'p4',sh:'l34_hw',t:'4. الواجب البيتي (ص44): Y1 في B8 [5.17] و Y2 في C7 [409.5]',op:()=>{switchSheet('l34_hw');selectCell('B1');},ap:()=>{switchSheet('l34_hw');solveAllTable();},ck:g=>Math.abs(+g.B8?.val-5.17)<.05&&+g.C7?.val===409.5?null:'طبّق قانوني الواجب لـ A1:A6 في العمودين B و C'}
+];
+const MCQ34=[
+  ['1. لتنسيق الخلية كعملة أو نسبة مئوية أو تأريخ نستخدم:',['Font','Number (رقم)','Clipboard','Review'],1,'مجموعة رقم Number في Home (ص23).'],
+  ['2. تقع Data Bars و Color Scales و Icon Sets داخل:',['Conditional Formatting','Page Setup','Sort & Filter','Defined Names'],0,'في قائمة التنسيق الشرطي Conditional Formatting (ص24).'],
+  ['3. Clear Formats وظيفتها:',['مسح الكل','مسح التنسيق فقط وبقاء المحتوى','مسح المحتوى فقط','حذف الورقة'],1,'تمسح التنسيقات فقط ويبقى النص/الرقم (ص30).'],
+  ['4. لقلب اتجاه الورقة Sheet Right-to-Left نذهب إلى:',['Page Layout←Sheet Options','Home←Number','View←Show','Formulas'],0,'تقع ضمن Sheet Options في Page Layout (ص33).'],
+  ['5. يحتوي Excel 2013 على أكثر من:',['30 عملية','100 عملية','300 عملية رياضية وإحصائية','50 عملية'],2,'أكثر من 300 عملية في Function Library (ص36).'],
+  ['6. لكتابة النقطتين (:) بين خليتين نضغط في الكيبورد:',['Ctrl+ك','Shift + حرف (ك)','Alt+ك','Tab+ك'],1,'Shift + حرف ك (ص36 و ص40).'],
+  ['7. بعد سحب =(A1-3)^2 من B1 إلى B10، ماذا يظهر في B4؟',['=(A1-3)^2','=(A4-3)^2','=(B4-3)^2','=SUM(A4)'],1,'تتحدث الخلية تلقائياً لتصبح =(A4-3)^2 (ص43).'],
+  ['8. ناتج Y1 = ∑(Xi-5)^2 / 6 للواجب البيتي (1..6) هو:',['14.5','31','5.17 (31/6)','409.5'],2,'مجموع البسط 31 ÷ 6 = 5.17 (ص44).']
+];
+
+window.xlOpenStudy=(mod,tab)=>{
+  S.curMod=mod;
+  document.getElementById('xlExamHdr').style.background=mod==='12'?'#217346':'#0369a1';
+  document.getElementById('xlExamTitle').textContent=mod==='12'?'📘 المحاضرة 1 و 2 — الشرح والامتحان':'📗 المحاضرة 3 و 4 — الملخص والواجبات و Y1/Y2';
+  document.getElementById('xlExamTabs').innerHTML=`<button class="xl-mtab" id="xt-sum" onclick="xlDrawStudy('sum')">📖 الملخص والواجبات</button><button class="xl-mtab" id="xt-pr" onclick="xlDrawStudy('pr')">🛠️ تدريب عملي</button><button class="xl-mtab" id="xt-mcq" onclick="xlDrawStudy('mcq')">✅ اختبار MCQ</button>`;
+  xlDrawStudy(tab||'sum');openModal('xlExamModal');
+};
+window.xlDrawStudy=tab=>{
+  ['sum','pr','mcq'].forEach(t=>document.getElementById('xt-'+t)?.classList.toggle('active',t===tab));
+  const b=document.getElementById('xlExamBody'),is12=S.curMod==='12';
+  if(tab==='sum'){
+    b.innerHTML=is12?QA12.map(([q,a])=>`<div class="xl-card"><b class="qh">${q}</b><div>${a}</div></div>`).join(''):SUM34;
+  }else if(tab==='pr'){
+    b.innerHTML=is12
+      ?PR12.map(([k,t],i)=>`<div class="xl-prac ${S.done[k]?'done':''}" style="display:flex;justify-content:space-between;align-items:center;gap:6px"><span>${S.done[k]?'✅':'⬜'} <b>${t}</b></span><button class="ex-btn" style="background:#217346;color:#fff" onclick="xlRunP12(${i})">جرّب</button></div>`).join('')
+      :PR34.map((p,i)=>`<div class="xl-prac ${S.done[p.id]?'done':''}"><b>${S.done[p.id]?'✅':'⬜'} ${p.t}</b><div style="display:flex;gap:4px;margin-top:4px"><button class="ex-btn" style="background:#0284c7;color:#fff" onclick="xlRunP34(${i},'op')">📂 افتح</button><button class="ex-btn" style="background:#eab308;color:#1e293b" onclick="xlRunP34(${i},'ck')">✔ تحقق</button><button class="ex-btn" style="background:#217346;color:#fff" onclick="xlRunP34(${i},'ap')">🪄 حلها لي</button></div></div>`).join('');
+  }else{
+    const list=is12?MCQ12:MCQ34,sc=is12?S.mcq12:S.mcq34;
+    const ok=Object.values(sc).filter(Boolean).length;
+    b.innerHTML=`<div style="display:flex;justify-content:space-between;margin-bottom:6px"><b>النتيجة: <span style="color:#15803d">${ok} / ${list.length}</span></b><button class="ex-btn" style="background:#e2e8f0;color:#1e293b" onclick="xlRstMcq()">إعادة</button></div>`+
+    list.map(([q,opts],qi)=>`<div class="xl-card ${is12?'':'blue'}"><b class="qh">${q}</b>${opts.map((o,oi)=>`<button class="xl-opt" id="xo-${qi}-${oi}" onclick="xlAns(${qi},${oi})">${o}</button>`).join('')}<div id="xe-${qi}" style="display:none;font-size:10px;margin-top:3px;color:#1e3a8a;background:#eff6ff;padding:3px 6px;border-radius:3px"></div></div>`).join('');
+  }
+};
+window.xlRunP12=i=>PR12[i]?.[2]();
+window.xlRunP34=(i,a)=>{
+  const p=PR34[i];if(!p)return;
+  if(a==='op'){closeModal('xlExamModal');p.op();}
+  else if(a==='ap'){closeModal('xlExamModal');p.ap();S.done[p.id]=1;}
+  else{const g=currentSheetId===p.sh?cellsData:sheetsStore.find(s=>s.id===p.sh)?.cellsData;const err=p.ck(g||{});if(!err){S.done[p.id]=1;xlDrawStudy('pr');showToast('🎉 إجابتك صحيحة 100%');}else showToast('✗ '+err);}
+};
+window.xlAns=(qi,oi)=>{
+  const is12=S.curMod==='12',m=(is12?MCQ12:MCQ34)[qi],sc=is12?S.mcq12:S.mcq34;
+  m[1].forEach((_,k)=>{const el=document.getElementById(`xo-${qi}-${k}`);el.classList.remove('ok','no');if(k===m[2])el.classList.add('ok');else if(k===oi)el.classList.add('no');});
+  sc[qi]=(oi===m[2]);const ex=document.getElementById('xe-'+qi);ex.style.display='block';ex.innerHTML=(oi===m[2]?'✅ صحيح! ':'❌ خطأ. ')+m[3];
+};
+window.xlRstMcq=()=>{if(S.curMod==='12')S.mcq12={};else S.mcq34={};xlDrawStudy('mcq');};
+
+window.addEventListener('load',()=>setTimeout(initAll,40));
+})();
+</script>
+
 </body>
 </html>
